@@ -1,5 +1,7 @@
 use chrono::DateTime;
 use chrono::Local;
+use uuid::Uuid;
+use uuid_b64::UuidB64;
 
 use crate::domain::entities::Item;
 use crate::domain::entities::Store;
@@ -7,14 +9,21 @@ use std::ops::Mul;
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct Transaction<'a> {
+    id: UuidB64,
     items: &'a Vec<Item<'a>>,
     store: &'a Store,
     datetime: DateTime<Local>,
 }
 
 impl<'a> Transaction<'a> {
-    pub fn new(items: &'a Vec<Item<'a>>, store: &'a Store, datetime: DateTime<Local>) -> Self {
+    pub fn new(
+        id: Option<UuidB64>,
+        items: &'a Vec<Item<'a>>,
+        store: &'a Store,
+        datetime: DateTime<Local>,
+    ) -> Self {
         Self {
+            id: id.unwrap_or_else(|| UuidB64::from(Uuid::new_v4())),
             items,
             store,
             datetime,
@@ -49,10 +58,10 @@ mod tests {
                 let store: Store = Store::default();
                 let brand: Brand = Brand::default();
                 let category: Category = Category::default();
-                let product: Product = Product::new("Product".into(), &brand, &category);
-                let items: Vec<Item> = items_data.map(|i: (Unit, f64)| Item::new(&product, i.0, i.1)).into();
+                let product: Product = Product::new(None, "Product".into(), &brand, &category);
+                let items: Vec<Item> = items_data.map(|i: (Unit, f64)| Item::new(None, &product, i.0, i.1)).into();
 
-                let transaction: Transaction = Transaction::new(&items, &store, DateTime::default());
+                let transaction: Transaction = Transaction::new(None, &items, &store, DateTime::default());
                 let result: f64 = transaction.calculate_total();
 
                 assert_eq!(

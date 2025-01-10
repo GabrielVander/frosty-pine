@@ -1,16 +1,26 @@
+use uuid::Uuid;
+use uuid_b64::UuidB64;
+
 use crate::domain::entities::Product;
 use crate::domain::entities::Unit;
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct Item<'a> {
+    id: UuidB64,
     product: &'a Product<'a>,
     unit: Unit,
     unitary_price: f64,
 }
 
 impl<'a> Item<'a> {
-    pub fn new(product: &'a Product<'a>, unit: Unit, unitary_price: f64) -> Self {
+    pub fn new(
+        id: Option<UuidB64>,
+        product: &'a Product<'a>,
+        unit: Unit,
+        unitary_price: f64,
+    ) -> Self {
         Self {
+            id: id.unwrap_or_else(|| UuidB64::from(Uuid::new_v4())),
             product,
             unit,
             unitary_price,
@@ -43,9 +53,9 @@ mod tests {
                 let (unit, unitary_price, expected) = $value;
                 let brand: Brand = Brand::default();
                 let category: Category = Category::default();
-                let product: Product = Product::new("".into(), &brand, &category);
+                let product: Product = Product::new(None, "".into(), &brand, &category);
 
-                let item: Item = Item::new(&product, unit, unitary_price);
+                let item: Item = Item::new(None, &product, unit, unitary_price);
                 let result: f64 = item.calculate_full_price();
 
                 assert_eq!(
