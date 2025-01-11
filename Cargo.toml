@@ -1,5 +1,6 @@
 [workspace]
-members = ["features/expense_tracking_core"]
+members = ["features/cli", "features/expense_tracking_core"]
 resolver = "3"
 
 [workspace.dependencies]
+chrono = "0.4.39"

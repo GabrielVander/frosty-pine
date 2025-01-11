@@ -1,5 +1,5 @@
 use chrono::DateTime;
-use chrono::Local;
+use chrono::Utc;
 use uuid::Uuid;
 use uuid_b64::UuidB64;
 
@@ -12,7 +12,7 @@ pub struct Transaction<'a> {
     id: UuidB64,
     items: &'a Vec<Item<'a>>,
     store: &'a Store,
-    datetime: DateTime<Local>,
+    datetime: DateTime<Utc>,
 }
 
 impl<'a> Transaction<'a> {
@@ -20,7 +20,7 @@ impl<'a> Transaction<'a> {
         id: Option<UuidB64>,
         items: &'a Vec<Item<'a>>,
         store: &'a Store,
-        datetime: DateTime<Local>,
+        datetime: DateTime<Utc>,
     ) -> Self {
         Self {
             id: id.unwrap_or_else(|| UuidB64::from(Uuid::new_v4())),

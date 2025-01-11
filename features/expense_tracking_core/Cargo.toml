@@ -5,7 +5,7 @@ edition = "2024"
 
 [dependencies]
 async-trait = "0.1.85"
-chrono = "0.4.39"
+chrono = { workspace = true }
 tokio = { version = "1.43.0", features = ["macros", "rt-multi-thread"] }
 uuid = { version = "1.11.0", features = ["v4"] }
 uuid-b64 = { version = "0.2.0", features = ["serde"] }
