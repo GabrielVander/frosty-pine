@@ -1,2 +1,2 @@
-mod entities;
-mod repositories;
+pub mod entities;
+pub mod repositories;

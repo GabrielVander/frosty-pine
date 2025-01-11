@@ -3,8 +3,8 @@ use uuid_b64::UuidB64;
 
 #[derive(Debug, Clone, Default, PartialEq)]
 pub struct Brand {
-    id: UuidB64,
-    name: String,
+    pub id: UuidB64,
+    pub name: String,
 }
 
 impl Brand {

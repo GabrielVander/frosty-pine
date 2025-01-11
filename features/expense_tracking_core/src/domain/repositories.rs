@@ -4,3 +4,6 @@ mod item_repository;
 mod product_repository;
 mod store_repository;
 mod transaction_repository;
+
+pub use brand_repository::BrandRepository;
+pub use brand_repository::BrandRepositoryError;
