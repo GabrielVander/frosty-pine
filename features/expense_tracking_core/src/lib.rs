@@ -1,2 +1,2 @@
-mod data;
-mod domain;
+pub mod data;
+pub mod domain;

@@ -9,12 +9,12 @@ use crate::domain::{
 };
 
 #[derive(Debug, Clone, Default, PartialEq)]
-struct BrandRepositoryInMemoryImpl {
+pub struct BrandRepositoryInMemoryImpl {
     hash_map: HashMap<UuidB64, Brand>,
 }
 
 impl BrandRepositoryInMemoryImpl {
-    fn new(hash_map: HashMap<UuidB64, Brand>) -> Self {
+    pub fn new(hash_map: HashMap<UuidB64, Brand>) -> Self {
         Self { hash_map }
     }
 }

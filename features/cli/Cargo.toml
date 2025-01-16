@@ -4,5 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+expense_tracking = { path = "../expense_tracking_core" }
 chrono = { workspace = true }
+tokio = { workspace = true }
 clap = { version = "4.5.26", features = ["derive"] }

@@ -3,7 +3,7 @@ use async_trait::async_trait;
 use crate::domain::entities::Brand;
 
 #[async_trait]
-pub trait BrandRepository {
+pub trait BrandRepository: std::fmt::Debug {
     /// If the brand was created, [`None`] is returned.
     ///
     /// If the brand was updated the old

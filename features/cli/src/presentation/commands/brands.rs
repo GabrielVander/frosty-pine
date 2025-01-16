@@ -1,24 +1,24 @@
 use clap::{Args, Subcommand};
 
-#[derive(Debug, Args)]
+#[derive(Debug, Args, Clone)]
 #[command(args_conflicts_with_subcommands = true)]
 pub struct BrandsArgs {
     #[command(subcommand)]
-    command: BrandCommands,
+    pub command: BrandCommands,
 }
 
-#[derive(Debug, Subcommand)]
-enum BrandCommands {
+#[derive(Debug, Subcommand, Clone)]
+pub enum BrandCommands {
     Add {
         #[arg(short, long)]
         name: String,
     },
 
     Get {
-        #[arg(short, long, required_unless_present = "name", conflicts_with = "name")]
+        #[arg(short, long, conflicts_with = "name")]
         id: Option<String>,
 
-        #[arg(short, long, required_unless_present = "id", conflicts_with = "id")]
+        #[arg(short, long, conflicts_with = "id")]
         name: Option<String>,
     },
 

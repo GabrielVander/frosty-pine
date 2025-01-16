@@ -1,14 +1,15 @@
 mod brands;
 mod categories;
-mod frosty_pine;
+mod clap_cli_parser;
 mod products;
 mod service;
 mod stores;
 mod transactions;
 
-use brands::BrandsArgs;
+pub use brands::BrandCommands;
+pub use brands::BrandsArgs;
 use categories::CategoriesArgs;
-pub use frosty_pine::FrostyPine;
+pub use clap_cli_parser::ClapCliParser;
 use products::ProductsArgs;
-use service::Service;
+pub use service::Service;
 use stores::StoresArgs;
