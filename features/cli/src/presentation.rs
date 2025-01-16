@@ -1,6 +1,4 @@
-mod commands;
+pub mod clap_args;
+mod frosty_pine_cli;
 
-pub use commands::BrandCommands;
-pub use commands::BrandsArgs;
-pub use commands::ClapCliParser;
-pub use commands::Service;
+pub use frosty_pine_cli::FrostyPineCli;
