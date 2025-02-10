@@ -1,0 +1,7 @@
+[package]
+name = "in_memory_storage"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+expense_tracking = { path = "../expense_tracking_core" }
