@@ -9,3 +9,5 @@ pub use brand_repository::BrandRepository;
 pub use brand_repository::BrandRepositoryError;
 pub use category_repository::CategoryRepository;
 pub use category_repository::CategoryRepositoryError;
+pub use store_repository::StoreRepository;
+pub use store_repository::StoreRepositoryError;

@@ -5,7 +5,7 @@ use crate::domain::entities::Store;
 #[async_trait]
 pub trait StoreRepository {
     async fn create_or_update(
-        &self,
+        &mut self,
         category: &Store,
     ) -> Result<Option<Store>, StoreRepositoryError>;
 
