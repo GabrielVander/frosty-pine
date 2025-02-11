@@ -3,9 +3,8 @@ mod presentation;
 use std::collections::HashMap;
 
 use clap::Parser;
-use expense_tracking::{
-    data::repositories::BrandRepositoryInMemoryImpl, domain::repositories::BrandRepository,
-};
+use expense_tracking::domain::repositories::BrandRepository;
+use in_memory_storage::data::repositories::BrandRepositoryInMemoryImpl;
 use presentation::{FrostyPineCli, clap_args::CliArgs};
 
 #[tokio::main()]

@@ -5,6 +5,7 @@ edition = "2024"
 
 [dependencies]
 expense_tracking = { path = "../expense_tracking" }
+in_memory_storage = { path = "../in_memory_storage" }
 chrono = { workspace = true }
 tokio = { workspace = true }
 clap = { version = "4.5.26", features = ["derive"] }

@@ -4,4 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+async-trait = "0.1.85"
+uuid-b64 = { version = "0.2.0", features = ["serde"] }
+tokio = { workspace = true }
 expense_tracking = { path = "../expense_tracking" }

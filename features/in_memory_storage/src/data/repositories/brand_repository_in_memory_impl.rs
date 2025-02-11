@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use async_trait::async_trait;
 use uuid_b64::UuidB64;
 
-use crate::domain::{
+use expense_tracking::domain::{
     entities::Brand,
     repositories::{BrandRepository, BrandRepositoryError},
 };
@@ -40,7 +40,7 @@ mod tests {
     use uuid_b64::UuidB64;
 
     use super::BrandRepositoryInMemoryImpl;
-    use crate::domain::{
+    use expense_tracking::domain::{
         entities::Brand,
         repositories::{BrandRepository, BrandRepositoryError},
     };
