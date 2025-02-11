@@ -4,8 +4,8 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-async-trait = "0.1.85"
+async-trait = { workspace = true }
 chrono = { workspace = true }
 tokio = { workspace = true }
-uuid = { version = "1.11.0", features = ["v4"] }
-uuid-b64 = { version = "0.2.0", features = ["serde"] }
+uuid = { workspace = true }
+uuid-b64 = { workspace = true }
