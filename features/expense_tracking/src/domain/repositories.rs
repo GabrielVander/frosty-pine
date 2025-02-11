@@ -7,3 +7,5 @@ mod transaction_repository;
 
 pub use brand_repository::BrandRepository;
 pub use brand_repository::BrandRepositoryError;
+pub use category_repository::CategoryRepository;
+pub use category_repository::CategoryRepositoryError;

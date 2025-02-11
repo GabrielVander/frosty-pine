@@ -5,7 +5,7 @@ use crate::domain::entities::Category;
 #[async_trait]
 pub trait CategoryRepository {
     async fn create_or_update(
-        &self,
+        &mut self,
         category: &Category,
     ) -> Result<Option<Category>, CategoryRepositoryError>;
 
