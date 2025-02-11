@@ -1,5 +1,9 @@
 [workspace]
-members = ["features/cli", "features/expense_tracking_core", "features/in_memory_storage"]
+members = [
+  "features/cli",
+  "features/expense_tracking",
+  "features/in_memory_storage",
+]
 resolver = "3"
 
 [workspace.dependencies]
