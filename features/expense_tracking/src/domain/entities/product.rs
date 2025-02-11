@@ -5,20 +5,15 @@ use crate::domain::entities::Brand;
 use crate::domain::entities::Category;
 
 #[derive(Debug, Clone, PartialEq)]
-pub struct Product<'a> {
-    id: UuidB64,
-    name: String,
-    brand: &'a Brand,
-    category: &'a Category,
+pub struct Product {
+    pub id: UuidB64,
+    pub name: String,
+    pub brand: Brand,
+    pub category: Category,
 }
 
-impl<'a> Product<'a> {
-    pub fn new(
-        id: Option<UuidB64>,
-        name: String,
-        brand: &'a Brand,
-        category: &'a Category,
-    ) -> Self {
+impl Product {
+    pub fn new(id: Option<UuidB64>, name: String, brand: Brand, category: Category) -> Self {
         Self {
             id: id.unwrap_or_else(|| UuidB64::from(Uuid::new_v4())),
             name,

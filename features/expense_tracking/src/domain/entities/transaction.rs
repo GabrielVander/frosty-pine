@@ -8,18 +8,18 @@ use crate::domain::entities::Store;
 use std::ops::Mul;
 
 #[derive(Debug, Clone, PartialEq)]
-pub struct Transaction<'a> {
+pub struct Transaction {
     id: UuidB64,
-    items: &'a Vec<Item<'a>>,
-    store: &'a Store,
+    items: Vec<Item>,
+    store: Store,
     datetime: DateTime<Utc>,
 }
 
-impl<'a> Transaction<'a> {
+impl Transaction {
     pub fn new(
         id: Option<UuidB64>,
-        items: &'a Vec<Item<'a>>,
-        store: &'a Store,
+        items: Vec<Item>,
+        store: Store,
         datetime: DateTime<Utc>,
     ) -> Self {
         Self {
@@ -58,10 +58,10 @@ mod tests {
                 let store: Store = Store::default();
                 let brand: Brand = Brand::default();
                 let category: Category = Category::default();
-                let product: Product = Product::new(None, "Product".into(), &brand, &category);
-                let items: Vec<Item> = items_data.map(|i: (Unit, f64)| Item::new(None, &product, i.0, i.1)).into();
+                let product: Product = Product::new(None, "Product".into(), brand, category);
+                let items: Vec<Item> = items_data.map(|i: (Unit, f64)| Item::new(None, product.clone(), i.0, i.1)).into();
 
-                let transaction: Transaction = Transaction::new(None, &items, &store, DateTime::default());
+                let transaction: Transaction = Transaction::new(None, items, store, DateTime::default());
                 let result: f64 = transaction.calculate_total();
 
                 assert_eq!(
