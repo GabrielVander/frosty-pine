@@ -1,14 +1,15 @@
 [workspace]
 members = [
-  "features/cli",
-  "features/expense_tracking",
-  "features/in_memory_storage",
+    "features/cli",
+    "features/expense_tracking",
+    "features/in_memory_storage",
+    "features/tui",
 ]
 resolver = "3"
 
 [workspace.dependencies]
 async-trait = "0.1.85"
 chrono = "0.4.39"
-tokio = { version = "1.43.0", features = ["macros", "rt-multi-thread"] }
+tokio = { version = "1.43.0", features = ["full"] }
 uuid = { version = "1.11.0", features = ["v4"] }
 uuid-b64 = { version = "0.2.0", features = ["serde"] }
