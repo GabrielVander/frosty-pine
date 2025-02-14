@@ -4,7 +4,7 @@ use uuid_b64::UuidB64;
 use crate::domain::entities::Brand;
 use crate::domain::entities::Category;
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Default, Debug, Clone, PartialEq)]
 pub struct Product {
     pub id: UuidB64,
     pub name: String,

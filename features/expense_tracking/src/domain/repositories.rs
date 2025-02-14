@@ -13,3 +13,5 @@ pub use product_repository::ProductRepository;
 pub use product_repository::ProductRepositoryError;
 pub use store_repository::StoreRepository;
 pub use store_repository::StoreRepositoryError;
+pub use transaction_repository::TransactionRepository;
+pub use transaction_repository::TransactionRepositoryError;

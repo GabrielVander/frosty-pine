@@ -4,7 +4,7 @@ use uuid_b64::UuidB64;
 use crate::domain::entities::Product;
 use crate::domain::entities::Unit;
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Default, Debug, Clone, PartialEq)]
 pub struct Item {
     id: UuidB64,
     product: Product,

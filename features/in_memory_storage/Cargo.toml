@@ -6,6 +6,7 @@ edition = "2024"
 [dependencies]
 expense_tracking = { path = "../expense_tracking" }
 async-trait = { workspace = true }
+chrono = { workspace = true }
 tokio = { workspace = true }
 uuid = { workspace = true }
 uuid-b64 = { workspace = true }

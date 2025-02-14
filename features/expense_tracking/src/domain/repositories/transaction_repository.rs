@@ -5,7 +5,7 @@ use crate::domain::entities::Transaction;
 #[async_trait]
 pub trait TransactionRepository {
     async fn create_or_update(
-        &self,
+        &mut self,
         category: &Transaction,
     ) -> Result<Option<Transaction>, TransactionRepositoryError>;
 

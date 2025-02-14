@@ -9,10 +9,10 @@ use std::ops::Mul;
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct Transaction {
-    id: UuidB64,
-    items: Vec<Item>,
-    store: Store,
-    datetime: DateTime<Utc>,
+    pub id: UuidB64,
+    pub items: Vec<Item>,
+    pub store: Store,
+    pub datetime: DateTime<Utc>,
 }
 
 impl Transaction {
