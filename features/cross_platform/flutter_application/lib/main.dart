@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/src/presentation/glue/api/simple.dart';
 import 'package:flutter_application/src/presentation/glue/frb_generated.dart';
+import 'package:flutter_application/src/presentation/pages/main_page.dart';
 
 Future<void> main() async {
   await RustLib.init();
@@ -12,11 +12,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: const Text('flutter_rust_bridge quickstart')),
-        body: Center(child: Text('Action: Call Rust `greet("Tom")`\nResult: `${greet(name: "Tom")}`')),
-      ),
-    );
+    return MaterialApp(home: MainPage());
   }
 }
