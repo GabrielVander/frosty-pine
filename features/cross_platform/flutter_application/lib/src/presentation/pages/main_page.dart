@@ -11,7 +11,7 @@ class MainPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('flutter_rust_bridge quickstart'),
-          bottom: TabBar(tabs: [Tab(text: "Home", icon: Icon(Icons.home))]),
+          bottom: const TabBar(tabs: [Tab(text: 'Home', icon: Icon(Icons.home))]),
         ),
         body: TabBarView(
           children: [Center(child: Text('Action: Call Rust `greet("Tom")`\nResult: `${greet(name: "Tom")}`'))],
