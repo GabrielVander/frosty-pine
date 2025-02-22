@@ -5,15 +5,13 @@ use ratatui::{Terminal, backend::CrosstermBackend};
 use crate::{
     app::{App, AppResult},
     event::{Event, EventHandler},
-    handler::handle_key_events,
     tui::Tui,
 };
 
-pub mod app;
-pub mod event;
-pub mod handler;
-pub mod tui;
-pub mod ui;
+mod app;
+mod event;
+mod tui;
+mod ui;
 
 #[tokio::main]
 async fn main() -> AppResult<()> {
@@ -34,7 +32,7 @@ async fn main() -> AppResult<()> {
         // Handle events.
         match tui.events.next().await? {
             Event::Tick => app.tick(),
-            Event::Key(key_event) => handle_key_events(key_event, &mut app)?,
+            Event::Key(key_event) => app.handle_key_events(key_event)?,
             Event::Mouse(_) => {}
             Event::Resize(_, _) => {}
         }
