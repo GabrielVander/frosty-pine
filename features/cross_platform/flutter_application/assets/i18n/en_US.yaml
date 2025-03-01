@@ -1,0 +1,9 @@
+main_page:
+  title: 'Frosty Pine'
+  home_tab_title: 'Home'
+  brands_tab_title: 'Brands'
+brands_tab:
+  new_brand_dialog:
+    title: 'New brand'
+    cancel_button: 'Cancel'
+    save_button: 'Save'
