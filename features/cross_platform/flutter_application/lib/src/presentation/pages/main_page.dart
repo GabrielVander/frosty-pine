@@ -1,31 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/src/presentation/glue/api/simple.dart';
 import 'package:flutter_application/src/presentation/utils/context_extensions.dart';
 import 'package:flutter_application/src/presentation/widgets/brands/brands_tab.dart';
+import 'package:flutter_application/src/presentation/widgets/home/home_tab.dart';
+import 'package:flutter_application/src/presentation/widgets/transactions/transactions_tab.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({super.key});
 
+  static const String i18nPrefix = 'main_page';
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(context.i18n('main_page.title')),
+          title: Text(context.i18n('$i18nPrefix.title')),
           bottom: TabBar(
             tabs: [
-              Tab(text: context.i18n('main_page.home_tab_title'), icon: const Icon(Icons.home)),
-              Tab(text: context.i18n('main_page.brands_tab_title'), icon: const Icon(Icons.shop)),
+              Tab(text: context.i18n('$i18nPrefix.home_tab_title'), icon: const Icon(Icons.home)),
+              Tab(text: context.i18n('$i18nPrefix.transactions_tab_title'), icon: const Icon(Icons.checklist)),
+              Tab(text: context.i18n('$i18nPrefix.brands_tab_title'), icon: const Icon(Icons.shop)),
             ],
           ),
         ),
-        body: TabBarView(
-          children: [
-            Center(child: Text('Action: Call Rust `greet("Tom")`\nResult: `${greet(name: "Tom")}`')),
-            BrandsTab(),
-          ],
-        ),
+        body: TabBarView(children: [const HomeTab(), const TransactionsTab(), BrandsTab()]),
       ),
     );
   }

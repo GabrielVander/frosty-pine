@@ -1,9 +1,17 @@
 main_page:
-  title: 'Frosty Pine'
-  home_tab_title: 'Home'
-  brands_tab_title: 'Brands'
+  title: "Frosty Pine"
+  home_tab_title: "Home"
+  transactions_tab_title: "Transactions"
+  brands_tab_title: "Brands"
 brands_tab:
   new_brand_dialog:
-    title: 'New brand'
-    cancel_button: 'Cancel'
-    save_button: 'Save'
+    title: "New brand"
+    cancel_button: "Cancel"
+    save_button: "Save"
+transactions_tab:
+  new_transaction_dialog:
+    title: "New transaction"
+    cancel_button: "Cancel"
+    save_button: "Save"
+  transaction_list_display:
+    empty_list: "No transactions, yet"
