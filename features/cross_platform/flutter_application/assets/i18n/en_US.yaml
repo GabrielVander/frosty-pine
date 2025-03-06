@@ -13,5 +13,7 @@ transactions_tab:
     title: "New transaction"
     cancel_button: "Cancel"
     save_button: "Save"
+    store_field: "Store"
+    date_field: "Date"
   transaction_list_display:
     empty_list: "No transactions, yet"

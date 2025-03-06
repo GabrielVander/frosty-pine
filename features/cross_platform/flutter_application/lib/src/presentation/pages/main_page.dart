@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/src/presentation/utils/context_extensions.dart';
 import 'package:flutter_application/src/presentation/widgets/brands/brands_tab.dart';
 import 'package:flutter_application/src/presentation/widgets/home/home_tab.dart';
+import 'package:flutter_application/src/presentation/widgets/transactions/state/new_transaction_cubit.dart';
 import 'package:flutter_application/src/presentation/widgets/transactions/transactions_tab.dart';
 
 class MainPage extends StatelessWidget {
-  const MainPage({super.key});
+  const MainPage({required this.newTransactionCubit, super.key});
 
   static const String i18nPrefix = 'main_page';
+  final NewTransactionCubit newTransactionCubit;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,9 @@ class MainPage extends StatelessWidget {
             ],
           ),
         ),
-        body: TabBarView(children: [const HomeTab(), const TransactionsTab(), BrandsTab()]),
+        body: TabBarView(
+          children: [const HomeTab(), TransactionsTab(newTransactionCubit: newTransactionCubit), BrandsTab()],
+        ),
       ),
     );
   }
