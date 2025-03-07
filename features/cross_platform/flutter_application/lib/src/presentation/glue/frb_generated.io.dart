@@ -7,7 +7,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:ffi' as ffi;
 
-import 'package:flutter_application/src/presentation/glue/api/simple.dart';
+import 'package:flutter_application/src/presentation/glue/api/store.dart';
 import 'package:flutter_application/src/presentation/glue/frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated_io.dart';
 
@@ -26,6 +26,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   Uint8List dco_decode_list_prim_u_8_strict(dynamic raw);
 
   @protected
+  List<StoreModel> dco_decode_list_store_model(dynamic raw);
+
+  @protected
+  StoreModel dco_decode_store_model(dynamic raw);
+
+  @protected
   int dco_decode_u_8(dynamic raw);
 
   @protected
@@ -36,6 +42,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   Uint8List sse_decode_list_prim_u_8_strict(SseDeserializer deserializer);
+
+  @protected
+  List<StoreModel> sse_decode_list_store_model(SseDeserializer deserializer);
+
+  @protected
+  StoreModel sse_decode_store_model(SseDeserializer deserializer);
 
   @protected
   int sse_decode_u_8(SseDeserializer deserializer);
@@ -57,6 +69,15 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     Uint8List self,
     SseSerializer serializer,
   );
+
+  @protected
+  void sse_encode_list_store_model(
+    List<StoreModel> self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_store_model(StoreModel self, SseSerializer serializer);
 
   @protected
   void sse_encode_u_8(int self, SseSerializer serializer);

@@ -5,3 +5,4 @@ mod store_repository_in_memory_impl;
 mod transaction_repository_in_memory_impl;
 
 pub use brand_repository_in_memory_impl::BrandRepositoryInMemoryImpl;
+pub use store_repository_in_memory_impl::StoreRepositoryInMemoryImpl;
