@@ -14,10 +14,7 @@ class TransactionsTab extends StatelessWidget {
     return Column(
       children: [
         const TransactionListDisplay(transactions: []),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [AddNewTransactionButton(newTransactionCubit: newTransactionCubit)],
-        ),
+        Row(mainAxisAlignment: MainAxisAlignment.center, children: [AddNewTransactionButton(newTransactionCubit: newTransactionCubit)]),
       ],
     );
   }
@@ -31,11 +28,7 @@ class AddNewTransactionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed:
-          () => showDialog<void>(
-            context: context,
-            builder: (context) => NewTransactionDialog(newTransactionCubit: newTransactionCubit),
-          ),
+      onPressed: () => showDialog<void>(context: context, builder: (BuildContext context) => NewTransactionDialog(newTransactionCubit: newTransactionCubit)),
       icon: const Icon(Icons.add),
       iconSize: 60,
       color: Theme.of(context).primaryColor,
@@ -57,46 +50,53 @@ class TransactionListDisplay extends StatelessWidget {
     return Expanded(
       child: ListView.separated(
         itemCount: transactions.length,
-        itemBuilder: (_, index) => Card(child: ListTile(title: Text(transactions[index]))),
-        separatorBuilder: (_, _) => const SizedBox(height: 10),
+        itemBuilder: (BuildContext _, int index) => Card(child: ListTile(title: Text(transactions[index]))),
+        separatorBuilder: (BuildContext _, int _) => const SizedBox(height: 10),
       ),
     );
   }
 }
 
 class NewTransactionDialog extends StatelessWidget {
-  NewTransactionDialog({required this.newTransactionCubit, super.key});
+  const NewTransactionDialog({required this.newTransactionCubit, super.key});
 
   static const String i18nPrefix = '${TransactionsTab.i18nPrefix}.new_transaction_dialog';
 
   final NewTransactionCubit newTransactionCubit;
 
-  final TextEditingController storeController = TextEditingController();
-  final TextEditingController dateController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
       title: Text(context.i18n('$i18nPrefix.title')),
       content: BlocBuilder<NewTransactionCubit, NewTransactionCubitState>(
         bloc: newTransactionCubit,
         builder: (BuildContext context, NewTransactionCubitState state) {
-          storeController.text = state.storeName;
-          dateController.text = state.date;
+          if (!state.initialized) {
+            newTransactionCubit.loadStores();
+          }
+
+          if (state.loading) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
           return Column(
             children: [
-              TextField(
-                controller: storeController,
-                decoration: InputDecoration(labelText: context.i18n('$i18nPrefix.store_field')),
+              DropdownButton<String>(
+                onChanged: newTransactionCubit.selectStore,
+                hint: Text(context.i18n('$i18nPrefix.store_dropdown_hint')),
+                value: state.selectedStoreValue,
+                items:
+                    state.stores
+                        .map<DropdownMenuItem<String>>((StoreDisplayModel s) => DropdownMenuItem<String>(value: s.value, child: Text(s.displayName)))
+                        .toList(),
+                isExpanded: true,
               ),
               TextField(
-                controller: dateController,
+                controller: TextEditingController(text: state.date),
                 onTap:
-                    () => showDatePicker(context: context, firstDate: DateTime(1999), lastDate: DateTime.now()).then(
-                      (date) => date ?? newTransactionCubit.setDate(date!),
-                      onError: (dynamic error) => print(error),
-                    ),
+                    () =>
+                        showDatePicker(context: context, firstDate: DateTime(1999), lastDate: DateTime.now()).then(newTransactionCubit.setDate, onError: print),
                 readOnly: true,
                 decoration: InputDecoration(labelText: context.i18n('$i18nPrefix.date_field')),
               ),
@@ -104,14 +104,14 @@ class NewTransactionDialog extends StatelessWidget {
           );
         },
       ),
-      actions: <Widget>[
+      actions: [
         TextButton(
           child: Text(context.i18n('$i18nPrefix.cancel_button')),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
-        ElevatedButton(
+        FilledButton(
           child: Text(context.i18n('$i18nPrefix.save_button')),
           onPressed: () {
             Navigator.of(context).pop();

@@ -35,3 +35,4 @@ google-services.json
 .aider*
 target
 Cargo.lock
+features/cross_platform/Session.vim
