@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frosy_pine/presentation/utils/context_extensions.dart';
+import 'package:frosy_pine/features/ui/presentation/utils/context_extensions.dart';
 
 class BrandsTab extends StatelessWidget {
   BrandsTab({super.key});

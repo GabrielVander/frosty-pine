@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:frosy_pine/presentation/utils/context_extensions.dart';
-import 'package:frosy_pine/presentation/widgets/brands/brands_tab.dart';
-import 'package:frosy_pine/presentation/widgets/home/home_tab.dart';
-import 'package:frosy_pine/presentation/widgets/transactions/state/new_transaction_cubit.dart';
-import 'package:frosy_pine/presentation/widgets/transactions/transactions_tab.dart';
+import 'package:frosy_pine/features/ui/presentation/utils/context_extensions.dart';
+import 'package:frosy_pine/features/ui/presentation/widgets/brands/brands_tab.dart';
+import 'package:frosy_pine/features/ui/presentation/widgets/home/home_tab.dart';
+import 'package:frosy_pine/features/ui/presentation/widgets/transactions/state/new_transaction_cubit.dart';
+import 'package:frosy_pine/features/ui/presentation/widgets/transactions/transactions_tab.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({required this.newTransactionCubit, super.key});
@@ -26,9 +26,7 @@ class MainPage extends StatelessWidget {
             ],
           ),
         ),
-        body: TabBarView(
-          children: [const HomeTab(), TransactionsTab(newTransactionCubit: newTransactionCubit), BrandsTab()],
-        ),
+        body: TabBarView(children: [const HomeTab(), TransactionsTab(newTransactionCubit: newTransactionCubit), BrandsTab()]),
       ),
     );
   }
