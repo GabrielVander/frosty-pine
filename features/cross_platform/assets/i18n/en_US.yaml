@@ -15,5 +15,15 @@ transactions_tab:
     save_button: "Save"
     store_dropdown_hint: "Store"
     date_field: "Date"
+    items:
+      no_items: "No items"
+      add_item_button: "Add"
+      product_dropdown_hint: "Product"
+      unit_dropdown_hint: "Unit"
+      units:
+        none: "None"
+        quantity: "Quantity"
+        kilograms: "Kilograms"
+        liters: "Liters"
   transaction_list_display:
     empty_list: "No transactions, yet"

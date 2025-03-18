@@ -11,12 +11,7 @@ class TransactionsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const TransactionListDisplay(transactions: []),
-        Row(mainAxisAlignment: MainAxisAlignment.center, children: [AddNewTransactionButton(newTransactionCubit: newTransactionCubit)]),
-      ],
-    );
+    return Column(children: [const TransactionListDisplay(transactions: []), AddNewTransactionButton(newTransactionCubit: newTransactionCubit)]);
   }
 }
 
@@ -47,6 +42,7 @@ class TransactionListDisplay extends StatelessWidget {
     if (transactions.isEmpty) {
       return Expanded(child: Center(child: Text(context.i18n('$i18nPrefix.empty_list'))));
     }
+
     return Expanded(
       child: ListView.separated(
         itemCount: transactions.length,
@@ -73,7 +69,9 @@ class NewTransactionDialog extends StatelessWidget {
         bloc: newTransactionCubit,
         builder: (BuildContext context, NewTransactionCubitState state) {
           if (!state.initialized) {
-            newTransactionCubit.loadStores();
+            newTransactionCubit
+              ..loadStores()
+              ..loadProducts();
           }
 
           if (state.loading) {
@@ -100,6 +98,8 @@ class NewTransactionDialog extends StatelessWidget {
                 readOnly: true,
                 decoration: InputDecoration(labelText: context.i18n('$i18nPrefix.date_field')),
               ),
+              const Divider(),
+              ItemsListDisplay(newTransactionCubit: newTransactionCubit, state: state),
             ],
           );
         },
@@ -118,6 +118,75 @@ class NewTransactionDialog extends StatelessWidget {
           },
         ),
       ],
+    );
+  }
+}
+
+class ItemsListDisplay extends StatelessWidget {
+  const ItemsListDisplay({required this.state, required this.newTransactionCubit, super.key});
+
+  final NewTransactionCubitState state;
+  final NewTransactionCubit newTransactionCubit;
+
+  @override
+  Widget build(BuildContext context) {
+    final Iterable<Widget> items = state.items.map(
+      (TransactionItemDisplayModel i) => Row(
+        key: i.isNewItem ? null : ValueKey<String>(i.key),
+        mainAxisSize: MainAxisSize.min,
+        children: [ProductsDropDown(products: state.products, onChanged: (_) {}), UnitsDropDown(onChanged: (_) {}, units: state.units)],
+      ),
+    );
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        if (items.isEmpty) Text(context.i18n('transactions_tab.new_transaction_dialog.items.no_items')) else ...items,
+        if (state.showNewItemButton)
+          TextButton(onPressed: newTransactionCubit.showNewItem, child: Text(context.i18n('transactions_tab.new_transaction_dialog.items.add_item_button'))),
+      ],
+    );
+  }
+}
+
+class ProductsDropDown extends StatelessWidget {
+  const ProductsDropDown({required this.onChanged, required this.products, super.key});
+
+  final void Function(String? value) onChanged;
+  final List<ProductDisplayModel> products;
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+      onChanged: onChanged,
+      hint: Text(context.i18n('transactions_tab.new_transaction_dialog.items.product_dropdown_hint')),
+      // value: state.selectedStoreValue,
+      items: products.map<DropdownMenuItem<String>>((ProductDisplayModel s) => DropdownMenuItem<String>(value: s.value, child: Text(s.displayName))).toList(),
+    );
+  }
+}
+
+class UnitsDropDown extends StatelessWidget {
+  const UnitsDropDown({required this.onChanged, required this.units, super.key});
+
+  final void Function(String? value) onChanged;
+  final List<UnitDisplayModel> units;
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+      onChanged: onChanged,
+      hint: Text(context.i18n('transactions_tab.new_transaction_dialog.items.unit_dropdown_hint')),
+      // value: state.selectedStoreValue,
+      items:
+          units
+              .map<DropdownMenuItem<String>>(
+                (UnitDisplayModel s) => DropdownMenuItem<String>(
+                  value: s.value,
+                  child: Text(context.i18n('transactions_tab.new_transaction_dialog.items.units.${s.displayTextI18nIdentifier}')),
+                ),
+              )
+              .toList(),
     );
   }
 }
