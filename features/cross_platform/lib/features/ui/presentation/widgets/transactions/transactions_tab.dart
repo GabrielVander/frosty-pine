@@ -171,6 +171,21 @@ class ItemsListDisplay extends StatelessWidget {
                     : null,
           ),
         ),
+      Expanded(
+        child: TextField(
+          decoration: InputDecoration(label: Text(context.i18n('transactions_tab.new_transaction_dialog.items.unitary_price_label'))),
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(8)],
+          textInputAction: TextInputAction.done,
+          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+          onChanged: (value) => newTransactionCubit.setUnitaryPrice(i.key, value, Localizations.localeOf(context)),
+          controller:
+              i.unitaryPrice != null
+                  ? TextEditingController.fromValue(
+                    TextEditingValue(text: i.unitaryPrice!, selection: TextSelection.fromPosition(TextPosition(offset: i.unitaryPrice!.length))),
+                  )
+                  : null,
+        ),
+      ),
     ],
   );
 }
@@ -186,7 +201,6 @@ class ProductsDropDown extends StatelessWidget {
   Widget build(BuildContext context) {
     return DropdownButton<String>(
       onChanged: onChanged,
-      isDense: true,
       hint: Text(context.i18n('transactions_tab.new_transaction_dialog.items.product_dropdown_hint')),
       value: value,
       items: products.map<DropdownMenuItem<String>>((ProductDisplayModel s) => DropdownMenuItem<String>(value: s.value, child: Text(s.displayName))).toList(),

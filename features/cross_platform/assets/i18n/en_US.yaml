@@ -21,6 +21,7 @@ transactions_tab:
       product_dropdown_hint: "Product"
       unit_dropdown_hint: "Unit"
       unit_amount_label: "Amount"
+      unitary_price_label: "Unitary price"
       units:
         none: "None"
         quantity: "Quantity"
