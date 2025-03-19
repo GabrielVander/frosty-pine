@@ -20,6 +20,7 @@ transactions_tab:
       add_item_button: "Add"
       product_dropdown_hint: "Product"
       unit_dropdown_hint: "Unit"
+      unit_amount_label: "Amount"
       units:
         none: "None"
         quantity: "Quantity"

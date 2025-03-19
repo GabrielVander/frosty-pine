@@ -1,5 +1,6 @@
+import 'dart:ui';
+
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frosy_pine/features/core/domain/entities/product.dart';
 import 'package:frosy_pine/features/core/domain/entities/store.dart';
@@ -7,6 +8,7 @@ import 'package:frosy_pine/features/core/domain/use_cases/retrieve_available_pro
 import 'package:frosy_pine/features/core/domain/use_cases/retrieve_available_stores_use_case.dart';
 import 'package:intl/intl.dart';
 import 'package:rust/rust.dart';
+import 'package:uuid/uuid.dart';
 
 class NewTransactionCubit extends Cubit<NewTransactionCubitState> {
   NewTransactionCubit({
@@ -17,21 +19,15 @@ class NewTransactionCubit extends Cubit<NewTransactionCubitState> {
        _retrieveAvailableStoresUseCase = retrieveAvailableStoresUseCase,
        _retrieveAvailableProductsUseCase = retrieveAvailableProductsUseCase,
        super(
-         NewTransactionCubitState(
+         const NewTransactionCubitState(
            loading: true,
            initialized: false,
            date: '',
            selectedStoreValue: null,
-           stores: const <StoreDisplayModel>[],
-           products: const <ProductDisplayModel>[],
-           items: const <TransactionItemDisplayModel>[],
-           units: List.of([
-             const UnitDisplayModel(value: 'none', displayTextI18nIdentifier: 'none'),
-             const UnitDisplayModel(value: 'quantity', displayTextI18nIdentifier: 'quantity'),
-             const UnitDisplayModel(value: 'kilograms', displayTextI18nIdentifier: 'kilograms'),
-             const UnitDisplayModel(value: 'liters', displayTextI18nIdentifier: 'liters'),
-           ]),
-           showNewItemButton: true,
+           stores: <StoreDisplayModel>[],
+           products: <ProductDisplayModel>[],
+           items: <TransactionItemDisplayModel>[],
+           units: UnitDisplayModel.values,
          ),
        );
 
@@ -58,19 +54,96 @@ class NewTransactionCubit extends Cubit<NewTransactionCubitState> {
   }
 
   void showNewItem() {
-    final List<TransactionItemDisplayModel> newItems = List.from(state.items)..add(
-      const TransactionItemDisplayModel(key: '', isNewItem: true, unitValue: '', productValue: '', unitaryPriceDisplay: '', shouldDisplayPriceField: true),
+    emit(
+      state.copyWith(
+        items: List<TransactionItemDisplayModel>.from(state.items)..add(
+          TransactionItemDisplayModel(
+            key: const Uuid().v4(),
+            isPlaceholder: true,
+            unitValue: null,
+            productValue: null,
+            unitAmount: null,
+            unitaryPriceDisplay: '',
+            shouldDisplayPriceField: true,
+          ),
+        ),
+      ),
     );
-
-    emit(state.copyWith(items: newItems, showNewItemButton: false));
   }
 
-  void selectStore(String? storeValue) => emit(state.copyWith(selectedStoreValue: Some(storeValue)));
+  void selectStore(String? storeValue) => emit(state.copyWith(selectedStoreValue: Some<String?>(storeValue)));
 
-  void setDate(DateTime? value) => emit(state.copyWith(date: Some(value == null ? null : _dateFormat.format(value))));
+  void setDate(DateTime? value) => emit(state.copyWith(date: Some<String?>(value == null ? null : _dateFormat.format(value))));
+
+  void setProductValue(String itemKey, String? value) {
+    emit(
+      state.copyWith(
+        items:
+            List<TransactionItemDisplayModel>.from(state.items)
+                .map<TransactionItemDisplayModel>(
+                  (TransactionItemDisplayModel i) =>
+                      i.key == itemKey
+                          ? i.copyWith(
+                            productValue: Some<String?>(value),
+                            isPlaceHolder:
+                                value == null ||
+                                i.unitValue == null ||
+                                (i.unitValue?.requiresNumericalValue ?? false == true && i.unitAmount == null) ||
+                                i.unitaryPriceDisplay == null,
+                          )
+                          : i,
+                )
+                .toList(),
+      ),
+    );
+  }
+
+  void setUnitValue(String itemKey, UnitDisplayModel? value) => emit(
+    state.copyWith(
+      items:
+          List<TransactionItemDisplayModel>.from(state.items)
+              .map<TransactionItemDisplayModel>(
+                (TransactionItemDisplayModel i) =>
+                    i.key == itemKey
+                        ? i.copyWith(
+                          unitValue: Some<UnitDisplayModel?>(value),
+                          isPlaceHolder:
+                              value == null ||
+                              i.productValue == null ||
+                              (value.requiresNumericalValue && i.unitAmount == null) ||
+                              i.unitaryPriceDisplay == null,
+                        )
+                        : i,
+              )
+              .toList(),
+    ),
+  );
+
+  void setUnitAmount(String itemKey, String? value, Locale locale) => emit(
+    state.copyWith(
+      items:
+          List<TransactionItemDisplayModel>.from(state.items).map<TransactionItemDisplayModel>((TransactionItemDisplayModel i) {
+            final String Function(String) numberFormatter =
+                i.unitValue?.hasDecimalPlaces ?? false
+                    ? (String number) =>
+                        NumberFormat.decimalPatternDigits(locale: locale.toLanguageTag(), decimalDigits: 3).format((int.tryParse(number) ?? 0) / 1000)
+                    : (String number) => NumberFormat.compact(locale: locale.toLanguageTag()).format(int.tryParse(number) ?? 0);
+
+            return i.key == itemKey
+                ? i.copyWith(
+                  unitAmount: Some<String?>(numberFormatter(value ?? '')),
+                  isPlaceHolder:
+                      i.unitValue == null ||
+                      i.productValue == null ||
+                      (i.unitValue != null && i.unitValue!.requiresNumericalValue && (value == null || value.isEmpty)) ||
+                      i.unitaryPriceDisplay == null,
+                )
+                : i;
+          }).toList(),
+    ),
+  );
 }
 
-@immutable
 final class NewTransactionCubitState extends Equatable {
   const NewTransactionCubitState({
     required this.loading,
@@ -81,7 +154,6 @@ final class NewTransactionCubitState extends Equatable {
     required this.products,
     required this.items,
     required this.units,
-    required this.showNewItemButton,
   });
 
   final bool loading;
@@ -92,10 +164,11 @@ final class NewTransactionCubitState extends Equatable {
   final List<ProductDisplayModel> products;
   final List<TransactionItemDisplayModel> items;
   final List<UnitDisplayModel> units;
-  final bool showNewItemButton;
+
+  bool get showAddItemButton => !items.any((TransactionItemDisplayModel i) => i.isPlaceholder);
 
   @override
-  List<Object?> get props => [loading, initialized, selectedStoreValue, date, products, stores, items, units, showNewItemButton];
+  List<Object?> get props => [loading, initialized, selectedStoreValue, date, products, stores, items, units, showAddItemButton];
 
   NewTransactionCubitState copyWith({
     bool? loading,
@@ -106,7 +179,6 @@ final class NewTransactionCubitState extends Equatable {
     List<ProductDisplayModel>? products,
     List<TransactionItemDisplayModel>? items,
     List<UnitDisplayModel>? units,
-    bool? showNewItemButton,
   }) => NewTransactionCubitState(
     loading: loading ?? this.loading,
     initialized: initialized ?? this.initialized,
@@ -116,16 +188,13 @@ final class NewTransactionCubitState extends Equatable {
     products: products ?? this.products,
     items: items ?? this.items,
     units: units ?? this.units,
-    showNewItemButton: showNewItemButton ?? this.showNewItemButton,
   );
 
   @override
-  String toString() {
-    return 'NewTransactionCubitState(loading: $loading, initialized: $initialized, selectedStoreValue: $selectedStoreValue, date: $date, products: $products, items: $items, units: $units, showNewItem: $showNewItemButton)';
-  }
+  String toString() =>
+      'NewTransactionCubitState(loading: $loading, initialized: $initialized, selectedStoreValue: $selectedStoreValue, date: $date, products: $products, items: $items, units: $units, showAddItemButton: $showAddItemButton)';
 }
 
-@immutable
 final class StoreDisplayModel extends Equatable {
   const StoreDisplayModel({required this.value, required this.displayName});
 
@@ -146,7 +215,6 @@ final class StoreDisplayModel extends Equatable {
   }
 }
 
-@immutable
 final class ProductDisplayModel extends Equatable {
   const ProductDisplayModel({required this.value, required this.displayName});
 
@@ -163,54 +231,64 @@ final class ProductDisplayModel extends Equatable {
   List<Object> get props => [value, displayName];
 }
 
-@immutable
 final class TransactionItemDisplayModel extends Equatable {
   const TransactionItemDisplayModel({
-    required this.isNewItem,
+    required this.isPlaceholder,
     required this.key,
     required this.productValue,
     required this.unitValue,
+    required this.unitAmount,
     required this.shouldDisplayPriceField,
     required this.unitaryPriceDisplay,
   });
 
-  final bool isNewItem;
+  final bool isPlaceholder;
   final String key;
-  final String productValue;
-  final String unitValue;
+  final String? productValue;
+  final UnitDisplayModel? unitValue;
+  final String? unitAmount;
   final bool shouldDisplayPriceField;
   final String? unitaryPriceDisplay;
 
   TransactionItemDisplayModel copyWith({
-    bool? isNewItem,
+    bool? isPlaceHolder,
     String? key,
-    String? productValue,
-    String? unitValue,
+    Option<String?>? productValue,
+    Option<UnitDisplayModel?>? unitValue,
+    Option<String?>? unitAmount,
     bool? shouldDisplayPriceField,
     Option<String?>? unitaryPriceDisplay,
   }) => TransactionItemDisplayModel(
-    isNewItem: isNewItem ?? this.isNewItem,
+    isPlaceholder: isPlaceHolder ?? isPlaceholder,
     key: key ?? this.key,
-    unitValue: unitValue ?? this.unitValue,
-    productValue: productValue ?? this.productValue,
+    unitValue: unitValue?.toNullable() ?? this.unitValue,
+    productValue: productValue?.toNullable() ?? this.productValue,
+    unitAmount: unitAmount?.toNullable() ?? this.unitAmount,
     shouldDisplayPriceField: shouldDisplayPriceField ?? this.shouldDisplayPriceField,
     unitaryPriceDisplay: unitaryPriceDisplay?.toNullable() ?? this.unitaryPriceDisplay,
   );
 
   @override
-  List<Object?> get props => [isNewItem, key, productValue, unitValue, shouldDisplayPriceField, unitaryPriceDisplay];
+  List<Object?> get props => [isPlaceholder, key, productValue, unitValue, unitAmount, shouldDisplayPriceField, unitaryPriceDisplay];
+
+  @override
+  String toString() =>
+      'TransactionItemDisplayModel(isPlaceholder: $isPlaceholder, key: $key, unitValue: $unitValue, productValue: $productValue, unitAmount: $unitAmount, shouldDisplayPriceField: $shouldDisplayPriceField, unitaryPriceDisplay: $unitaryPriceDisplay)';
 }
 
-@immutable
-final class UnitDisplayModel extends Equatable {
-  const UnitDisplayModel({required this.value, required this.displayTextI18nIdentifier});
+enum UnitDisplayModel {
+  none(i18nIdentifier: 'none', requiresNumericalValue: false, hasDecimalPlaces: false),
+  quantity(i18nIdentifier: 'quantity', requiresNumericalValue: true, hasDecimalPlaces: false),
+  kilograms(i18nIdentifier: 'kilograms', requiresNumericalValue: true, hasDecimalPlaces: true),
+  liters(i18nIdentifier: 'liters', requiresNumericalValue: true, hasDecimalPlaces: true);
 
-  final String value;
-  final String displayTextI18nIdentifier;
+  const UnitDisplayModel({required this.i18nIdentifier, required this.requiresNumericalValue, required this.hasDecimalPlaces});
+
+  final String i18nIdentifier;
+  final bool requiresNumericalValue;
+  final bool hasDecimalPlaces;
 
   @override
-  String toString() => 'UnitDisplayModel(value: $value, displayTextI18nIdentifier: $displayTextI18nIdentifier)';
-
-  @override
-  List<Object?> get props => [value, displayTextI18nIdentifier];
+  String toString() =>
+      'UnitDisplayModel(i18nIdentifier: $i18nIdentifier, requiresNumericalValue: $requiresNumericalValue, hasDecimalPlaces: $hasDecimalPlaces)';
 }

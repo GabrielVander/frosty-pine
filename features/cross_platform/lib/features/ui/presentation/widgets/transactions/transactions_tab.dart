@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frosy_pine/features/ui/presentation/utils/context_extensions.dart';
 import 'package:frosy_pine/features/ui/presentation/widgets/transactions/state/new_transaction_cubit.dart';
@@ -63,46 +64,52 @@ class NewTransactionDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
       title: Text(context.i18n('$i18nPrefix.title')),
-      content: BlocBuilder<NewTransactionCubit, NewTransactionCubitState>(
-        bloc: newTransactionCubit,
-        builder: (BuildContext context, NewTransactionCubitState state) {
-          if (!state.initialized) {
-            newTransactionCubit
-              ..loadStores()
-              ..loadProducts();
-          }
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
+      content: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: BlocBuilder<NewTransactionCubit, NewTransactionCubitState>(
+          bloc: newTransactionCubit,
+          builder: (BuildContext context, NewTransactionCubitState state) {
+            if (!state.initialized) {
+              newTransactionCubit
+                ..loadStores()
+                ..loadProducts();
+            }
 
-          if (state.loading) {
-            return const Center(child: CircularProgressIndicator());
-          }
+            if (state.loading) {
+              return const Center(child: CircularProgressIndicator());
+            }
 
-          return Column(
-            children: [
-              DropdownButton<String>(
-                onChanged: newTransactionCubit.selectStore,
-                hint: Text(context.i18n('$i18nPrefix.store_dropdown_hint')),
-                value: state.selectedStoreValue,
-                items:
-                    state.stores
-                        .map<DropdownMenuItem<String>>((StoreDisplayModel s) => DropdownMenuItem<String>(value: s.value, child: Text(s.displayName)))
-                        .toList(),
-                isExpanded: true,
-              ),
-              TextField(
-                controller: TextEditingController(text: state.date),
-                onTap:
-                    () =>
-                        showDatePicker(context: context, firstDate: DateTime(1999), lastDate: DateTime.now()).then(newTransactionCubit.setDate, onError: print),
-                readOnly: true,
-                decoration: InputDecoration(labelText: context.i18n('$i18nPrefix.date_field')),
-              ),
-              const Divider(),
-              ItemsListDisplay(newTransactionCubit: newTransactionCubit, state: state),
-            ],
-          );
-        },
+            return Column(
+              children: [
+                DropdownButton<String>(
+                  onChanged: newTransactionCubit.selectStore,
+                  hint: Text(context.i18n('$i18nPrefix.store_dropdown_hint')),
+                  value: state.selectedStoreValue,
+                  items:
+                      state.stores
+                          .map<DropdownMenuItem<String>>((StoreDisplayModel s) => DropdownMenuItem<String>(value: s.value, child: Text(s.displayName)))
+                          .toList(),
+                  isExpanded: true,
+                ),
+                TextField(
+                  controller: TextEditingController(text: state.date),
+                  onTap:
+                      () => showDatePicker(
+                        context: context,
+                        firstDate: DateTime(1999),
+                        lastDate: DateTime.now(),
+                      ).then(newTransactionCubit.setDate, onError: print),
+                  readOnly: true,
+                  decoration: InputDecoration(labelText: context.i18n('$i18nPrefix.date_field')),
+                ),
+                const Divider(),
+                ItemsListDisplay(newTransactionCubit: newTransactionCubit, state: state),
+              ],
+            );
+          },
+        ),
       ),
       actions: [
         TextButton(
@@ -130,60 +137,82 @@ class ItemsListDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Iterable<Widget> items = state.items.map(
-      (TransactionItemDisplayModel i) => Row(
-        key: i.isNewItem ? null : ValueKey<String>(i.key),
-        mainAxisSize: MainAxisSize.min,
-        children: [ProductsDropDown(products: state.products, onChanged: (_) {}), UnitsDropDown(onChanged: (_) {}, units: state.units)],
-      ),
-    );
+    final Iterable<Widget> items = state.items.map((i) => toItemRow(context, i));
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         if (items.isEmpty) Text(context.i18n('transactions_tab.new_transaction_dialog.items.no_items')) else ...items,
-        if (state.showNewItemButton)
+        if (state.showAddItemButton)
           TextButton(onPressed: newTransactionCubit.showNewItem, child: Text(context.i18n('transactions_tab.new_transaction_dialog.items.add_item_button'))),
       ],
     );
   }
+
+  Widget toItemRow(BuildContext context, TransactionItemDisplayModel i) => Row(
+    key: ValueKey<String>(i.key),
+    spacing: 10,
+    children: [
+      ProductsDropDown(products: state.products, value: i.productValue, onChanged: (String? value) => newTransactionCubit.setProductValue(i.key, value)),
+      UnitsDropDown(units: state.units, value: i.unitValue, onChanged: (unit) => newTransactionCubit.setUnitValue(i.key, unit)),
+      if (i.unitValue?.requiresNumericalValue ?? false)
+        Expanded(
+          child: TextField(
+            decoration: InputDecoration(label: Text(context.i18n('transactions_tab.new_transaction_dialog.items.unit_amount_label'))),
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(8)],
+            textInputAction: TextInputAction.done,
+            keyboardType: TextInputType.numberWithOptions(decimal: i.unitValue?.hasDecimalPlaces ?? false),
+            onChanged: (value) => newTransactionCubit.setUnitAmount(i.key, value, Localizations.localeOf(context)),
+            controller:
+                i.unitAmount != null
+                    ? TextEditingController.fromValue(
+                      TextEditingValue(text: i.unitAmount!, selection: TextSelection.fromPosition(TextPosition(offset: i.unitAmount!.length))),
+                    )
+                    : null,
+          ),
+        ),
+    ],
+  );
 }
 
 class ProductsDropDown extends StatelessWidget {
-  const ProductsDropDown({required this.onChanged, required this.products, super.key});
+  const ProductsDropDown({required this.products, required this.onChanged, super.key, this.value});
 
-  final void Function(String? value) onChanged;
   final List<ProductDisplayModel> products;
+  final String? value;
+  final void Function(String? value) onChanged;
 
   @override
   Widget build(BuildContext context) {
     return DropdownButton<String>(
       onChanged: onChanged,
+      isDense: true,
       hint: Text(context.i18n('transactions_tab.new_transaction_dialog.items.product_dropdown_hint')),
-      // value: state.selectedStoreValue,
+      value: value,
       items: products.map<DropdownMenuItem<String>>((ProductDisplayModel s) => DropdownMenuItem<String>(value: s.value, child: Text(s.displayName))).toList(),
     );
   }
 }
 
 class UnitsDropDown extends StatelessWidget {
-  const UnitsDropDown({required this.onChanged, required this.units, super.key});
+  const UnitsDropDown({required this.units, required this.onChanged, super.key, this.value});
 
-  final void Function(String? value) onChanged;
   final List<UnitDisplayModel> units;
+  final UnitDisplayModel? value;
+  final void Function(UnitDisplayModel? value) onChanged;
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<String>(
+    return DropdownButton<UnitDisplayModel>(
       onChanged: onChanged,
       hint: Text(context.i18n('transactions_tab.new_transaction_dialog.items.unit_dropdown_hint')),
-      // value: state.selectedStoreValue,
+      value: value,
       items:
           units
-              .map<DropdownMenuItem<String>>(
-                (UnitDisplayModel s) => DropdownMenuItem<String>(
-                  value: s.value,
-                  child: Text(context.i18n('transactions_tab.new_transaction_dialog.items.units.${s.displayTextI18nIdentifier}')),
+              .map<DropdownMenuItem<UnitDisplayModel>>(
+                (UnitDisplayModel s) => DropdownMenuItem<UnitDisplayModel>(
+                  value: s,
+                  child: Text(context.i18n('transactions_tab.new_transaction_dialog.items.units.${s.i18nIdentifier}')),
                 ),
               )
               .toList(),
