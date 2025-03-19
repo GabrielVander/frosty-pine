@@ -36,3 +36,4 @@ google-services.json
 target
 Cargo.lock
 features/cross_platform/Session.vim
+Session.vim
