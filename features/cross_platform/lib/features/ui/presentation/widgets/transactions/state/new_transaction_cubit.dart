@@ -59,7 +59,6 @@ class NewTransactionCubit extends Cubit<NewTransactionCubitState> {
         items: List<TransactionItemDisplayModel>.from(state.items)..add(
           TransactionItemDisplayModel(
             key: const Uuid().v4(),
-            isPlaceholder: true,
             unitValue: null,
             productValue: null,
             unitAmount: null,
@@ -80,19 +79,7 @@ class NewTransactionCubit extends Cubit<NewTransactionCubitState> {
       state.copyWith(
         items:
             List<TransactionItemDisplayModel>.from(state.items)
-                .map<TransactionItemDisplayModel>(
-                  (TransactionItemDisplayModel i) =>
-                      i.key == itemKey
-                          ? i.copyWith(
-                            productValue: Some<String?>(value),
-                            isPlaceHolder:
-                                value == null ||
-                                i.unitValue == null ||
-                                (i.unitValue?.requiresNumericalValue ?? false == true && i.unitAmount == null) ||
-                                i.unitaryPriceDisplay == null,
-                          )
-                          : i,
-                )
+                .map<TransactionItemDisplayModel>((TransactionItemDisplayModel i) => i.key == itemKey ? i.copyWith(productValue: Some<String?>(value)) : i)
                 .toList(),
       ),
     );
@@ -102,19 +89,7 @@ class NewTransactionCubit extends Cubit<NewTransactionCubitState> {
     state.copyWith(
       items:
           List<TransactionItemDisplayModel>.from(state.items)
-              .map<TransactionItemDisplayModel>(
-                (TransactionItemDisplayModel i) =>
-                    i.key == itemKey
-                        ? i.copyWith(
-                          unitValue: Some<UnitDisplayModel?>(value),
-                          isPlaceHolder:
-                              value == null ||
-                              i.productValue == null ||
-                              (value.requiresNumericalValue && i.unitAmount == null) ||
-                              i.unitaryPriceDisplay == null,
-                        )
-                        : i,
-              )
+              .map<TransactionItemDisplayModel>((TransactionItemDisplayModel i) => i.key == itemKey ? i.copyWith(unitValue: Some<UnitDisplayModel?>(value)) : i)
               .toList(),
     ),
   );
@@ -129,16 +104,7 @@ class NewTransactionCubit extends Cubit<NewTransactionCubitState> {
                         NumberFormat.decimalPatternDigits(locale: locale.toLanguageTag(), decimalDigits: 3).format((int.tryParse(number) ?? 0) / 1000)
                     : (String number) => NumberFormat.compact(locale: locale.toLanguageTag()).format(int.tryParse(number) ?? 0);
 
-            return i.key == itemKey
-                ? i.copyWith(
-                  unitAmount: Some<String?>(numberFormatter(value ?? '')),
-                  isPlaceHolder:
-                      i.unitValue == null ||
-                      i.productValue == null ||
-                      (i.unitValue != null && i.unitValue!.requiresNumericalValue && (value == null || value.isEmpty)) ||
-                      i.unitaryPriceDisplay == null,
-                )
-                : i;
+            return i.key == itemKey ? i.copyWith(unitAmount: Some<String?>(value != null && value.isNotEmpty ? numberFormatter(value) : value)) : i;
           }).toList(),
     ),
   );
@@ -233,7 +199,6 @@ final class ProductDisplayModel extends Equatable {
 
 final class TransactionItemDisplayModel extends Equatable {
   const TransactionItemDisplayModel({
-    required this.isPlaceholder,
     required this.key,
     required this.productValue,
     required this.unitValue,
@@ -242,7 +207,6 @@ final class TransactionItemDisplayModel extends Equatable {
     required this.unitaryPriceDisplay,
   });
 
-  final bool isPlaceholder;
   final String key;
   final String? productValue;
   final UnitDisplayModel? unitValue;
@@ -250,8 +214,13 @@ final class TransactionItemDisplayModel extends Equatable {
   final bool shouldDisplayPriceField;
   final String? unitaryPriceDisplay;
 
+  bool get isPlaceholder =>
+      productValue == null ||
+      unitValue == null ||
+      unitValue!.requiresNumericalValue && (unitAmount == null || unitAmount!.isEmpty) ||
+      unitaryPriceDisplay == null;
+
   TransactionItemDisplayModel copyWith({
-    bool? isPlaceHolder,
     String? key,
     Option<String?>? productValue,
     Option<UnitDisplayModel?>? unitValue,
@@ -259,11 +228,10 @@ final class TransactionItemDisplayModel extends Equatable {
     bool? shouldDisplayPriceField,
     Option<String?>? unitaryPriceDisplay,
   }) => TransactionItemDisplayModel(
-    isPlaceholder: isPlaceHolder ?? isPlaceholder,
     key: key ?? this.key,
     unitValue: unitValue?.toNullable() ?? this.unitValue,
     productValue: productValue?.toNullable() ?? this.productValue,
-    unitAmount: unitAmount?.toNullable() ?? this.unitAmount,
+    unitAmount: unitAmount?.expect('unitAmount should be set') ?? this.unitAmount,
     shouldDisplayPriceField: shouldDisplayPriceField ?? this.shouldDisplayPriceField,
     unitaryPriceDisplay: unitaryPriceDisplay?.toNullable() ?? this.unitaryPriceDisplay,
   );
