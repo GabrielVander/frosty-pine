@@ -8,8 +8,11 @@ class StoreRepositoryInMemoryImpl implements StoreRepository {
   final Map<String, String> data;
 
   @override
-  Future<Result<List<Store>, StoreRepositoryFailure>> retrieveAllStores() async =>
-      Ok<List<Store>, StoreRepositoryFailure>(data.entries.map<Store>(_toStoreEntity).toList());
+  Future<Result<List<Store>, StoreRepositoryFailure>>
+  retrieveAllStores() async => Ok<List<Store>, StoreRepositoryFailure>(
+    data.entries.map<Store>(_toStoreEntity).toList(),
+  );
 
-  Store _toStoreEntity(MapEntry<String, String> entry) => Store(id: entry.key, name: entry.value);
+  Store _toStoreEntity(MapEntry<String, String> entry) =>
+      Store(id: entry.key, name: entry.value);
 }

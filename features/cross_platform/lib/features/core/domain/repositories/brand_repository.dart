@@ -7,9 +7,15 @@ abstract interface class BrandRepository {
 }
 
 sealed class BrandRepositoryFailure extends Failure {
-  const BrandRepositoryFailure({required super.message, required super.details});
+  const BrandRepositoryFailure({
+    required super.message,
+    required super.details,
+  });
 }
 
 final class BrandRepositoryNotFoundFailure extends BrandRepositoryFailure {
-  const BrandRepositoryNotFoundFailure({required super.message, required super.details});
+  const BrandRepositoryNotFoundFailure({
+    required super.message,
+    required super.details,
+  });
 }

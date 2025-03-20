@@ -8,15 +8,22 @@ class CategoryRepositoryInMemoryImpl implements CategoryRepository {
   final Map<String, String> data;
 
   @override
-  Future<Result<Category, CategoryRepositoryFailure>> fetchSingleById(String id) async {
+  Future<Result<Category, CategoryRepositoryFailure>> fetchSingleById(
+    String id,
+  ) async {
     final String? brandName = data[id];
 
     if (brandName == null) {
       return Err<Category, CategoryRepositoryFailure>(
-        CategoryRepositoryNotFoundFailure(message: 'Category not found', details: 'Unable to find category with id $id'),
+        CategoryRepositoryNotFoundFailure(
+          message: 'Category not found',
+          details: 'Unable to find category with id $id',
+        ),
       );
     }
 
-    return Ok<Category, CategoryRepositoryFailure>(Category(id: id, name: brandName));
+    return Ok<Category, CategoryRepositoryFailure>(
+      Category(id: id, name: brandName),
+    );
   }
 }

@@ -40,8 +40,17 @@ class NewTransactionCubit extends Cubit<NewTransactionCubitState> {
 
     await _retrieveAvailableStoresUseCase
         .execute()
-        .map<List<StoreDisplayModel>>((List<Store> stores) => stores.map<StoreDisplayModel>(StoreDisplayModel.fromStoreEntity).toList())
-        .inspect((List<StoreDisplayModel> models) => emit(state.copyWith(loading: false, initialized: true, stores: models)));
+        .map<List<StoreDisplayModel>>(
+          (List<Store> stores) =>
+              stores
+                  .map<StoreDisplayModel>(StoreDisplayModel.fromStoreEntity)
+                  .toList(),
+        )
+        .inspect(
+          (List<StoreDisplayModel> models) => emit(
+            state.copyWith(loading: false, initialized: true, stores: models),
+          ),
+        );
   }
 
   Future<void> loadProducts() async {
@@ -49,8 +58,19 @@ class NewTransactionCubit extends Cubit<NewTransactionCubitState> {
 
     await _retrieveAvailableProductsUseCase
         .execute()
-        .map<List<ProductDisplayModel>>((List<Product> products) => products.map<ProductDisplayModel>(ProductDisplayModel.fromProductEntity).toList())
-        .inspect((List<ProductDisplayModel> models) => emit(state.copyWith(loading: false, initialized: true, products: models)));
+        .map<List<ProductDisplayModel>>(
+          (List<Product> products) =>
+              products
+                  .map<ProductDisplayModel>(
+                    ProductDisplayModel.fromProductEntity,
+                  )
+                  .toList(),
+        )
+        .inspect(
+          (List<ProductDisplayModel> models) => emit(
+            state.copyWith(loading: false, initialized: true, products: models),
+          ),
+        );
   }
 
   void showNewItem() {
@@ -70,16 +90,26 @@ class NewTransactionCubit extends Cubit<NewTransactionCubitState> {
     );
   }
 
-  void selectStore(String? storeValue) => emit(state.copyWith(selectedStoreValue: Some<String?>(storeValue)));
+  void selectStore(String? storeValue) =>
+      emit(state.copyWith(selectedStoreValue: Some<String?>(storeValue)));
 
-  void setDate(DateTime? value) => emit(state.copyWith(date: Some<String?>(value == null ? null : _dateFormat.format(value))));
+  void setDate(DateTime? value) => emit(
+    state.copyWith(
+      date: Some<String?>(value == null ? null : _dateFormat.format(value)),
+    ),
+  );
 
   void setProductValue(String itemKey, String? value) {
     emit(
       state.copyWith(
         items:
             List<TransactionItemDisplayModel>.from(state.items)
-                .map<TransactionItemDisplayModel>((TransactionItemDisplayModel i) => i.key == itemKey ? i.copyWith(productValue: Some<String?>(value)) : i)
+                .map<TransactionItemDisplayModel>(
+                  (TransactionItemDisplayModel i) =>
+                      i.key == itemKey
+                          ? i.copyWith(productValue: Some<String?>(value))
+                          : i,
+                )
                 .toList(),
       ),
     );
@@ -89,7 +119,12 @@ class NewTransactionCubit extends Cubit<NewTransactionCubitState> {
     state.copyWith(
       items:
           List<TransactionItemDisplayModel>.from(state.items)
-              .map<TransactionItemDisplayModel>((TransactionItemDisplayModel i) => i.key == itemKey ? i.copyWith(unitValue: Some<UnitDisplayModel?>(value)) : i)
+              .map<TransactionItemDisplayModel>(
+                (TransactionItemDisplayModel i) =>
+                    i.key == itemKey
+                        ? i.copyWith(unitValue: Some<UnitDisplayModel?>(value))
+                        : i,
+              )
               .toList(),
     ),
   );
@@ -97,14 +132,28 @@ class NewTransactionCubit extends Cubit<NewTransactionCubitState> {
   void setUnitAmount(String itemKey, String? value, Locale locale) => emit(
     state.copyWith(
       items:
-          List<TransactionItemDisplayModel>.from(state.items).map<TransactionItemDisplayModel>((TransactionItemDisplayModel i) {
+          List<TransactionItemDisplayModel>.from(
+            state.items,
+          ).map<TransactionItemDisplayModel>((TransactionItemDisplayModel i) {
             final String Function(String) numberFormatter =
                 i.unitValue?.hasDecimalPlaces ?? false
-                    ? (String number) =>
-                        NumberFormat.decimalPatternDigits(locale: locale.toLanguageTag(), decimalDigits: 3).format((int.tryParse(number) ?? 0) / 1000)
-                    : (String number) => NumberFormat.compact(locale: locale.toLanguageTag()).format(int.tryParse(number) ?? 0);
+                    ? (String number) => NumberFormat.decimalPatternDigits(
+                      locale: locale.toLanguageTag(),
+                      decimalDigits: 3,
+                    ).format((int.tryParse(number) ?? 0) / 1000)
+                    : (String number) => NumberFormat.compact(
+                      locale: locale.toLanguageTag(),
+                    ).format(int.tryParse(number) ?? 0);
 
-            return i.key == itemKey ? i.copyWith(unitAmount: Some<String?>(value != null && value.isNotEmpty ? numberFormatter(value) : value)) : i;
+            return i.key == itemKey
+                ? i.copyWith(
+                  unitAmount: Some<String?>(
+                    value != null && value.isNotEmpty
+                        ? numberFormatter(value)
+                        : value,
+                  ),
+                )
+                : i;
           }).toList(),
     ),
   );
@@ -112,10 +161,22 @@ class NewTransactionCubit extends Cubit<NewTransactionCubitState> {
   void setUnitaryPrice(String itemKey, String? value, Locale locale) => emit(
     state.copyWith(
       items:
-          List<TransactionItemDisplayModel>.from(state.items).map<TransactionItemDisplayModel>((TransactionItemDisplayModel i) {
-            String numberFormatter(String number) => NumberFormat.currency(locale: locale.toLanguageTag()).format(int.parse(number) / 100);
+          List<TransactionItemDisplayModel>.from(
+            state.items,
+          ).map<TransactionItemDisplayModel>((TransactionItemDisplayModel i) {
+            String numberFormatter(String number) => NumberFormat.currency(
+              locale: locale.toLanguageTag(),
+            ).format(int.parse(number) / 100);
 
-            return i.key == itemKey ? i.copyWith(unitaryPrice: Some<String?>(value != null && value.isNotEmpty ? numberFormatter(value) : value)) : i;
+            return i.key == itemKey
+                ? i.copyWith(
+                  unitaryPrice: Some<String?>(
+                    value != null && value.isNotEmpty
+                        ? numberFormatter(value)
+                        : value,
+                  ),
+                )
+                : i;
           }).toList(),
     ),
   );
@@ -142,10 +203,21 @@ final class NewTransactionCubitState extends Equatable {
   final List<TransactionItemDisplayModel> items;
   final List<UnitDisplayModel> units;
 
-  bool get showAddItemButton => !items.any((TransactionItemDisplayModel i) => i.isPlaceholder);
+  bool get showAddItemButton =>
+      !items.any((TransactionItemDisplayModel i) => i.isPlaceholder);
 
   @override
-  List<Object?> get props => [loading, initialized, selectedStoreValue, date, products, stores, items, units, showAddItemButton];
+  List<Object?> get props => [
+    loading,
+    initialized,
+    selectedStoreValue,
+    date,
+    products,
+    stores,
+    items,
+    units,
+    showAddItemButton,
+  ];
 
   NewTransactionCubitState copyWith({
     bool? loading,
@@ -159,7 +231,8 @@ final class NewTransactionCubitState extends Equatable {
   }) => NewTransactionCubitState(
     loading: loading ?? this.loading,
     initialized: initialized ?? this.initialized,
-    selectedStoreValue: selectedStoreValue?.toNullable() ?? this.selectedStoreValue,
+    selectedStoreValue:
+        selectedStoreValue?.toNullable() ?? this.selectedStoreValue,
     date: date?.toNullable() ?? this.date,
     stores: stores ?? this.stores,
     products: products ?? this.products,
@@ -175,13 +248,17 @@ final class NewTransactionCubitState extends Equatable {
 final class StoreDisplayModel extends Equatable {
   const StoreDisplayModel({required this.value, required this.displayName});
 
-  factory StoreDisplayModel.fromStoreEntity(Store entity) => StoreDisplayModel(value: entity.id, displayName: entity.name);
+  factory StoreDisplayModel.fromStoreEntity(Store entity) =>
+      StoreDisplayModel(value: entity.id, displayName: entity.name);
 
   final String value;
   final String displayName;
 
   StoreDisplayModel copyWith({String? value, String? displayName}) =>
-      StoreDisplayModel(value: value ?? this.value, displayName: displayName ?? this.displayName);
+      StoreDisplayModel(
+        value: value ?? this.value,
+        displayName: displayName ?? this.displayName,
+      );
 
   @override
   List<Object?> get props => [value, displayName];
@@ -196,13 +273,20 @@ final class ProductDisplayModel extends Equatable {
   const ProductDisplayModel({required this.value, required this.displayName});
 
   factory ProductDisplayModel.fromProductEntity(Product entity) =>
-      ProductDisplayModel(value: entity.id, displayName: '[${entity.category.name}] [${entity.brand.name}] ${entity.name}');
+      ProductDisplayModel(
+        value: entity.id,
+        displayName:
+            '[${entity.category.name}] [${entity.brand.name}] ${entity.name}',
+      );
 
   final String value;
   final String displayName;
 
   ProductDisplayModel copyWith({String? value, String? displayName}) =>
-      ProductDisplayModel(value: value ?? this.value, displayName: displayName ?? this.displayName);
+      ProductDisplayModel(
+        value: value ?? this.value,
+        displayName: displayName ?? this.displayName,
+      );
 
   @override
   List<Object> get props => [value, displayName];
@@ -228,7 +312,8 @@ final class TransactionItemDisplayModel extends Equatable {
   bool get isPlaceholder =>
       productValue == null ||
       unitValue == null ||
-      (unitValue!.requiresNumericalValue && (unitAmount == null || unitAmount!.isEmpty)) ||
+      (unitValue!.requiresNumericalValue &&
+          (unitAmount == null || unitAmount!.isEmpty)) ||
       (unitaryPrice == null || unitaryPrice!.isEmpty);
 
   TransactionItemDisplayModel copyWith({
@@ -242,13 +327,23 @@ final class TransactionItemDisplayModel extends Equatable {
     key: key ?? this.key,
     unitValue: unitValue?.toNullable() ?? this.unitValue,
     productValue: productValue?.toNullable() ?? this.productValue,
-    unitAmount: unitAmount?.expect('unitAmount should be set') ?? this.unitAmount,
-    shouldDisplayPriceField: shouldDisplayPriceField ?? this.shouldDisplayPriceField,
+    unitAmount:
+        unitAmount?.expect('unitAmount should be set') ?? this.unitAmount,
+    shouldDisplayPriceField:
+        shouldDisplayPriceField ?? this.shouldDisplayPriceField,
     unitaryPrice: unitaryPrice?.toNullable() ?? this.unitaryPrice,
   );
 
   @override
-  List<Object?> get props => [isPlaceholder, key, productValue, unitValue, unitAmount, shouldDisplayPriceField, unitaryPrice];
+  List<Object?> get props => [
+    isPlaceholder,
+    key,
+    productValue,
+    unitValue,
+    unitAmount,
+    shouldDisplayPriceField,
+    unitaryPrice,
+  ];
 
   @override
   String toString() =>
@@ -256,12 +351,32 @@ final class TransactionItemDisplayModel extends Equatable {
 }
 
 enum UnitDisplayModel {
-  none(i18nIdentifier: 'none', requiresNumericalValue: false, hasDecimalPlaces: false),
-  quantity(i18nIdentifier: 'quantity', requiresNumericalValue: true, hasDecimalPlaces: false),
-  kilograms(i18nIdentifier: 'kilograms', requiresNumericalValue: true, hasDecimalPlaces: true),
-  liters(i18nIdentifier: 'liters', requiresNumericalValue: true, hasDecimalPlaces: true);
+  none(
+    i18nIdentifier: 'none',
+    requiresNumericalValue: false,
+    hasDecimalPlaces: false,
+  ),
+  quantity(
+    i18nIdentifier: 'quantity',
+    requiresNumericalValue: true,
+    hasDecimalPlaces: false,
+  ),
+  kilograms(
+    i18nIdentifier: 'kilograms',
+    requiresNumericalValue: true,
+    hasDecimalPlaces: true,
+  ),
+  liters(
+    i18nIdentifier: 'liters',
+    requiresNumericalValue: true,
+    hasDecimalPlaces: true,
+  );
 
-  const UnitDisplayModel({required this.i18nIdentifier, required this.requiresNumericalValue, required this.hasDecimalPlaces});
+  const UnitDisplayModel({
+    required this.i18nIdentifier,
+    required this.requiresNumericalValue,
+    required this.hasDecimalPlaces,
+  });
 
   final String i18nIdentifier;
   final bool requiresNumericalValue;

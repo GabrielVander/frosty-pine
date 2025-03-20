@@ -1,7 +1,12 @@
 import 'package:frosy_pine/features/core/domain/entities/product.dart';
 
 final class Item {
-  Item({required this.id, required this.product, required this.unit, required this.unitaryPrice});
+  Item({
+    required this.id,
+    required this.product,
+    required this.unit,
+    required this.unitaryPrice,
+  });
 
   final String id;
   final Product product;

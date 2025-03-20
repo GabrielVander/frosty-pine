@@ -14,7 +14,11 @@ abstract class Failure extends Equatable {
 
 @immutable
 abstract class DisplayableFailure extends Failure {
-  const DisplayableFailure({required super.message, required super.details, required this.i18nKey});
+  const DisplayableFailure({
+    required super.message,
+    required super.details,
+    required this.i18nKey,
+  });
 
   final String? i18nKey;
 

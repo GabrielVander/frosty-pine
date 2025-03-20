@@ -11,7 +11,10 @@ class BrandsTab extends StatelessWidget {
     return Column(
       children: [
         Expanded(child: BrandListDisplay(brands: brands)),
-        const Row(mainAxisAlignment: MainAxisAlignment.center, children: [AddNewBrandButton()]),
+        const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [AddNewBrandButton()],
+        ),
       ],
     );
   }
@@ -23,7 +26,11 @@ class AddNewBrandButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed: () => showDialog<void>(context: context, builder: (BuildContext context) => const NewBrandDialog()),
+      onPressed:
+          () => showDialog<void>(
+            context: context,
+            builder: (BuildContext context) => const NewBrandDialog(),
+          ),
       icon: const Icon(Icons.add),
       iconSize: 60,
       color: Theme.of(context).primaryColor,
@@ -41,7 +48,9 @@ class NewBrandDialog extends StatelessWidget {
       content: Container(),
       actions: <Widget>[
         TextButton(
-          child: Text(context.i18n('brands_tab.new_brand_dialog.cancel_button')),
+          child: Text(
+            context.i18n('brands_tab.new_brand_dialog.cancel_button'),
+          ),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -66,7 +75,8 @@ class BrandListDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.separated(
       itemCount: brands.length,
-      itemBuilder: (_, index) => Card(child: ListTile(title: Text(brands[index]))),
+      itemBuilder:
+          (_, index) => Card(child: ListTile(title: Text(brands[index]))),
       separatorBuilder: (_, _) => const SizedBox(height: 10),
     );
   }

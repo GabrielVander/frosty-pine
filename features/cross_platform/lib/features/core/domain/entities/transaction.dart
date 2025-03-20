@@ -2,7 +2,12 @@ import 'package:frosy_pine/features/core/domain/entities/item.dart';
 import 'package:frosy_pine/features/core/domain/entities/store.dart';
 
 final class Transaction {
-  Transaction({required this.id, required this.dateInUtc, required this.store, required this.items});
+  Transaction({
+    required this.id,
+    required this.dateInUtc,
+    required this.store,
+    required this.items,
+  });
 
   final String id;
   final DateTime dateInUtc;
