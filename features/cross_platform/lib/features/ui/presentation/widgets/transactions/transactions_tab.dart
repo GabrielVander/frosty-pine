@@ -141,6 +141,7 @@ class ItemsListDisplay extends StatelessWidget {
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      spacing: 15,
       children: [
         if (items.isEmpty) Text(context.i18n('transactions_tab.new_transaction_dialog.items.no_items')) else ...items,
         if (state.showAddItemButton)
@@ -149,42 +150,41 @@ class ItemsListDisplay extends StatelessWidget {
     );
   }
 
-  Widget toItemRow(BuildContext context, TransactionItemDisplayModel i) => Row(
+  Widget toItemRow(BuildContext context, TransactionItemDisplayModel i) => OverflowBar(
     key: ValueKey<String>(i.key),
+    alignment: MainAxisAlignment.center,
+    overflowSpacing: 10,
+    overflowAlignment: OverflowBarAlignment.center,
     spacing: 10,
     children: [
       ProductsDropDown(products: state.products, value: i.productValue, onChanged: (String? value) => newTransactionCubit.setProductValue(i.key, value)),
       UnitsDropDown(units: state.units, value: i.unitValue, onChanged: (unit) => newTransactionCubit.setUnitValue(i.key, unit)),
       if (i.unitValue?.requiresNumericalValue ?? false)
-        Expanded(
-          child: TextField(
-            decoration: InputDecoration(label: Text(context.i18n('transactions_tab.new_transaction_dialog.items.unit_amount_label'))),
-            inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(8)],
-            textInputAction: TextInputAction.done,
-            keyboardType: TextInputType.numberWithOptions(decimal: i.unitValue?.hasDecimalPlaces ?? false),
-            onChanged: (value) => newTransactionCubit.setUnitAmount(i.key, value, Localizations.localeOf(context)),
-            controller:
-                i.unitAmount != null
-                    ? TextEditingController.fromValue(
-                      TextEditingValue(text: i.unitAmount!, selection: TextSelection.fromPosition(TextPosition(offset: i.unitAmount!.length))),
-                    )
-                    : null,
-          ),
-        ),
-      Expanded(
-        child: TextField(
-          decoration: InputDecoration(label: Text(context.i18n('transactions_tab.new_transaction_dialog.items.unitary_price_label'))),
+        TextField(
+          decoration: InputDecoration(label: Text(context.i18n('transactions_tab.new_transaction_dialog.items.unit_amount_label'))),
           inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(8)],
           textInputAction: TextInputAction.done,
-          keyboardType: const TextInputType.numberWithOptions(decimal: true),
-          onChanged: (value) => newTransactionCubit.setUnitaryPrice(i.key, value, Localizations.localeOf(context)),
+          keyboardType: TextInputType.numberWithOptions(decimal: i.unitValue?.hasDecimalPlaces ?? false),
+          onChanged: (value) => newTransactionCubit.setUnitAmount(i.key, value, Localizations.localeOf(context)),
           controller:
-              i.unitaryPrice != null
+              i.unitAmount != null
                   ? TextEditingController.fromValue(
-                    TextEditingValue(text: i.unitaryPrice!, selection: TextSelection.fromPosition(TextPosition(offset: i.unitaryPrice!.length))),
+                    TextEditingValue(text: i.unitAmount!, selection: TextSelection.fromPosition(TextPosition(offset: i.unitAmount!.length))),
                   )
                   : null,
         ),
+      TextField(
+        decoration: InputDecoration(label: Text(context.i18n('transactions_tab.new_transaction_dialog.items.unitary_price_label'))),
+        inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(8)],
+        textInputAction: TextInputAction.done,
+        keyboardType: const TextInputType.numberWithOptions(decimal: true),
+        onChanged: (value) => newTransactionCubit.setUnitaryPrice(i.key, value, Localizations.localeOf(context)),
+        controller:
+            i.unitaryPrice != null
+                ? TextEditingController.fromValue(
+                  TextEditingValue(text: i.unitaryPrice!, selection: TextSelection.fromPosition(TextPosition(offset: i.unitaryPrice!.length))),
+                )
+                : null,
       ),
     ],
   );
