@@ -4,7 +4,7 @@ use std::collections::HashMap;
 
 use clap::Parser;
 use expense_tracking::domain::repositories::BrandRepository;
-use in_memory_storage::data::repositories::BrandRepositoryInMemoryImpl;
+use in_memory_storage::application::repositories::BrandRepositoryInMemoryImpl;
 use presentation::{FrostyPineCli, clap_args::CliArgs};
 
 #[tokio::main()]
