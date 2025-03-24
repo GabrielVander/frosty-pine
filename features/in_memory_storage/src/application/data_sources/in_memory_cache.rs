@@ -1,7 +1,5 @@
 use std::collections::HashMap;
 
-use expense_tracking::domain::entities::Store;
-
 #[derive(Debug)]
 struct InMemoryCache {
     stores: HashMap<String, StoreModel>,
