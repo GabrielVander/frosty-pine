@@ -16,5 +16,7 @@ pub trait BrandRepository: std::fmt::Debug {
     async fn retrieve_all(&self) -> Result<Vec<Brand>, BrandRepositoryError>;
 }
 
-#[derive(Debug, PartialEq)]
-pub enum BrandRepositoryError {}
+#[derive(Debug, Clone, PartialEq)]
+pub enum BrandRepositoryError {
+    Generic(String),
+}
