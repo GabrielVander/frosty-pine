@@ -4,14 +4,7 @@ use crate::domain::entities::Brand;
 
 #[async_trait]
 pub trait BrandRepository: std::fmt::Debug {
-    /// If the brand was created, [`None`] is returned.
-    ///
-    /// If the brand was updated the old
-    /// value is returned
-    async fn create_or_update(
-        &mut self,
-        brand: &Brand,
-    ) -> Result<Option<Brand>, BrandRepositoryError>;
+    async fn create(&mut self, brand: &Brand) -> Result<Brand, BrandRepositoryError>;
 
     async fn retrieve_all(&self) -> Result<Vec<Brand>, BrandRepositoryError>;
 }
@@ -19,4 +12,6 @@ pub trait BrandRepository: std::fmt::Debug {
 #[derive(Debug, Clone, PartialEq)]
 pub enum BrandRepositoryError {
     Generic(String),
+    UnableToSaveBrand(String),
+    BrandAlreadyExists,
 }

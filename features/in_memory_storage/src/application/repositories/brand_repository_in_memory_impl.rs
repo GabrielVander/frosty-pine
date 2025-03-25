@@ -8,7 +8,7 @@ use expense_tracking::domain::{
     repositories::{BrandRepository, BrandRepositoryError},
 };
 
-#[derive(Debug, Clone, Default, PartialEq)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct BrandRepositoryInMemoryImpl {
     hash_map: HashMap<UuidB64, Brand>,
 }
@@ -21,11 +21,13 @@ impl BrandRepositoryInMemoryImpl {
 
 #[async_trait]
 impl BrandRepository for BrandRepositoryInMemoryImpl {
-    async fn create_or_update(
-        &mut self,
-        brand: &Brand,
-    ) -> Result<Option<Brand>, BrandRepositoryError> {
-        Ok(self.hash_map.insert(brand.id, brand.clone()))
+    async fn create(&mut self, brand: &Brand) -> Result<Brand, BrandRepositoryError> {
+        if (self.hash_map.contains_key(&brand.id)) {
+            return Err(BrandRepositoryError::BrandAlreadyExists);
+        }
+
+        self.hash_map.insert(brand.id, brand.clone());
+        Ok(brand.clone())
     }
 
     async fn retrieve_all(&self) -> Result<Vec<Brand>, BrandRepositoryError> {
@@ -99,13 +101,12 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn create_or_update_should_add_new_brand_given_empty_repository() {
+    async fn add_new_brand_given_empty_repository() {
         let brand: Brand = Brand::new(None, "New Brand".into());
         let mut repository: BrandRepositoryInMemoryImpl = given_empty_repository();
 
-        let result: Result<Option<Brand>, BrandRepositoryError> =
-            repository.create_or_update(&brand).await;
-        let expected: Result<Option<Brand>, BrandRepositoryError> = Ok(None);
+        let result: Result<Brand, BrandRepositoryError> = repository.create(&brand).await;
+        let expected: Result<Brand, BrandRepositoryError> = Ok(brand.clone());
 
         assert_eq!(
             result, expected,
@@ -115,7 +116,7 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn create_or_update_should_add_new_brand_given_full_repository() {
+    async fn add_new_brand_given_full_repository() {
         let brand: Brand = Brand::new(None, "New Brand".into());
         let mut repository: BrandRepositoryInMemoryImpl = given_repository_with(vec![
             given_new_brand(),
@@ -123,9 +124,8 @@ mod tests {
             given_new_brand(),
         ]);
 
-        let result: Result<Option<Brand>, BrandRepositoryError> =
-            repository.create_or_update(&brand).await;
-        let expected: Result<Option<Brand>, BrandRepositoryError> = Ok(None);
+        let result: Result<Brand, BrandRepositoryError> = repository.create(&brand).await;
+        let expected: Result<Brand, BrandRepositoryError> = Ok(brand);
 
         assert_eq!(
             result, expected,
@@ -135,19 +135,18 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn create_or_update_should_update_brand_given_full_repository() {
-        let old_brand: Brand = Brand::new(None, "New Brand".into());
-        let updated_brand: Brand = Brand::new(Some(old_brand.id), "New Updated Brand".into());
+    async fn add_existing_brand_given_full_repository() {
+        let existing_brand: Brand = Brand::new(None, "Existing Brand".to_owned());
 
         let mut repository: BrandRepositoryInMemoryImpl = given_repository_with(vec![
             given_new_brand(),
-            old_brand.clone(),
+            existing_brand.clone(),
             given_new_brand(),
         ]);
 
-        let result: Result<Option<Brand>, BrandRepositoryError> =
-            repository.create_or_update(&updated_brand).await;
-        let expected: Result<Option<Brand>, BrandRepositoryError> = Ok(Some(old_brand));
+        let result: Result<Brand, BrandRepositoryError> = repository.create(&existing_brand).await;
+        let expected: Result<Brand, BrandRepositoryError> =
+            Err(BrandRepositoryError::BrandAlreadyExists);
 
         assert_eq!(
             result, expected,
