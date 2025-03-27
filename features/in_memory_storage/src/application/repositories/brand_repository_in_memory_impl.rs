@@ -10,11 +10,11 @@ use expense_tracking::domain::{
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct BrandRepositoryInMemoryImpl {
-    hash_map: HashMap<UuidB64, Brand>,
+    hash_map: HashMap<String, Brand>,
 }
 
 impl BrandRepositoryInMemoryImpl {
-    pub fn new(hash_map: HashMap<UuidB64, Brand>) -> Self {
+    pub fn new(hash_map: HashMap<String, Brand>) -> Self {
         Self { hash_map }
     }
 }
@@ -22,11 +22,11 @@ impl BrandRepositoryInMemoryImpl {
 #[async_trait]
 impl BrandRepository for BrandRepositoryInMemoryImpl {
     async fn create(&mut self, brand: &Brand) -> Result<Brand, BrandRepositoryError> {
-        if (self.hash_map.contains_key(&brand.id)) {
+        if (self.hash_map.contains_key(&brand.name)) {
             return Err(BrandRepositoryError::BrandAlreadyExists);
         }
 
-        self.hash_map.insert(brand.id, brand.clone());
+        self.hash_map.insert(brand.name.clone(), brand.clone());
         Ok(brand.clone())
     }
 
@@ -55,13 +55,13 @@ mod tests {
         BrandRepositoryInMemoryImpl::new(
             brands
                 .into_iter()
-                .map(|b| (b.id, b))
-                .collect::<HashMap<UuidB64, Brand>>(),
+                .map(|b| (b.name.clone(), b.clone()))
+                .collect::<HashMap<String, Brand>>(),
         )
     }
 
     fn given_new_brand() -> Brand {
-        Brand::new(None, String::default())
+        Brand::new(String::default())
     }
 
     macro_rules! retrieve_all {
@@ -79,10 +79,10 @@ mod tests {
                 assert!(result.is_ok(), "Expected Ok, got {:?}", result);
 
                 let mut expected_brands: Vec<Brand> = brands.clone();
-                expected_brands.sort_by(|a, b| a.id.cmp(&b.id));
+                expected_brands.sort_by(|a, b| a.name.cmp(&b.name));
 
                 let mut sorted_result: Vec<Brand> = result.unwrap();
-                sorted_result.sort_by(|a, b| a.id.cmp(&b.id));
+                sorted_result.sort_by(|a, b| a.name.cmp(&b.name));
 
                 assert_eq!(
                     sorted_result, expected_brands,
@@ -96,13 +96,13 @@ mod tests {
 
     retrieve_all! {
         no_brands: &vec![],
-        one_brand: &vec![given_new_brand()],
-        multiple_brands: &vec![given_new_brand(), given_new_brand(), given_new_brand()],
+        one_brand: &vec![Brand::new("Mora Radunz".to_owned())],
+        multiple_brands: &vec![Brand::new("Otto Shuff".to_owned()), Brand::new("Signe Dadlani".to_owned()), Brand::new("Randal Tuong".to_owned())],
     }
 
     #[tokio::test]
     async fn add_new_brand_given_empty_repository() {
-        let brand: Brand = Brand::new(None, "New Brand".into());
+        let brand: Brand = Brand::new("New Brand".into());
         let mut repository: BrandRepositoryInMemoryImpl = given_empty_repository();
 
         let result: Result<Brand, BrandRepositoryError> = repository.create(&brand).await;
@@ -117,7 +117,7 @@ mod tests {
 
     #[tokio::test]
     async fn add_new_brand_given_full_repository() {
-        let brand: Brand = Brand::new(None, "New Brand".into());
+        let brand: Brand = Brand::new("New Brand".into());
         let mut repository: BrandRepositoryInMemoryImpl = given_repository_with(vec![
             given_new_brand(),
             given_new_brand(),
@@ -136,7 +136,7 @@ mod tests {
 
     #[tokio::test]
     async fn add_existing_brand_given_full_repository() {
-        let existing_brand: Brand = Brand::new(None, "Existing Brand".to_owned());
+        let existing_brand: Brand = Brand::new("Existing Brand".to_owned());
 
         let mut repository: BrandRepositoryInMemoryImpl = given_repository_with(vec![
             given_new_brand(),

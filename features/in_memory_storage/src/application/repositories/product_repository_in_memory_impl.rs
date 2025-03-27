@@ -59,7 +59,7 @@ mod tests {
     }
 
     fn given_new_brand() -> Brand {
-        Brand::new(None, String::default())
+        Brand::new(String::default())
     }
 
     fn given_new_category() -> Category {

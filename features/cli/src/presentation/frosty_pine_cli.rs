@@ -23,8 +23,8 @@ impl FrostyPineCli {
         match &self.cli_args.service {
             Service::Brands(args) => match &args.command {
                 BrandCommands::Add { name } => {
-                    let new_brand = Brand::new(None, name.clone());
-                    self.brand_repository.create_or_update(&new_brand).await;
+                    let new_brand = Brand::new(name.clone());
+                    self.brand_repository.create(&new_brand).await;
                 }
                 BrandCommands::Get { id, name } => {
                     if name.clone().and(id.clone()).is_none() {
