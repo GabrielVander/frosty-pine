@@ -11,10 +11,13 @@ import 'package:frosy_pine/features/ui/presentation/application.dart';
 import 'package:frosy_pine/features/ui/presentation/utils/bloc_observer.dart';
 import 'package:frosy_pine/features/ui/presentation/widgets/brands/state/brand_cubit.dart';
 import 'package:frosy_pine/features/ui/presentation/widgets/transactions/state/new_transaction_cubit.dart';
+import 'package:frosy_pine/src/rust/api/brand_controller.dart';
+import 'package:frosy_pine/src/rust/frb_generated.dart';
 import 'package:intl/intl.dart';
 
 Future<void> main() async {
   Bloc.observer = SimpleBlocObserver();
+  await RustLib.init();
 
   final FlutterI18nDelegate flutterI18nDelegate = FlutterI18nDelegate(
     translationLoader: FileTranslationLoader(useCountryCode: true, basePath: 'assets/i18n', fallbackFile: 'en_us.yaml'),
@@ -59,7 +62,9 @@ Future<void> main() async {
     retrieveAvailableProductsUseCase: retrieveAvailableProductsUseCase,
   );
 
-  final BrandCubit brandCubit = BrandCubit();
+  final BrandController brandController = BrandController();
+
+  final BrandCubit brandCubit = BrandCubit(brandController: brandController);
 
   WidgetsFlutterBinding.ensureInitialized();
 

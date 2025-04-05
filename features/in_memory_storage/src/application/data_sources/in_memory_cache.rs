@@ -204,9 +204,9 @@ impl TransactionModel {
 
 #[cfg(test)]
 mod tests {
-    use std::collections::HashMap;
+    
 
-    use expense_tracking::domain::entities::Store;
+    
 
     use crate::application::data_sources::in_memory_cache::{
         BrandModel, CategoryModel, ItemModel, ProductModel, TransactionModel, UnitModel,

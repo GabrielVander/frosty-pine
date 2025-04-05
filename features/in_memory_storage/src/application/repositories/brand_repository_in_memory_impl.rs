@@ -1,7 +1,6 @@
 use std::collections::HashMap;
 
 use async_trait::async_trait;
-use uuid_b64::UuidB64;
 
 use expense_tracking::domain::{
     entities::Brand,
@@ -22,7 +21,7 @@ impl BrandRepositoryInMemoryImpl {
 #[async_trait]
 impl BrandRepository for BrandRepositoryInMemoryImpl {
     async fn create(&mut self, brand: &Brand) -> Result<Brand, BrandRepositoryError> {
-        if (self.hash_map.contains_key(&brand.name)) {
+        if self.hash_map.contains_key(&brand.name) {
             return Err(BrandRepositoryError::BrandAlreadyExists);
         }
 
@@ -38,8 +37,6 @@ impl BrandRepository for BrandRepositoryInMemoryImpl {
 #[cfg(test)]
 mod tests {
     use std::collections::HashMap;
-
-    use uuid_b64::UuidB64;
 
     use super::BrandRepositoryInMemoryImpl;
     use expense_tracking::domain::{

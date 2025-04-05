@@ -7,8 +7,11 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'package:frosy_pine/src/rust/api/models.dart';
 import 'package:frosy_pine/src/rust/frb_generated.dart';
 
-Future<BrandModel> addNewBrand({required String name}) =>
-    RustLib.instance.api.crateApiBrandControllerAddNewBrand(name: name);
+// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `fmt`
 
-// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<AddNewBrandUseCaseError>>
-abstract class AddNewBrandUseCaseError implements RustOpaqueInterface {}
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<BrandController>>
+abstract class BrandController implements RustOpaqueInterface {
+  factory BrandController() =>
+      RustLib.instance.api.crateApiBrandControllerBrandControllerNew();
+  Future<BrandModel> addNewBrand({required String name});
+}

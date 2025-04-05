@@ -49,8 +49,12 @@ class NewBrandDialog extends StatelessWidget {
       content: BlocBuilder(
         bloc: cubit,
         builder:
-            (BuildContext context, BrandCubitState state) =>
-                TextField(controller: TextEditingController.fromValue(TextEditingValue(text: state.newBrandName ?? '')), onChanged: cubit.onNewBrandNameChange),
+            (BuildContext context, BrandCubitState state) => TextField(
+              controller: TextEditingController.fromValue(
+                TextEditingValue(text: state.newBrandName ?? '', selection: TextSelection.fromPosition(TextPosition(offset: state.newBrandName?.length ?? 0))),
+              ),
+              onChanged: cubit.onNewBrandNameChange,
+            ),
       ),
       actions: <Widget>[
         TextButton(
@@ -59,12 +63,7 @@ class NewBrandDialog extends StatelessWidget {
             Navigator.of(context).pop();
           },
         ),
-        ElevatedButton(
-          child: Text(context.i18n('brands_tab.new_brand_dialog.save_button')),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
+        ElevatedButton(onPressed: cubit.createBrand, child: Text(context.i18n('brands_tab.new_brand_dialog.save_button'))),
       ],
     );
   }

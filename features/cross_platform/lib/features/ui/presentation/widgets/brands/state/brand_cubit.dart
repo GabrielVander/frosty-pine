@@ -1,11 +1,18 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:frosy_pine/src/rust/api/brand_controller.dart';
 import 'package:rust/rust.dart';
 
 class BrandCubit extends Cubit<BrandCubitState> {
-  BrandCubit() : super(const BrandCubitState(newBrandName: null));
+  BrandCubit({required this.brandController}) : super(const BrandCubitState(newBrandName: null));
 
-  void onNewBrandNameChange(String? value) {}
+  final BrandController brandController;
+
+  void onNewBrandNameChange(String? value) {
+    emit(state.copyWith(newBrandName: Some(value)));
+  }
+
+  Future<void> createBrand() async {}
 }
 
 final class BrandCubitState extends Equatable {
