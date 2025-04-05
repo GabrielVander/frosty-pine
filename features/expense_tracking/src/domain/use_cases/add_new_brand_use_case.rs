@@ -3,17 +3,17 @@ use crate::domain::{
     repositories::{BrandRepository, BrandRepositoryError},
 };
 
-#[derive(Debug, Clone)]
-struct AddNewBrandUseCase<'a> {
-    brand_repository: &'a dyn BrandRepository,
+#[derive(Debug)]
+pub struct AddNewBrandUseCase {
+    brand_repository: Box<dyn BrandRepository>,
 }
 
-impl<'a> AddNewBrandUseCase<'a> {
-    fn new(brand_repository: &'a dyn BrandRepository) -> Self {
+impl AddNewBrandUseCase {
+    pub fn new(brand_repository: Box<dyn BrandRepository>) -> Self {
         Self { brand_repository }
     }
 
-    async fn execute(&self, name: String) -> Result<Brand, AddNewBrandUseCaseError> {
+    pub async fn execute(&mut self, name: String) -> Result<Brand, AddNewBrandUseCaseError> {
         if name.trim().is_empty() {
             return Err(AddNewBrandUseCaseError::InvalidName(format!(
                 "The name '{}' is not valid",
@@ -31,7 +31,7 @@ impl<'a> AddNewBrandUseCase<'a> {
 }
 
 #[derive(Debug, PartialEq)]
-enum AddNewBrandUseCaseError {
+pub enum AddNewBrandUseCaseError {
     InvalidName(String),
     BrandAlreadyExists,
     UnableToSaveBrand(String),
@@ -52,11 +52,11 @@ impl From<BrandRepositoryError> for AddNewBrandUseCaseError {
 mod tests {
     use async_trait::async_trait;
 
-    use std::fmt::Debug;
     use crate::domain::{
         entities::Brand,
         repositories::{BrandRepository, BrandRepositoryError},
     };
+    use std::fmt::Debug;
     use tokio;
 
     use super::{AddNewBrandUseCase, AddNewBrandUseCaseError};
@@ -89,8 +89,9 @@ mod tests {
     #[tokio::test]
     async fn should_fail_if_brand_already_exists() {
         let brand_repository: BrandRepositoryMockImplementation =
-            BrandRepositoryMockImplementation::on_create_returns(Err(BrandRepositoryError::BrandAlreadyExists)
-            );
+            BrandRepositoryMockImplementation::on_create_returns(Err(
+                BrandRepositoryError::BrandAlreadyExists,
+            ));
 
         let use_case: AddNewBrandUseCase = AddNewBrandUseCase::new(&brand_repository);
 
@@ -104,7 +105,9 @@ mod tests {
         let unable_to_save_details: String =
             "Vitae erat lacus nam auctor tempor proin imperdiet purus aliquam sed".to_owned();
         let brand_repository: BrandRepositoryMockImplementation =
-            BrandRepositoryMockImplementation::on_create_returns(Err(BrandRepositoryError::UnableToSaveBrand(unable_to_save_details.clone())));
+            BrandRepositoryMockImplementation::on_create_returns(Err(
+                BrandRepositoryError::UnableToSaveBrand(unable_to_save_details.clone()),
+            ));
 
         let use_case: AddNewBrandUseCase = AddNewBrandUseCase::new(&brand_repository);
 
@@ -134,7 +137,7 @@ mod tests {
     #[derive(Debug)]
     struct BrandRepositoryMockImplementation {
         on_create: Option<Result<Brand, BrandRepositoryError>>,
-        on_retrieve_all:  Option<Result<Vec<Brand>, BrandRepositoryError>>,
+        on_retrieve_all: Option<Result<Vec<Brand>, BrandRepositoryError>>,
     }
 
     impl BrandRepositoryMockImplementation {
@@ -163,5 +166,4 @@ mod tests {
             self.on_retrieve_all.clone().unwrap_or_else(|| todo!())
         }
     }
-
 }

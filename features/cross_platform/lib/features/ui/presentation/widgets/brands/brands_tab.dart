@@ -1,36 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frosy_pine/features/ui/presentation/utils/context_extensions.dart';
+import 'package:frosy_pine/features/ui/presentation/widgets/brands/state/brand_cubit.dart';
 
 class BrandsTab extends StatelessWidget {
-  BrandsTab({super.key});
+  BrandsTab({required this.cubit, super.key});
 
   final List<String> brands = ['Nestlé', 'Nike', 'Google'];
+
+  final BrandCubit cubit;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Expanded(child: BrandListDisplay(brands: brands)),
-        const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [AddNewBrandButton()],
-        ),
+        Row(mainAxisAlignment: MainAxisAlignment.center, children: [AddNewBrandButton(cubit: cubit)]),
       ],
     );
   }
 }
 
 class AddNewBrandButton extends StatelessWidget {
-  const AddNewBrandButton({super.key});
+  const AddNewBrandButton({required this.cubit, super.key});
+
+  final BrandCubit cubit;
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed:
-          () => showDialog<void>(
-            context: context,
-            builder: (BuildContext context) => const NewBrandDialog(),
-          ),
+      onPressed: () => showDialog<void>(context: context, builder: (BuildContext context) => NewBrandDialog(cubit: cubit)),
       icon: const Icon(Icons.add),
       iconSize: 60,
       color: Theme.of(context).primaryColor,
@@ -39,18 +38,23 @@ class AddNewBrandButton extends StatelessWidget {
 }
 
 class NewBrandDialog extends StatelessWidget {
-  const NewBrandDialog({super.key});
+  const NewBrandDialog({required this.cubit, super.key});
+
+  final BrandCubit cubit;
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text(context.i18n('brands_tab.new_brand_dialog.title')),
-      content: Container(),
+      content: BlocBuilder(
+        bloc: cubit,
+        builder:
+            (BuildContext context, BrandCubitState state) =>
+                TextField(controller: TextEditingController.fromValue(TextEditingValue(text: state.newBrandName ?? '')), onChanged: cubit.onNewBrandNameChange),
+      ),
       actions: <Widget>[
         TextButton(
-          child: Text(
-            context.i18n('brands_tab.new_brand_dialog.cancel_button'),
-          ),
+          child: Text(context.i18n('brands_tab.new_brand_dialog.cancel_button')),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -75,8 +79,7 @@ class BrandListDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.separated(
       itemCount: brands.length,
-      itemBuilder:
-          (_, index) => Card(child: ListTile(title: Text(brands[index]))),
+      itemBuilder: (_, index) => Card(child: ListTile(title: Text(brands[index]))),
       separatorBuilder: (_, _) => const SizedBox(height: 10),
     );
   }

@@ -21,7 +21,7 @@ impl BrandRepositoryInMemoryImpl {
 
 #[async_trait]
 impl BrandRepository for BrandRepositoryInMemoryImpl {
-    async fn create(&self, brand: &Brand) -> Result<Brand, BrandRepositoryError> {
+    async fn create(&mut self, brand: &Brand) -> Result<Brand, BrandRepositoryError> {
         if (self.hash_map.contains_key(&brand.name)) {
             return Err(BrandRepositoryError::BrandAlreadyExists);
         }

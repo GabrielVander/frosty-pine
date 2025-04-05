@@ -7,6 +7,8 @@ edition = "2021"
 crate-type = ["cdylib", "staticlib"]
 
 [dependencies]
+expense_tracking = { path = "../expense_tracking" }
+in_memory_storage = { path = "../in_memory_storage" }
 flutter_rust_bridge = "=2.9.0"
 
 [lints.rust]

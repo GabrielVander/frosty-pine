@@ -9,6 +9,7 @@ import 'package:frosy_pine/features/in_memory_persistence/application/repositori
 import 'package:frosy_pine/features/in_memory_persistence/application/repositories/store_repository_in_memory_impl.dart';
 import 'package:frosy_pine/features/ui/presentation/application.dart';
 import 'package:frosy_pine/features/ui/presentation/utils/bloc_observer.dart';
+import 'package:frosy_pine/features/ui/presentation/widgets/brands/state/brand_cubit.dart';
 import 'package:frosy_pine/features/ui/presentation/widgets/transactions/state/new_transaction_cubit.dart';
 import 'package:intl/intl.dart';
 
@@ -58,7 +59,9 @@ Future<void> main() async {
     retrieveAvailableProductsUseCase: retrieveAvailableProductsUseCase,
   );
 
+  final BrandCubit brandCubit = BrandCubit();
+
   WidgetsFlutterBinding.ensureInitialized();
 
-  runApp(FrostyPine(flutterI18nDelegate: flutterI18nDelegate, newTransactionCubit: newTransactionCubit));
+  runApp(FrostyPine(flutterI18nDelegate: flutterI18nDelegate, newTransactionCubit: newTransactionCubit, brandCubit: brandCubit));
 }
