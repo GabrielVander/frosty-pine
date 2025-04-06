@@ -4,7 +4,7 @@ use async_trait::async_trait;
 
 use expense_tracking::domain::{
     entities::Brand,
-    repositories::{BrandRepository, BrandRepositoryError},
+    repositories::{BrandRepository, BrandRepositoryCreateError, BrandRepositoryRetrieveAllError},
 };
 
 #[derive(Debug, Clone, PartialEq)]
@@ -20,16 +20,16 @@ impl BrandRepositoryInMemoryImpl {
 
 #[async_trait]
 impl BrandRepository for BrandRepositoryInMemoryImpl {
-    async fn create(&mut self, brand: &Brand) -> Result<Brand, BrandRepositoryError> {
+    async fn create(&mut self, brand: &Brand) -> Result<Brand, BrandRepositoryCreateError> {
         if self.hash_map.contains_key(&brand.name) {
-            return Err(BrandRepositoryError::BrandAlreadyExists);
+            return Err(BrandRepositoryCreateError::BrandAlreadyExists);
         }
 
         self.hash_map.insert(brand.name.clone(), brand.clone());
         Ok(brand.clone())
     }
 
-    async fn retrieve_all(&self) -> Result<Vec<Brand>, BrandRepositoryError> {
+    async fn retrieve_all(&self) -> Result<Vec<Brand>, BrandRepositoryRetrieveAllError> {
         Ok(self.hash_map.values().cloned().collect())
     }
 }
@@ -41,7 +41,9 @@ mod tests {
     use super::BrandRepositoryInMemoryImpl;
     use expense_tracking::domain::{
         entities::Brand,
-        repositories::{BrandRepository, BrandRepositoryError},
+        repositories::{
+            BrandRepository, BrandRepositoryCreateError, BrandRepositoryRetrieveAllError,
+        },
     };
 
     fn given_empty_repository() -> BrandRepositoryInMemoryImpl {
@@ -70,7 +72,7 @@ mod tests {
 
                 let repository: BrandRepositoryInMemoryImpl = given_repository_with(brands.clone());
 
-                let result: Result<Vec<Brand>, BrandRepositoryError> =
+                let result: Result<Vec<Brand>, BrandRepositoryRetrieveAllError> =
                     repository.retrieve_all().await;
 
                 assert!(result.is_ok(), "Expected Ok, got {:?}", result);
@@ -102,8 +104,8 @@ mod tests {
         let brand: Brand = Brand::new("New Brand".into());
         let mut repository: BrandRepositoryInMemoryImpl = given_empty_repository();
 
-        let result: Result<Brand, BrandRepositoryError> = repository.create(&brand).await;
-        let expected: Result<Brand, BrandRepositoryError> = Ok(brand.clone());
+        let result: Result<Brand, BrandRepositoryCreateError> = repository.create(&brand).await;
+        let expected: Result<Brand, BrandRepositoryCreateError> = Ok(brand.clone());
 
         assert_eq!(
             result, expected,
@@ -121,8 +123,8 @@ mod tests {
             given_new_brand(),
         ]);
 
-        let result: Result<Brand, BrandRepositoryError> = repository.create(&brand).await;
-        let expected: Result<Brand, BrandRepositoryError> = Ok(brand);
+        let result: Result<Brand, BrandRepositoryCreateError> = repository.create(&brand).await;
+        let expected: Result<Brand, BrandRepositoryCreateError> = Ok(brand);
 
         assert_eq!(
             result, expected,
@@ -141,9 +143,10 @@ mod tests {
             given_new_brand(),
         ]);
 
-        let result: Result<Brand, BrandRepositoryError> = repository.create(&existing_brand).await;
-        let expected: Result<Brand, BrandRepositoryError> =
-            Err(BrandRepositoryError::BrandAlreadyExists);
+        let result: Result<Brand, BrandRepositoryCreateError> =
+            repository.create(&existing_brand).await;
+        let expected: Result<Brand, BrandRepositoryCreateError> =
+            Err(BrandRepositoryCreateError::BrandAlreadyExists);
 
         assert_eq!(
             result, expected,

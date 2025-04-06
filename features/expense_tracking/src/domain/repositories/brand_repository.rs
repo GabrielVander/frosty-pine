@@ -4,13 +4,18 @@ use crate::domain::entities::Brand;
 
 #[async_trait]
 pub trait BrandRepository: std::fmt::Debug {
-    async fn create(&mut self, brand: &Brand) -> Result<Brand, BrandRepositoryError>;
+    async fn create(&mut self, brand: &Brand) -> Result<Brand, BrandRepositoryCreateError>;
 
-    async fn retrieve_all(&self) -> Result<Vec<Brand>, BrandRepositoryError>;
+    async fn retrieve_all(&self) -> Result<Vec<Brand>, BrandRepositoryRetrieveAllError>;
 }
 
 #[derive(Debug, Clone, PartialEq)]
-pub enum BrandRepositoryError {
+pub enum BrandRepositoryCreateError {
     UnableToSaveBrand(String),
     BrandAlreadyExists,
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub enum BrandRepositoryRetrieveAllError {
+    UnableToRetrieveBrands(String),
 }

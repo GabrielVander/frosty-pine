@@ -5,7 +5,8 @@ mod store_repository;
 mod transaction_repository;
 
 pub use brand_repository::BrandRepository;
-pub use brand_repository::BrandRepositoryError;
+pub use brand_repository::BrandRepositoryCreateError;
+pub use brand_repository::BrandRepositoryRetrieveAllError;
 pub use category_repository::CategoryRepository;
 pub use category_repository::CategoryRepositoryError;
 pub use product_repository::ProductRepository;

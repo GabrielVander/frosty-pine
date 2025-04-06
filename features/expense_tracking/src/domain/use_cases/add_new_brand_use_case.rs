@@ -1,6 +1,6 @@
 use crate::domain::{
     entities::Brand,
-    repositories::{BrandRepository, BrandRepositoryError},
+    repositories::{BrandRepository, BrandRepositoryCreateError},
 };
 
 #[derive(Debug)]
@@ -37,11 +37,11 @@ pub enum AddNewBrandUseCaseError {
     UnableToSaveBrand(String),
 }
 
-impl From<BrandRepositoryError> for AddNewBrandUseCaseError {
-    fn from(value: BrandRepositoryError) -> Self {
+impl From<BrandRepositoryCreateError> for AddNewBrandUseCaseError {
+    fn from(value: BrandRepositoryCreateError) -> Self {
         match value {
-            BrandRepositoryError::BrandAlreadyExists => AddNewBrandUseCaseError::BrandAlreadyExists,
-            BrandRepositoryError::UnableToSaveBrand(details) => {
+            BrandRepositoryCreateError::BrandAlreadyExists => AddNewBrandUseCaseError::BrandAlreadyExists,
+            BrandRepositoryCreateError::UnableToSaveBrand(details) => {
                 AddNewBrandUseCaseError::UnableToSaveBrand(details)
             }
         }
@@ -54,7 +54,7 @@ mod tests {
 
     use crate::domain::{
         entities::Brand,
-        repositories::{BrandRepository, BrandRepositoryError},
+        repositories::{BrandRepository, BrandRepositoryCreateError, BrandRepositoryRetrieveAllError},
     };
     use std::fmt::Debug;
     use tokio;
@@ -89,7 +89,7 @@ mod tests {
     async fn should_fail_if_brand_already_exists() {
         let brand_repository: Box<dyn BrandRepository + Sync + Send> =
             Box::new(BrandRepositoryMockImplementation::on_create_returns(Err(
-                BrandRepositoryError::BrandAlreadyExists,
+                BrandRepositoryCreateError::BrandAlreadyExists,
             )));
 
         let mut use_case: AddNewBrandUseCase = AddNewBrandUseCase::new(brand_repository);
@@ -105,7 +105,7 @@ mod tests {
             "Vitae erat lacus nam auctor tempor proin imperdiet purus aliquam sed".to_owned();
         let brand_repository: Box<dyn BrandRepository + Sync + Send> =
             Box::new(BrandRepositoryMockImplementation::on_create_returns(Err(
-                BrandRepositoryError::UnableToSaveBrand(unable_to_save_details.clone()),
+                BrandRepositoryCreateError::UnableToSaveBrand(unable_to_save_details.clone()),
             )));
 
         let mut use_case: AddNewBrandUseCase = AddNewBrandUseCase::new(brand_repository);
@@ -124,7 +124,7 @@ mod tests {
     async fn should_return_brand_if_success() {
         let target_name: String = "Jeffery Murilla".to_owned();
         let expected_brand: Brand = Brand::new(target_name.clone());
-        let mut brand_repository: Box<dyn BrandRepository + Sync + Send> =
+        let brand_repository: Box<dyn BrandRepository + Sync + Send> =
             Box::new(BrandRepositoryMockImplementation::on_create_returns(Ok(expected_brand.clone())));
 
         let mut use_case: AddNewBrandUseCase = AddNewBrandUseCase::new(brand_repository);
@@ -135,34 +135,31 @@ mod tests {
 
     #[derive(Debug)]
     struct BrandRepositoryMockImplementation {
-        on_create: Option<Result<Brand, BrandRepositoryError>>,
-        on_retrieve_all: Option<Result<Vec<Brand>, BrandRepositoryError>>,
+        on_create: Option<Result<Brand, BrandRepositoryCreateError>>,
     }
 
     impl BrandRepositoryMockImplementation {
         fn none() -> Self {
             Self {
                 on_create: None,
-                on_retrieve_all: None,
             }
         }
 
-        fn on_create_returns(result: Result<Brand, BrandRepositoryError>) -> Self {
+        fn on_create_returns(result: Result<Brand, BrandRepositoryCreateError>) -> Self {
             Self {
                 on_create: Some(result),
-                on_retrieve_all: None,
             }
         }
     }
 
     #[async_trait]
     impl BrandRepository for BrandRepositoryMockImplementation {
-        async fn create(&mut self, _: &Brand) -> Result<Brand, BrandRepositoryError> {
+        async fn create(&mut self, _: &Brand) -> Result<Brand, BrandRepositoryCreateError> {
             self.on_create.clone().unwrap_or_else(|| todo!())
         }
 
-        async fn retrieve_all(&self) -> Result<Vec<Brand>, BrandRepositoryError> {
-            self.on_retrieve_all.clone().unwrap_or_else(|| todo!())
+        async fn retrieve_all(&self) -> Result<Vec<Brand>, BrandRepositoryRetrieveAllError> {
+            todo!()
         }
     }
 }
