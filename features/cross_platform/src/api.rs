@@ -1,2 +1,2 @@
 pub mod brand_controller;
-pub mod models;
+pub mod init;

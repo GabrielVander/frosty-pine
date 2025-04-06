@@ -4,9 +4,7 @@ import 'package:frosy_pine/features/ui/presentation/utils/context_extensions.dar
 import 'package:frosy_pine/features/ui/presentation/widgets/brands/state/brand_cubit.dart';
 
 class BrandsTab extends StatelessWidget {
-  BrandsTab({required this.cubit, super.key});
-
-  final List<String> brands = ['Nestlé', 'Nike', 'Google'];
+  const BrandsTab({required this.cubit, super.key});
 
   final BrandCubit cubit;
 
@@ -14,7 +12,7 @@ class BrandsTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Expanded(child: BrandListDisplay(brands: brands)),
+        Expanded(child: BrandListDisplay(cubit: cubit)),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [AddNewBrandButton(cubit: cubit)]),
       ],
     );
@@ -70,16 +68,25 @@ class NewBrandDialog extends StatelessWidget {
 }
 
 class BrandListDisplay extends StatelessWidget {
-  const BrandListDisplay({required this.brands, super.key});
+  const BrandListDisplay({required this.cubit, super.key});
 
-  final List<String> brands;
+  final BrandCubit cubit;
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      itemCount: brands.length,
-      itemBuilder: (_, index) => Card(child: ListTile(title: Text(brands[index]))),
-      separatorBuilder: (_, _) => const SizedBox(height: 10),
+    return BlocBuilder<BrandCubit, BrandCubitState>(
+      bloc: cubit,
+      builder: (BuildContext context, BrandCubitState state) {
+        if (state.brands.isEmpty) {
+          return Container();
+        }
+
+        return ListView.separated(
+          itemCount: state.brands.length,
+          itemBuilder: (_, index) => Card(child: ListTile(title: Text(state.brands[index]))),
+          separatorBuilder: (_, _) => const SizedBox(height: 10),
+        );
+      },
     );
   }
 }

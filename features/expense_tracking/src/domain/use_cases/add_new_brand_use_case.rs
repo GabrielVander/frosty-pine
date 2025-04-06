@@ -9,7 +9,7 @@ pub struct AddNewBrandUseCase {
 }
 
 impl AddNewBrandUseCase {
-    pub fn new(brand_repository: Box<dyn BrandRepository + Sync + Send>) -> Self {
+    pub fn new(brand_repository: Box<dyn BrandRepository + Sync + Send> ) -> Self {
         Self { brand_repository }
     }
 
@@ -63,10 +63,9 @@ mod tests {
 
     #[tokio::test]
     async fn should_fail_if_given_invalid_name() {
-        let brand_repository: Box<dyn BrandRepository> =
-            Box::new(BrandRepositoryMockImplementation::none());
+        let brand_repository: Box<dyn BrandRepository + Sync + Send> = Box::new(BrandRepositoryMockImplementation::none());
 
-        let mut use_case: AddNewBrandUseCase = AddNewBrandUseCase::new(brand_repository);
+        let mut use_case: AddNewBrandUseCase = AddNewBrandUseCase::new( brand_repository);
 
         let result: Result<Brand, AddNewBrandUseCaseError> = use_case.execute("".to_owned()).await;
         assert_eq!(
@@ -88,7 +87,7 @@ mod tests {
 
     #[tokio::test]
     async fn should_fail_if_brand_already_exists() {
-        let brand_repository: Box<dyn BrandRepository> =
+        let brand_repository: Box<dyn BrandRepository + Sync + Send> =
             Box::new(BrandRepositoryMockImplementation::on_create_returns(Err(
                 BrandRepositoryError::BrandAlreadyExists,
             )));
@@ -104,7 +103,7 @@ mod tests {
     async fn should_fail_if_unable_to_save() {
         let unable_to_save_details: String =
             "Vitae erat lacus nam auctor tempor proin imperdiet purus aliquam sed".to_owned();
-        let brand_repository: Box<dyn BrandRepository> =
+        let brand_repository: Box<dyn BrandRepository + Sync + Send> =
             Box::new(BrandRepositoryMockImplementation::on_create_returns(Err(
                 BrandRepositoryError::UnableToSaveBrand(unable_to_save_details.clone()),
             )));
@@ -125,9 +124,8 @@ mod tests {
     async fn should_return_brand_if_success() {
         let target_name: String = "Jeffery Murilla".to_owned();
         let expected_brand: Brand = Brand::new(target_name.clone());
-        let brand_repository: Box<dyn BrandRepository> = Box::new(
-            BrandRepositoryMockImplementation::on_create_returns(Ok(expected_brand.clone())),
-        );
+        let mut brand_repository: Box<dyn BrandRepository + Sync + Send> =
+            Box::new(BrandRepositoryMockImplementation::on_create_returns(Ok(expected_brand.clone())));
 
         let mut use_case: AddNewBrandUseCase = AddNewBrandUseCase::new(brand_repository);
 
