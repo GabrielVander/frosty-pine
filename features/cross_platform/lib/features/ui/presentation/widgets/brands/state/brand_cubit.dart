@@ -4,16 +4,23 @@ import 'package:frosy_pine/src/rust/api/brand_controller.dart';
 import 'package:rust/rust.dart';
 
 class BrandCubit extends Cubit<BrandCubitState> {
-  BrandCubit({required this.brandController}) : super(BrandCubitState(newBrandName: null, brands: List<String>.empty()));
+  BrandCubit({required this.addNewBrand, required this.retrieveAllBrands}) : super(BrandCubitState(newBrandName: null, brands: List<String>.empty()));
 
-  final BrandController brandController;
+  final Future<BrandModel> Function({required String name}) addNewBrand;
+  final Future<List<BrandModel>> Function() retrieveAllBrands;
 
   void onNewBrandNameChange(String? value) {
     emit(state.copyWith(newBrandName: Some(value)));
   }
 
   Future<void> createBrand() async {
-    await brandController.addNewBrand(name: state.newBrandName ?? '');
+    await addNewBrand(name: state.newBrandName ?? '');
+    await updateBrands();
+  }
+
+  Future<void> updateBrands() async {
+    final List<BrandModel> brands = await retrieveAllBrands();
+    emit(state.copyWith(brands: brands.map((b) => b.name).toList()));
   }
 }
 

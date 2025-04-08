@@ -64,13 +64,12 @@ Future<void> main() async {
     retrieveAvailableProductsUseCase: retrieveAvailableProductsUseCase,
   );
 
-  final BoxBrandRepository brandRepositoryInMemoryImpl = await createBrandRepositoryInMemoryImpl(data: {});
+  final ArcMutexHashMapStringBrand brandsData = await createBrandsInMemoryData();
 
-  final AddNewBrandUseCase addNewBrandUseCase = await createAddNewBrandUseCase(brandRepository: brandRepositoryInMemoryImpl);
-
-  final BrandController brandController = BrandController(addBrandUseCase: addNewBrandUseCase);
-
-  final BrandCubit brandCubit = BrandCubit(brandController: brandController);
+  final BrandCubit brandCubit = BrandCubit(
+    addNewBrand: ({required String name}) async => executeAddNewBrandUseCaseInMemory(data: brandsData, name: name),
+    retrieveAllBrands: () => executeRetrieveAllBrandsUseCase(data: brandsData),
+  );
 
   WidgetsFlutterBinding.ensureInitialized();
 

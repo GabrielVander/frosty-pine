@@ -1,4 +1,7 @@
-use std::collections::HashMap;
+use std::{
+    collections::HashMap,
+    sync::{Arc, Mutex},
+};
 
 use async_trait::async_trait;
 
@@ -7,36 +10,42 @@ use expense_tracking::domain::{
     repositories::{BrandRepository, BrandRepositoryCreateError, BrandRepositoryRetrieveAllError},
 };
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug)]
 pub struct BrandRepositoryInMemoryImpl {
-    hash_map: HashMap<String, Brand>,
+    hash_map: Arc<Mutex<HashMap<String, Brand>>>,
 }
 
 impl BrandRepositoryInMemoryImpl {
-    pub fn new(hash_map: HashMap<String, Brand>) -> Self {
+    pub fn new(hash_map: Arc<Mutex<HashMap<String, Brand>>>) -> Self {
         Self { hash_map }
     }
 }
 
 #[async_trait]
 impl BrandRepository for BrandRepositoryInMemoryImpl {
-    async fn create(&mut self, brand: &Brand) -> Result<Brand, BrandRepositoryCreateError> {
-        if self.hash_map.contains_key(&brand.name) {
+    async fn create(&self, brand: &Brand) -> Result<Brand, BrandRepositoryCreateError> {
+        if self.hash_map.lock().unwrap().contains_key(&brand.name) {
             return Err(BrandRepositoryCreateError::BrandAlreadyExists);
         }
 
-        self.hash_map.insert(brand.name.clone(), brand.clone());
+        self.hash_map
+            .lock()
+            .unwrap()
+            .insert(brand.name.clone(), brand.clone());
         Ok(brand.clone())
     }
 
     async fn retrieve_all(&self) -> Result<Vec<Brand>, BrandRepositoryRetrieveAllError> {
-        Ok(self.hash_map.values().cloned().collect())
+        Ok(self.hash_map.lock().unwrap().values().cloned().collect())
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use std::collections::HashMap;
+    use std::{
+        collections::HashMap,
+        sync::{Arc, Mutex},
+    };
 
     use super::BrandRepositoryInMemoryImpl;
     use expense_tracking::domain::{
@@ -45,19 +54,6 @@ mod tests {
             BrandRepository, BrandRepositoryCreateError, BrandRepositoryRetrieveAllError,
         },
     };
-
-    fn given_empty_repository() -> BrandRepositoryInMemoryImpl {
-        given_repository_with(Vec::new())
-    }
-
-    fn given_repository_with(brands: Vec<Brand>) -> BrandRepositoryInMemoryImpl {
-        BrandRepositoryInMemoryImpl::new(
-            brands
-                .into_iter()
-                .map(|b| (b.name.clone(), b.clone()))
-                .collect::<HashMap<String, Brand>>(),
-        )
-    }
 
     fn given_new_brand() -> Brand {
         Brand::new(String::default())
@@ -70,7 +66,12 @@ mod tests {
             async fn $name() {
                 let brands: &Vec<Brand> = $value;
 
-                let repository: BrandRepositoryInMemoryImpl = given_repository_with(brands.clone());
+                let data: Arc<Mutex<HashMap<String, Brand>>> = Arc::new(Mutex::new(brands
+                    .into_iter()
+                    .map(|b| (b.name.clone(), b.clone()))
+                    .collect::<HashMap<String, Brand>>()));
+
+                let repository: BrandRepositoryInMemoryImpl = BrandRepositoryInMemoryImpl::new(Arc::clone(&data));
 
                 let result: Result<Vec<Brand>, BrandRepositoryRetrieveAllError> =
                     repository.retrieve_all().await;
@@ -102,7 +103,9 @@ mod tests {
     #[tokio::test]
     async fn add_new_brand_given_empty_repository() {
         let brand: Brand = Brand::new("New Brand".into());
-        let mut repository: BrandRepositoryInMemoryImpl = given_empty_repository();
+        let data: Arc<Mutex<HashMap<String, Brand>>> = Arc::new(Mutex::new(HashMap::new()));
+        let repository: BrandRepositoryInMemoryImpl =
+            BrandRepositoryInMemoryImpl::new(Arc::clone(&data));
 
         let result: Result<Brand, BrandRepositoryCreateError> = repository.create(&brand).await;
         let expected: Result<Brand, BrandRepositoryCreateError> = Ok(brand.clone());
@@ -116,12 +119,17 @@ mod tests {
 
     #[tokio::test]
     async fn add_new_brand_given_full_repository() {
+        let data: Arc<Mutex<HashMap<String, Brand>>> = Arc::new(Mutex::new(
+            vec![given_new_brand(), given_new_brand(), given_new_brand()]
+                .into_iter()
+                .map(|b| (b.name.clone(), b.clone()))
+                .collect::<HashMap<String, Brand>>(),
+        ));
+
         let brand: Brand = Brand::new("New Brand".into());
-        let mut repository: BrandRepositoryInMemoryImpl = given_repository_with(vec![
-            given_new_brand(),
-            given_new_brand(),
-            given_new_brand(),
-        ]);
+
+        let repository: BrandRepositoryInMemoryImpl =
+            BrandRepositoryInMemoryImpl::new(Arc::clone(&data));
 
         let result: Result<Brand, BrandRepositoryCreateError> = repository.create(&brand).await;
         let expected: Result<Brand, BrandRepositoryCreateError> = Ok(brand);
@@ -137,11 +145,15 @@ mod tests {
     async fn add_existing_brand_given_full_repository() {
         let existing_brand: Brand = Brand::new("Existing Brand".to_owned());
 
-        let mut repository: BrandRepositoryInMemoryImpl = given_repository_with(vec![
-            given_new_brand(),
-            existing_brand.clone(),
-            given_new_brand(),
-        ]);
+        let data: Arc<Mutex<HashMap<String, Brand>>> = Arc::new(Mutex::new(
+            vec![given_new_brand(), existing_brand.clone(), given_new_brand()]
+                .into_iter()
+                .map(|b| (b.name.clone(), b.clone()))
+                .collect::<HashMap<String, Brand>>(),
+        ));
+
+        let repository: BrandRepositoryInMemoryImpl =
+            BrandRepositoryInMemoryImpl::new(Arc::clone(&data));
 
         let result: Result<Brand, BrandRepositoryCreateError> =
             repository.create(&existing_brand).await;

@@ -3,16 +3,17 @@ use crate::domain::{
     repositories::{BrandRepository, BrandRepositoryRetrieveAllError},
 };
 
-struct RetrieveAllBrandsUseCase {
-    brand_repository: Box<dyn BrandRepository + Sync + Send>,
+#[derive(Debug)]
+pub struct RetrieveAllBrandsUseCase {
+    brand_repository: Box<dyn BrandRepository>,
 }
 
 impl RetrieveAllBrandsUseCase {
-    pub fn new(brand_repository: Box<dyn BrandRepository + Sync + Send>) -> Self {
+    pub fn new(brand_repository: Box<dyn BrandRepository>) -> Self {
         Self { brand_repository }
     }
 
-    async fn execute(&self) -> Result<Vec<Brand>, RetrieveAllBrandsUseCaseError> {
+    pub async fn execute(&self) -> Result<Vec<Brand>, RetrieveAllBrandsUseCaseError> {
         self.brand_repository
             .retrieve_all()
             .await
@@ -56,11 +57,9 @@ mod tests {
                     let brand_repository_retrieve_all_result: Result<Vec<Brand>, BrandRepositoryRetrieveAllError> = $a;
                     let expected: Result<Vec<Brand>, RetrieveAllBrandsUseCaseError> = $b;
 
-                    let brand_repository: Box<dyn BrandRepository + Sync + Send> = Box::new(
-                        BrandRepositoryMockImplementation::on_retrieve_all_returns(brand_repository_retrieve_all_result),
-                    );
+                    let brand_repository: BrandRepositoryMockImplementation = BrandRepositoryMockImplementation::on_retrieve_all_returns(brand_repository_retrieve_all_result);
 
-                    let use_case: RetrieveAllBrandsUseCase = RetrieveAllBrandsUseCase::new(brand_repository);
+                    let use_case: RetrieveAllBrandsUseCase = RetrieveAllBrandsUseCase::new(Box::new(brand_repository));
 
                     let result: Result<Vec<Brand>, RetrieveAllBrandsUseCaseError> = use_case.execute().await;
 
@@ -93,12 +92,6 @@ mod tests {
     }
 
     impl BrandRepositoryMockImplementation {
-        fn none() -> Self {
-            Self {
-                on_retrieve_all: None,
-            }
-        }
-
         fn on_retrieve_all_returns(
             result: Result<Vec<Brand>, BrandRepositoryRetrieveAllError>,
         ) -> Self {
@@ -110,7 +103,7 @@ mod tests {
 
     #[async_trait]
     impl BrandRepository for BrandRepositoryMockImplementation {
-        async fn create(&mut self, _: &Brand) -> Result<Brand, BrandRepositoryCreateError> {
+        async fn create(&self, _: &Brand) -> Result<Brand, BrandRepositoryCreateError> {
             todo!()
         }
 

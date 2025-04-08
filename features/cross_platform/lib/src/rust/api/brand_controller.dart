@@ -5,18 +5,28 @@
 
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'package:frosy_pine/src/rust/frb_generated.dart';
-import 'package:frosy_pine/src/rust/lib.dart';
 
-// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `fmt`, `from`
+// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `from`, `from`
 
-// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<BrandController>>
-abstract class BrandController implements RustOpaqueInterface {
-  factory BrandController({required AddNewBrandUseCase addBrandUseCase}) =>
-      RustLib.instance.api.crateApiBrandControllerBrandControllerNew(
-        addBrandUseCase: addBrandUseCase,
-      );
-  Future<BrandModel> addNewBrand({required String name});
-}
+Future<ArcMutexHashMapStringBrand> createBrandsInMemoryData() =>
+    RustLib.instance.api.crateApiBrandControllerCreateBrandsInMemoryData();
+
+Future<BrandModel> executeAddNewBrandUseCaseInMemory({
+  required ArcMutexHashMapStringBrand data,
+  required String name,
+}) => RustLib.instance.api
+    .crateApiBrandControllerExecuteAddNewBrandUseCaseInMemory(
+      data: data,
+      name: name,
+    );
+
+Future<List<BrandModel>> executeRetrieveAllBrandsUseCase({
+  required ArcMutexHashMapStringBrand data,
+}) => RustLib.instance.api
+    .crateApiBrandControllerExecuteRetrieveAllBrandsUseCase(data: data);
+
+// Rust type: RustOpaqueMoi<Arc < Mutex < HashMap < String , Brand > > >>
+abstract class ArcMutexHashMapStringBrand implements RustOpaqueInterface {}
 
 class BrandModel {
   const BrandModel({required this.name});

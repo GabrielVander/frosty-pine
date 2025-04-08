@@ -5,22 +5,3 @@
 
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'package:frosy_pine/src/rust/frb_generated.dart';
-import 'package:frosy_pine/src/rust/lib.dart';
-
-Future<BoxBrandRepository> createBrandRepositoryInMemoryImpl({
-  required Map<String, Brand> data,
-}) => RustLib.instance.api.crateApiInitCreateBrandRepositoryInMemoryImpl(
-  data: data,
-);
-
-Future<AddNewBrandUseCase> createAddNewBrandUseCase({
-  required BoxBrandRepository brandRepository,
-}) => RustLib.instance.api.crateApiInitCreateAddNewBrandUseCase(
-  brandRepository: brandRepository,
-);
-
-// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Box < dyn BrandRepository + Sync + Send >>>
-abstract class BoxBrandRepository implements RustOpaqueInterface {}
-
-// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Brand>>
-abstract class Brand implements RustOpaqueInterface {}
