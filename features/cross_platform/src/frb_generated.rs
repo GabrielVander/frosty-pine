@@ -55,7 +55,7 @@ fn wire__crate__api__brand_controller__brands_controller_add_new_brand_impl(
     rust_vec_len_: i32,
     data_len_: i32,
 ) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::SseCodec, _, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
             debug_name: "brands_controller_add_new_brand",
             port: Some(port_),
@@ -75,13 +75,18 @@ fn wire__crate__api__brand_controller__brands_controller_add_new_brand_impl(
                 <crate::api::brand_controller::BrandsController>::sse_decode(&mut deserializer);
             let api_name = <String>::sse_decode(&mut deserializer);
             deserializer.end();
-            move |context| {
-                transform_result_sse::<_, String>((move || {
-                    let output_ok = crate::api::brand_controller::BrandsController::add_new_brand(
-                        &api_that, api_name,
-                    )?;
-                    Ok(output_ok)
-                })())
+            move |context| async move {
+                transform_result_sse::<_, String>(
+                    (move || async move {
+                        let output_ok =
+                            crate::api::brand_controller::BrandsController::add_new_brand(
+                                &api_that, api_name,
+                            )
+                            .await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
             }
         },
     )
@@ -129,7 +134,7 @@ fn wire__crate__api__brand_controller__brands_controller_retrieve_all_brands_imp
     rust_vec_len_: i32,
     data_len_: i32,
 ) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::SseCodec, _, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
             debug_name: "brands_controller_retrieve_all_brands",
             port: Some(port_),
@@ -148,14 +153,18 @@ fn wire__crate__api__brand_controller__brands_controller_retrieve_all_brands_imp
             let api_that =
                 <crate::api::brand_controller::BrandsController>::sse_decode(&mut deserializer);
             deserializer.end();
-            move |context| {
-                transform_result_sse::<_, String>((move || {
-                    let output_ok =
-                        crate::api::brand_controller::BrandsController::retrieve_all_brands(
-                            &api_that,
-                        )?;
-                    Ok(output_ok)
-                })())
+            move |context| async move {
+                transform_result_sse::<_, String>(
+                    (move || async move {
+                        let output_ok =
+                            crate::api::brand_controller::BrandsController::retrieve_all_brands(
+                                &api_that,
+                            )
+                            .await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
             }
         },
     )

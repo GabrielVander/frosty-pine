@@ -54,28 +54,19 @@ impl BrandsController {
         }
     }
 
-    pub fn add_new_brand(&self, name: String) -> Result<BrandModel, String>{
-        let tokio_runtime: Runtime = Runtime::new().unwrap();
-
-        tokio_runtime.block_on(async {
-            self.add_new_brand_use_case
-                .execute(name)
-                .await
-                .map(|brand| brand.into())
-                .map_err(|e: AddNewBrandUseCaseError| format!("{:?}", e))
-        })
+    pub async fn add_new_brand(&self, name: String) -> Result<BrandModel, String>{
+        self.add_new_brand_use_case
+            .execute(name)
+            .await
+            .map(|brand| brand.into())
+            .map_err(|e: AddNewBrandUseCaseError| format!("{:?}", e))
     }
 
-    pub fn retrieve_all_brands(&self) -> Result<Vec<BrandModel>, String> {
-        let tokio_runtime: Runtime = Runtime::new().unwrap();
-
-        tokio_runtime.block_on(async {
-            self.retrieve_all_brands_use_case
-                .execute()
-                .await
-                .map(|brands: Vec<Brand>| brands.into_iter().map(|brand| brand.into()).collect())
-                .map_err(|e: RetrieveAllBrandsUseCaseError| format!("{:?}", e))
-        })
-
+    pub async fn retrieve_all_brands(&self) -> Result<Vec<BrandModel>, String> {
+        self.retrieve_all_brands_use_case
+            .execute()
+            .await
+            .map(|brands: Vec<Brand>| brands.into_iter().map(|brand| brand.into()).collect())
+            .map_err(|e: RetrieveAllBrandsUseCaseError| format!("{:?}", e))
     }
 }
