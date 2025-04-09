@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use crate::domain::{
     entities::Brand,
     repositories::{BrandRepository, BrandRepositoryCreateError},
@@ -5,11 +7,11 @@ use crate::domain::{
 
 #[derive(Debug)]
 pub struct AddNewBrandUseCase {
-    brand_repository: Box<dyn BrandRepository>,
+    brand_repository: Arc<dyn BrandRepository>,
 }
 
 impl AddNewBrandUseCase {
-    pub fn new(brand_repository: Box<dyn BrandRepository>) -> Self {
+    pub fn new(brand_repository: Arc<dyn BrandRepository>) -> Self {
         Self { brand_repository }
     }
 
@@ -56,7 +58,7 @@ mod tests {
         entities::Brand,
         repositories::{BrandRepository, BrandRepositoryCreateError, BrandRepositoryRetrieveAllError},
     };
-    use std::fmt::Debug;
+    use std::{fmt::Debug, sync::Arc};
     use tokio;
 
     use super::{AddNewBrandUseCase, AddNewBrandUseCaseError};
@@ -65,7 +67,7 @@ mod tests {
     async fn should_fail_if_given_invalid_name() {
         let  brand_repository: BrandRepositoryMockImplementation = BrandRepositoryMockImplementation::none();
 
-        let  use_case: AddNewBrandUseCase = AddNewBrandUseCase::new(Box::new(brand_repository));
+        let  use_case: AddNewBrandUseCase = AddNewBrandUseCase::new(Arc::new(brand_repository));
 
         let result: Result<Brand, AddNewBrandUseCaseError> = use_case.execute("".to_owned()).await;
         assert_eq!(
@@ -92,7 +94,7 @@ mod tests {
                 BrandRepositoryCreateError::BrandAlreadyExists,
             ));
 
-        let  use_case: AddNewBrandUseCase = AddNewBrandUseCase::new(Box::new(brand_repository));
+        let  use_case: AddNewBrandUseCase = AddNewBrandUseCase::new(Arc::new(brand_repository));
 
         let result: Result<Brand, AddNewBrandUseCaseError> =
             use_case.execute("Shena Glore".to_owned()).await;
@@ -108,7 +110,7 @@ mod tests {
                 BrandRepositoryCreateError::UnableToSaveBrand(unable_to_save_details.clone()),
             ));
 
-        let  use_case: AddNewBrandUseCase = AddNewBrandUseCase::new(Box::new(brand_repository));
+        let  use_case: AddNewBrandUseCase = AddNewBrandUseCase::new(Arc::new(brand_repository));
 
         let result: Result<Brand, AddNewBrandUseCaseError> =
             use_case.execute("Harris Bovia".to_owned()).await;
@@ -127,7 +129,7 @@ mod tests {
         let brand_repository: BrandRepositoryMockImplementation =
             BrandRepositoryMockImplementation::on_create_returns(Ok(expected_brand.clone()));
 
-        let  use_case: AddNewBrandUseCase = AddNewBrandUseCase::new(Box::new(brand_repository));
+        let  use_case: AddNewBrandUseCase = AddNewBrandUseCase::new(Arc::new(brand_repository));
 
         let result: Result<Brand, AddNewBrandUseCaseError> = use_case.execute(target_name).await;
         assert_eq!(result, Ok(expected_brand));

@@ -8,25 +8,38 @@ import 'package:frosy_pine/src/rust/frb_generated.dart';
 
 // These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `from`, `from`
 
-Future<ArcMutexHashMapStringBrand> createBrandsInMemoryData() =>
-    RustLib.instance.api.crateApiBrandControllerCreateBrandsInMemoryData();
-
-Future<BrandModel> executeAddNewBrandUseCaseInMemory({
-  required ArcMutexHashMapStringBrand data,
-  required String name,
+Future<ArcBrandRepository> createBrandRepositoryInMemoryImpl({
+  required List<Brand> initialData,
 }) => RustLib.instance.api
-    .crateApiBrandControllerExecuteAddNewBrandUseCaseInMemory(
-      data: data,
-      name: name,
+    .crateApiBrandControllerCreateBrandRepositoryInMemoryImpl(
+      initialData: initialData,
     );
 
-Future<List<BrandModel>> executeRetrieveAllBrandsUseCase({
-  required ArcMutexHashMapStringBrand data,
+Future<ArcAddNewBrandUseCase> createInMemoryAddNewBrandUseCase({
+  required ArcBrandRepository brandRepository,
 }) => RustLib.instance.api
-    .crateApiBrandControllerExecuteRetrieveAllBrandsUseCase(data: data);
+    .crateApiBrandControllerCreateInMemoryAddNewBrandUseCase(
+      brandRepository: brandRepository,
+    );
 
-// Rust type: RustOpaqueMoi<Arc < Mutex < HashMap < String , Brand > > >>
-abstract class ArcMutexHashMapStringBrand implements RustOpaqueInterface {}
+Future<ArcRetrieveAllBrandsUseCase> createInMemoryRetrieveAllBrandsUseCase({
+  required ArcBrandRepository brandRepository,
+}) => RustLib.instance.api
+    .crateApiBrandControllerCreateInMemoryRetrieveAllBrandsUseCase(
+      brandRepository: brandRepository,
+    );
+
+// Rust type: RustOpaqueMoi<Arc < AddNewBrandUseCase >>
+abstract class ArcAddNewBrandUseCase implements RustOpaqueInterface {}
+
+// Rust type: RustOpaqueMoi<Arc < RetrieveAllBrandsUseCase >>
+abstract class ArcRetrieveAllBrandsUseCase implements RustOpaqueInterface {}
+
+// Rust type: RustOpaqueMoi<Arc < dyn BrandRepository >>
+abstract class ArcBrandRepository implements RustOpaqueInterface {}
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Brand>>
+abstract class Brand implements RustOpaqueInterface {}
 
 class BrandModel {
   const BrandModel({required this.name});
@@ -41,4 +54,42 @@ class BrandModel {
       other is BrandModel &&
           runtimeType == other.runtimeType &&
           name == other.name;
+}
+
+class BrandsController {
+  factory BrandsController({
+    required ArcAddNewBrandUseCase addNewBrandUseCase,
+    required ArcRetrieveAllBrandsUseCase retrieveAllBrandsUseCase,
+  }) => RustLib.instance.api.crateApiBrandControllerBrandsControllerNew(
+    addNewBrandUseCase: addNewBrandUseCase,
+    retrieveAllBrandsUseCase: retrieveAllBrandsUseCase,
+  );
+
+  const BrandsController.raw({
+    required this.addNewBrandUseCase,
+    required this.retrieveAllBrandsUseCase,
+  });
+  final ArcAddNewBrandUseCase addNewBrandUseCase;
+  final ArcRetrieveAllBrandsUseCase retrieveAllBrandsUseCase;
+
+  Future<BrandModel> addNewBrand({required String name}) =>
+      RustLib.instance.api.crateApiBrandControllerBrandsControllerAddNewBrand(
+        that: this,
+        name: name,
+      );
+
+  Future<List<BrandModel>> retrieveAllBrands() => RustLib.instance.api
+      .crateApiBrandControllerBrandsControllerRetrieveAllBrands(that: this);
+
+  @override
+  int get hashCode =>
+      addNewBrandUseCase.hashCode ^ retrieveAllBrandsUseCase.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is BrandsController &&
+          runtimeType == other.runtimeType &&
+          addNewBrandUseCase == other.addNewBrandUseCase &&
+          retrieveAllBrandsUseCase == other.retrieveAllBrandsUseCase;
 }

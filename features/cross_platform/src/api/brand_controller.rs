@@ -7,7 +7,7 @@ use expense_tracking::domain::use_cases::{AddNewBrandUseCase, AddNewBrandUseCase
 use in_memory_storage::application::repositories::BrandRepositoryInMemoryImpl;
 use tokio::runtime::Runtime;
 
-use crate::frb_generated::RustOpaque;
+use crate::frb_generated::{RustAutoOpaque, RustOpaque};
 
 pub struct BrandModel { pub name: String }
 
@@ -23,37 +23,59 @@ impl From<Brand> for BrandModel {
     }
 }
 
-pub fn create_brands_in_memory_data() -> RustOpaque<Arc<Mutex<HashMap<String, Brand>>>> {
-    RustOpaque::new(Arc::new(Mutex::new(HashMap::new())))
+pub fn create_brand_repository_in_memory_impl(initial_data: Vec<Brand>) -> RustOpaque<Arc<dyn BrandRepository>> {
+    let data: Arc<Mutex<HashMap<String, Brand>>> = Arc::new(Mutex::new(initial_data.into_iter()
+                    .map(|b| (b.name.clone(), b.clone()))
+                    .collect::<HashMap<String, Brand>>()));
+
+    RustOpaque::new(Arc::new(BrandRepositoryInMemoryImpl::new(data)))
 }
 
-pub fn execute_add_new_brand_use_case_in_memory(data: RustOpaque<Arc<Mutex<HashMap<String, Brand>>>>, name: String) -> Result<BrandModel, String> {
-    let tokio_runtime: Runtime = Runtime::new().unwrap();
-
-    let brand_repository = BrandRepositoryInMemoryImpl::new(Arc::clone(&data));
-
-    let add_new_brand_use_case = AddNewBrandUseCase::new(Box::new(brand_repository));
-
-    tokio_runtime.block_on(async {
-        add_new_brand_use_case
-            .execute(name)
-            .await
-            .map(|brand| brand.into())
-            .map_err(|e: AddNewBrandUseCaseError| format!("{:?}", e))
-    })
+pub fn create_in_memory_add_new_brand_use_case(brand_repository: RustOpaque<Arc<dyn BrandRepository>>)-> RustOpaque<Arc<AddNewBrandUseCase>> {
+    RustOpaque::new(Arc::new(AddNewBrandUseCase::new(Arc::clone(&brand_repository))))
 }
 
-pub fn execute_retrieve_all_brands_use_case(data: RustOpaque<Arc<Mutex<HashMap<String, Brand>>>>) -> Result<Vec<BrandModel>, String> {
-    let tokio_runtime: Runtime = Runtime::new().unwrap();
-    let brand_repository = BrandRepositoryInMemoryImpl::new(Arc::clone(&data));
-    let retrieve_all_brands_use_case = RetrieveAllBrandsUseCase::new(Box::new(brand_repository));
-
-    tokio_runtime.block_on(async {
-        retrieve_all_brands_use_case
-            .execute()
-            .await
-            .map(|brands: Vec<Brand>| brands.into_iter().map(|brand| brand.into()).collect())
-            .map_err(|e: RetrieveAllBrandsUseCaseError| format!("{:?}", e))
-    })
+pub fn create_in_memory_retrieve_all_brands_use_case(brand_repository: RustOpaque<Arc<dyn BrandRepository>>)-> RustOpaque<Arc<RetrieveAllBrandsUseCase>> {
+    RustOpaque::new(Arc::new(RetrieveAllBrandsUseCase::new(Arc::clone(&brand_repository))))
 }
 
+#[flutter_rust_bridge::frb(non_opaque)]
+pub struct BrandsController {
+    pub add_new_brand_use_case: RustOpaque<Arc<AddNewBrandUseCase>>,
+    pub retrieve_all_brands_use_case: RustOpaque<Arc<RetrieveAllBrandsUseCase>>
+}
+
+impl BrandsController {
+    #[flutter_rust_bridge::frb(sync)]
+    pub fn new(add_new_brand_use_case: RustOpaque<Arc<AddNewBrandUseCase>>, retrieve_all_brands_use_case: RustOpaque<Arc<RetrieveAllBrandsUseCase>>) -> Self {
+        Self {
+            add_new_brand_use_case,
+            retrieve_all_brands_use_case
+        }
+    }
+
+    pub fn add_new_brand(&self, name: String) -> Result<BrandModel, String>{
+        let tokio_runtime: Runtime = Runtime::new().unwrap();
+
+        tokio_runtime.block_on(async {
+            self.add_new_brand_use_case
+                .execute(name)
+                .await
+                .map(|brand| brand.into())
+                .map_err(|e: AddNewBrandUseCaseError| format!("{:?}", e))
+        })
+    }
+
+    pub fn retrieve_all_brands(&self) -> Result<Vec<BrandModel>, String> {
+        let tokio_runtime: Runtime = Runtime::new().unwrap();
+
+        tokio_runtime.block_on(async {
+            self.retrieve_all_brands_use_case
+                .execute()
+                .await
+                .map(|brands: Vec<Brand>| brands.into_iter().map(|brand| brand.into()).collect())
+                .map_err(|e: RetrieveAllBrandsUseCaseError| format!("{:?}", e))
+        })
+
+    }
+}

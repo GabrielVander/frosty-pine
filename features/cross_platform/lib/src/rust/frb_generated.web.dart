@@ -22,11 +22,42 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   });
 
   CrossPlatformFinalizerArg
-  get rust_arc_decrement_strong_count_ArcMutexHashMapStringBrandPtr =>
-      wire.rust_arc_decrement_strong_count_RustOpaque_ArcMutexHashMapStringBrand;
+  get rust_arc_decrement_strong_count_ArcAddNewBrandUseCasePtr =>
+      wire.rust_arc_decrement_strong_count_RustOpaque_ArcAddNewBrandUseCase;
+
+  CrossPlatformFinalizerArg
+  get rust_arc_decrement_strong_count_ArcRetrieveAllBrandsUseCasePtr =>
+      wire.rust_arc_decrement_strong_count_RustOpaque_ArcRetrieveAllBrandsUseCase;
+
+  CrossPlatformFinalizerArg
+  get rust_arc_decrement_strong_count_ArcBrandRepositoryPtr =>
+      wire.rust_arc_decrement_strong_count_RustOpaque_ArcdynBrandRepository;
+
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_BrandPtr =>
+      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand;
 
   @protected
-  ArcMutexHashMapStringBrand dco_decode_RustOpaque_ArcMutexHashMapStringBrand(
+  Brand
+  dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand(
+    dynamic raw,
+  );
+
+  @protected
+  ArcAddNewBrandUseCase dco_decode_RustOpaque_ArcAddNewBrandUseCase(
+    dynamic raw,
+  );
+
+  @protected
+  ArcRetrieveAllBrandsUseCase dco_decode_RustOpaque_ArcRetrieveAllBrandsUseCase(
+    dynamic raw,
+  );
+
+  @protected
+  ArcBrandRepository dco_decode_RustOpaque_ArcdynBrandRepository(dynamic raw);
+
+  @protected
+  Brand
+  dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand(
     dynamic raw,
   );
 
@@ -34,7 +65,19 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   String dco_decode_String(dynamic raw);
 
   @protected
+  BrandsController dco_decode_box_autoadd_brands_controller(dynamic raw);
+
+  @protected
   BrandModel dco_decode_brand_model(dynamic raw);
+
+  @protected
+  BrandsController dco_decode_brands_controller(dynamic raw);
+
+  @protected
+  List<Brand>
+  dco_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand(
+    dynamic raw,
+  );
 
   @protected
   List<BrandModel> dco_decode_list_brand_model(dynamic raw);
@@ -52,7 +95,29 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   BigInt dco_decode_usize(dynamic raw);
 
   @protected
-  ArcMutexHashMapStringBrand sse_decode_RustOpaque_ArcMutexHashMapStringBrand(
+  Brand
+  sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  ArcAddNewBrandUseCase sse_decode_RustOpaque_ArcAddNewBrandUseCase(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  ArcRetrieveAllBrandsUseCase sse_decode_RustOpaque_ArcRetrieveAllBrandsUseCase(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  ArcBrandRepository sse_decode_RustOpaque_ArcdynBrandRepository(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  Brand
+  sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand(
     SseDeserializer deserializer,
   );
 
@@ -60,7 +125,21 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   String sse_decode_String(SseDeserializer deserializer);
 
   @protected
+  BrandsController sse_decode_box_autoadd_brands_controller(
+    SseDeserializer deserializer,
+  );
+
+  @protected
   BrandModel sse_decode_brand_model(SseDeserializer deserializer);
+
+  @protected
+  BrandsController sse_decode_brands_controller(SseDeserializer deserializer);
+
+  @protected
+  List<Brand>
+  sse_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand(
+    SseDeserializer deserializer,
+  );
 
   @protected
   List<BrandModel> sse_decode_list_brand_model(SseDeserializer deserializer);
@@ -84,8 +163,34 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   bool sse_decode_bool(SseDeserializer deserializer);
 
   @protected
-  void sse_encode_RustOpaque_ArcMutexHashMapStringBrand(
-    ArcMutexHashMapStringBrand self,
+  void
+  sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand(
+    Brand self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_RustOpaque_ArcAddNewBrandUseCase(
+    ArcAddNewBrandUseCase self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_RustOpaque_ArcRetrieveAllBrandsUseCase(
+    ArcRetrieveAllBrandsUseCase self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_RustOpaque_ArcdynBrandRepository(
+    ArcBrandRepository self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void
+  sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand(
+    Brand self,
     SseSerializer serializer,
   );
 
@@ -93,7 +198,26 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_String(String self, SseSerializer serializer);
 
   @protected
+  void sse_encode_box_autoadd_brands_controller(
+    BrandsController self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_brand_model(BrandModel self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_brands_controller(
+    BrandsController self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void
+  sse_encode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand(
+    List<Brand> self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_list_brand_model(
@@ -128,17 +252,53 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 class RustLibWire implements BaseWire {
   RustLibWire.fromExternalLibrary();
 
-  void rust_arc_increment_strong_count_RustOpaque_ArcMutexHashMapStringBrand(
+  void rust_arc_increment_strong_count_RustOpaque_ArcAddNewBrandUseCase(
     int ptr,
   ) => wasmModule
-      .rust_arc_increment_strong_count_RustOpaque_ArcMutexHashMapStringBrand(
+      .rust_arc_increment_strong_count_RustOpaque_ArcAddNewBrandUseCase(ptr);
+
+  void rust_arc_decrement_strong_count_RustOpaque_ArcAddNewBrandUseCase(
+    int ptr,
+  ) => wasmModule
+      .rust_arc_decrement_strong_count_RustOpaque_ArcAddNewBrandUseCase(ptr);
+
+  void rust_arc_increment_strong_count_RustOpaque_ArcRetrieveAllBrandsUseCase(
+    int ptr,
+  ) => wasmModule
+      .rust_arc_increment_strong_count_RustOpaque_ArcRetrieveAllBrandsUseCase(
         ptr,
       );
 
-  void rust_arc_decrement_strong_count_RustOpaque_ArcMutexHashMapStringBrand(
+  void rust_arc_decrement_strong_count_RustOpaque_ArcRetrieveAllBrandsUseCase(
     int ptr,
   ) => wasmModule
-      .rust_arc_decrement_strong_count_RustOpaque_ArcMutexHashMapStringBrand(
+      .rust_arc_decrement_strong_count_RustOpaque_ArcRetrieveAllBrandsUseCase(
+        ptr,
+      );
+
+  void rust_arc_increment_strong_count_RustOpaque_ArcdynBrandRepository(
+    int ptr,
+  ) => wasmModule
+      .rust_arc_increment_strong_count_RustOpaque_ArcdynBrandRepository(ptr);
+
+  void rust_arc_decrement_strong_count_RustOpaque_ArcdynBrandRepository(
+    int ptr,
+  ) => wasmModule
+      .rust_arc_decrement_strong_count_RustOpaque_ArcdynBrandRepository(ptr);
+
+  void
+  rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand(
+    int ptr,
+  ) => wasmModule
+      .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand(
+        ptr,
+      );
+
+  void
+  rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand(
+    int ptr,
+  ) => wasmModule
+      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand(
         ptr,
       );
 }
@@ -150,12 +310,34 @@ external RustLibWasmModule get wasmModule;
 @anonymous
 extension type RustLibWasmModule._(JSObject _) implements JSObject {
   external void
-  rust_arc_increment_strong_count_RustOpaque_ArcMutexHashMapStringBrand(
+  rust_arc_increment_strong_count_RustOpaque_ArcAddNewBrandUseCase(int ptr);
+
+  external void
+  rust_arc_decrement_strong_count_RustOpaque_ArcAddNewBrandUseCase(int ptr);
+
+  external void
+  rust_arc_increment_strong_count_RustOpaque_ArcRetrieveAllBrandsUseCase(
     int ptr,
   );
 
   external void
-  rust_arc_decrement_strong_count_RustOpaque_ArcMutexHashMapStringBrand(
+  rust_arc_decrement_strong_count_RustOpaque_ArcRetrieveAllBrandsUseCase(
+    int ptr,
+  );
+
+  external void
+  rust_arc_increment_strong_count_RustOpaque_ArcdynBrandRepository(int ptr);
+
+  external void
+  rust_arc_decrement_strong_count_RustOpaque_ArcdynBrandRepository(int ptr);
+
+  external void
+  rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand(
+    int ptr,
+  );
+
+  external void
+  rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand(
     int ptr,
   );
 }

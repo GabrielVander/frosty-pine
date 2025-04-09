@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use crate::domain::{
     entities::Brand,
     repositories::{BrandRepository, BrandRepositoryRetrieveAllError},
@@ -5,11 +7,11 @@ use crate::domain::{
 
 #[derive(Debug)]
 pub struct RetrieveAllBrandsUseCase {
-    brand_repository: Box<dyn BrandRepository>,
+    brand_repository: Arc<dyn BrandRepository>,
 }
 
 impl RetrieveAllBrandsUseCase {
-    pub fn new(brand_repository: Box<dyn BrandRepository>) -> Self {
+    pub fn new(brand_repository: Arc<dyn BrandRepository>) -> Self {
         Self { brand_repository }
     }
 
@@ -49,6 +51,8 @@ mod tests {
     };
     use async_trait::async_trait;
 
+    use std::sync::Arc;
+
     macro_rules! parameterized_tests {
         ($($name:ident: ($a:expr, $b:expr))*) => {
             $(
@@ -59,7 +63,7 @@ mod tests {
 
                     let brand_repository: BrandRepositoryMockImplementation = BrandRepositoryMockImplementation::on_retrieve_all_returns(brand_repository_retrieve_all_result);
 
-                    let use_case: RetrieveAllBrandsUseCase = RetrieveAllBrandsUseCase::new(Box::new(brand_repository));
+                    let use_case: RetrieveAllBrandsUseCase = RetrieveAllBrandsUseCase::new(Arc::new(brand_repository));
 
                     let result: Result<Vec<Brand>, RetrieveAllBrandsUseCaseError> = use_case.execute().await;
 

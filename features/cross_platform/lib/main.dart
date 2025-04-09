@@ -12,9 +12,7 @@ import 'package:frosy_pine/features/ui/presentation/utils/bloc_observer.dart';
 import 'package:frosy_pine/features/ui/presentation/widgets/brands/state/brand_cubit.dart';
 import 'package:frosy_pine/features/ui/presentation/widgets/transactions/state/new_transaction_cubit.dart';
 import 'package:frosy_pine/src/rust/api/brand_controller.dart';
-import 'package:frosy_pine/src/rust/api/init.dart';
 import 'package:frosy_pine/src/rust/frb_generated.dart';
-import 'package:frosy_pine/src/rust/lib.dart';
 import 'package:intl/intl.dart';
 
 Future<void> main() async {
@@ -64,12 +62,15 @@ Future<void> main() async {
     retrieveAvailableProductsUseCase: retrieveAvailableProductsUseCase,
   );
 
-  final ArcMutexHashMapStringBrand brandsData = await createBrandsInMemoryData();
+  final ArcBrandRepository brandRepository = await createBrandRepositoryInMemoryImpl(initialData: List.empty());
 
-  final BrandCubit brandCubit = BrandCubit(
-    addNewBrand: ({required String name}) async => executeAddNewBrandUseCaseInMemory(data: brandsData, name: name),
-    retrieveAllBrands: () => executeRetrieveAllBrandsUseCase(data: brandsData),
-  );
+  final ArcAddNewBrandUseCase addNewBrandUseCase = await createInMemoryAddNewBrandUseCase(brandRepository: brandRepository);
+
+  final ArcRetrieveAllBrandsUseCase retrieveAllBrandsUseCase = await createInMemoryRetrieveAllBrandsUseCase(brandRepository: brandRepository);
+
+  final BrandsController brandsController = BrandsController(addNewBrandUseCase: addNewBrandUseCase, retrieveAllBrandsUseCase: retrieveAllBrandsUseCase);
+
+  final BrandCubit brandCubit = BrandCubit(brandsController: brandsController);
 
   WidgetsFlutterBinding.ensureInitialized();
 
