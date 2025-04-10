@@ -22,16 +22,16 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   });
 
   CrossPlatformFinalizerArg
-  get rust_arc_decrement_strong_count_ArcAddNewBrandUseCasePtr =>
-      wire.rust_arc_decrement_strong_count_RustOpaque_ArcAddNewBrandUseCase;
-
-  CrossPlatformFinalizerArg
-  get rust_arc_decrement_strong_count_ArcRetrieveAllBrandsUseCasePtr =>
-      wire.rust_arc_decrement_strong_count_RustOpaque_ArcRetrieveAllBrandsUseCase;
+  get rust_arc_decrement_strong_count_AddNewBrandUseCasePtr =>
+      wire.rust_arc_decrement_strong_count_RustOpaque_AddNewBrandUseCase;
 
   CrossPlatformFinalizerArg
   get rust_arc_decrement_strong_count_ArcBrandRepositoryPtr =>
       wire.rust_arc_decrement_strong_count_RustOpaque_ArcdynBrandRepository;
+
+  CrossPlatformFinalizerArg
+  get rust_arc_decrement_strong_count_RetrieveAllBrandsUseCasePtr =>
+      wire.rust_arc_decrement_strong_count_RustOpaque_RetrieveAllBrandsUseCase;
 
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_BrandPtr =>
       wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand;
@@ -43,17 +43,15 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
-  ArcAddNewBrandUseCase dco_decode_RustOpaque_ArcAddNewBrandUseCase(
-    dynamic raw,
-  );
-
-  @protected
-  ArcRetrieveAllBrandsUseCase dco_decode_RustOpaque_ArcRetrieveAllBrandsUseCase(
-    dynamic raw,
-  );
+  AddNewBrandUseCase dco_decode_RustOpaque_AddNewBrandUseCase(dynamic raw);
 
   @protected
   ArcBrandRepository dco_decode_RustOpaque_ArcdynBrandRepository(dynamic raw);
+
+  @protected
+  RetrieveAllBrandsUseCase dco_decode_RustOpaque_RetrieveAllBrandsUseCase(
+    dynamic raw,
+  );
 
   @protected
   Brand
@@ -101,17 +99,17 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
-  ArcAddNewBrandUseCase sse_decode_RustOpaque_ArcAddNewBrandUseCase(
-    SseDeserializer deserializer,
-  );
-
-  @protected
-  ArcRetrieveAllBrandsUseCase sse_decode_RustOpaque_ArcRetrieveAllBrandsUseCase(
+  AddNewBrandUseCase sse_decode_RustOpaque_AddNewBrandUseCase(
     SseDeserializer deserializer,
   );
 
   @protected
   ArcBrandRepository sse_decode_RustOpaque_ArcdynBrandRepository(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  RetrieveAllBrandsUseCase sse_decode_RustOpaque_RetrieveAllBrandsUseCase(
     SseDeserializer deserializer,
   );
 
@@ -170,20 +168,20 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
-  void sse_encode_RustOpaque_ArcAddNewBrandUseCase(
-    ArcAddNewBrandUseCase self,
-    SseSerializer serializer,
-  );
-
-  @protected
-  void sse_encode_RustOpaque_ArcRetrieveAllBrandsUseCase(
-    ArcRetrieveAllBrandsUseCase self,
+  void sse_encode_RustOpaque_AddNewBrandUseCase(
+    AddNewBrandUseCase self,
     SseSerializer serializer,
   );
 
   @protected
   void sse_encode_RustOpaque_ArcdynBrandRepository(
     ArcBrandRepository self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_RustOpaque_RetrieveAllBrandsUseCase(
+    RetrieveAllBrandsUseCase self,
     SseSerializer serializer,
   );
 
@@ -252,27 +250,13 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 class RustLibWire implements BaseWire {
   RustLibWire.fromExternalLibrary();
 
-  void rust_arc_increment_strong_count_RustOpaque_ArcAddNewBrandUseCase(
-    int ptr,
-  ) => wasmModule
-      .rust_arc_increment_strong_count_RustOpaque_ArcAddNewBrandUseCase(ptr);
-
-  void rust_arc_decrement_strong_count_RustOpaque_ArcAddNewBrandUseCase(
-    int ptr,
-  ) => wasmModule
-      .rust_arc_decrement_strong_count_RustOpaque_ArcAddNewBrandUseCase(ptr);
-
-  void rust_arc_increment_strong_count_RustOpaque_ArcRetrieveAllBrandsUseCase(
-    int ptr,
-  ) => wasmModule
-      .rust_arc_increment_strong_count_RustOpaque_ArcRetrieveAllBrandsUseCase(
+  void rust_arc_increment_strong_count_RustOpaque_AddNewBrandUseCase(int ptr) =>
+      wasmModule.rust_arc_increment_strong_count_RustOpaque_AddNewBrandUseCase(
         ptr,
       );
 
-  void rust_arc_decrement_strong_count_RustOpaque_ArcRetrieveAllBrandsUseCase(
-    int ptr,
-  ) => wasmModule
-      .rust_arc_decrement_strong_count_RustOpaque_ArcRetrieveAllBrandsUseCase(
+  void rust_arc_decrement_strong_count_RustOpaque_AddNewBrandUseCase(int ptr) =>
+      wasmModule.rust_arc_decrement_strong_count_RustOpaque_AddNewBrandUseCase(
         ptr,
       );
 
@@ -285,6 +269,16 @@ class RustLibWire implements BaseWire {
     int ptr,
   ) => wasmModule
       .rust_arc_decrement_strong_count_RustOpaque_ArcdynBrandRepository(ptr);
+
+  void rust_arc_increment_strong_count_RustOpaque_RetrieveAllBrandsUseCase(
+    int ptr,
+  ) => wasmModule
+      .rust_arc_increment_strong_count_RustOpaque_RetrieveAllBrandsUseCase(ptr);
+
+  void rust_arc_decrement_strong_count_RustOpaque_RetrieveAllBrandsUseCase(
+    int ptr,
+  ) => wasmModule
+      .rust_arc_decrement_strong_count_RustOpaque_RetrieveAllBrandsUseCase(ptr);
 
   void
   rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand(
@@ -309,19 +303,11 @@ external RustLibWasmModule get wasmModule;
 @JS()
 @anonymous
 extension type RustLibWasmModule._(JSObject _) implements JSObject {
-  external void
-  rust_arc_increment_strong_count_RustOpaque_ArcAddNewBrandUseCase(int ptr);
-
-  external void
-  rust_arc_decrement_strong_count_RustOpaque_ArcAddNewBrandUseCase(int ptr);
-
-  external void
-  rust_arc_increment_strong_count_RustOpaque_ArcRetrieveAllBrandsUseCase(
+  external void rust_arc_increment_strong_count_RustOpaque_AddNewBrandUseCase(
     int ptr,
   );
 
-  external void
-  rust_arc_decrement_strong_count_RustOpaque_ArcRetrieveAllBrandsUseCase(
+  external void rust_arc_decrement_strong_count_RustOpaque_AddNewBrandUseCase(
     int ptr,
   );
 
@@ -330,6 +316,12 @@ extension type RustLibWasmModule._(JSObject _) implements JSObject {
 
   external void
   rust_arc_decrement_strong_count_RustOpaque_ArcdynBrandRepository(int ptr);
+
+  external void
+  rust_arc_increment_strong_count_RustOpaque_RetrieveAllBrandsUseCase(int ptr);
+
+  external void
+  rust_arc_decrement_strong_count_RustOpaque_RetrieveAllBrandsUseCase(int ptr);
 
   external void
   rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand(

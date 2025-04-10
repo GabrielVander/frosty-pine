@@ -20,16 +20,16 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   });
 
   CrossPlatformFinalizerArg
-  get rust_arc_decrement_strong_count_ArcAddNewBrandUseCasePtr =>
-      wire._rust_arc_decrement_strong_count_RustOpaque_ArcAddNewBrandUseCasePtr;
-
-  CrossPlatformFinalizerArg
-  get rust_arc_decrement_strong_count_ArcRetrieveAllBrandsUseCasePtr =>
-      wire._rust_arc_decrement_strong_count_RustOpaque_ArcRetrieveAllBrandsUseCasePtr;
+  get rust_arc_decrement_strong_count_AddNewBrandUseCasePtr =>
+      wire._rust_arc_decrement_strong_count_RustOpaque_AddNewBrandUseCasePtr;
 
   CrossPlatformFinalizerArg
   get rust_arc_decrement_strong_count_ArcBrandRepositoryPtr =>
       wire._rust_arc_decrement_strong_count_RustOpaque_ArcdynBrandRepositoryPtr;
+
+  CrossPlatformFinalizerArg
+  get rust_arc_decrement_strong_count_RetrieveAllBrandsUseCasePtr =>
+      wire._rust_arc_decrement_strong_count_RustOpaque_RetrieveAllBrandsUseCasePtr;
 
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_BrandPtr =>
       wire._rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrandPtr;
@@ -41,17 +41,15 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
-  ArcAddNewBrandUseCase dco_decode_RustOpaque_ArcAddNewBrandUseCase(
-    dynamic raw,
-  );
-
-  @protected
-  ArcRetrieveAllBrandsUseCase dco_decode_RustOpaque_ArcRetrieveAllBrandsUseCase(
-    dynamic raw,
-  );
+  AddNewBrandUseCase dco_decode_RustOpaque_AddNewBrandUseCase(dynamic raw);
 
   @protected
   ArcBrandRepository dco_decode_RustOpaque_ArcdynBrandRepository(dynamic raw);
+
+  @protected
+  RetrieveAllBrandsUseCase dco_decode_RustOpaque_RetrieveAllBrandsUseCase(
+    dynamic raw,
+  );
 
   @protected
   Brand
@@ -99,17 +97,17 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
-  ArcAddNewBrandUseCase sse_decode_RustOpaque_ArcAddNewBrandUseCase(
-    SseDeserializer deserializer,
-  );
-
-  @protected
-  ArcRetrieveAllBrandsUseCase sse_decode_RustOpaque_ArcRetrieveAllBrandsUseCase(
+  AddNewBrandUseCase sse_decode_RustOpaque_AddNewBrandUseCase(
     SseDeserializer deserializer,
   );
 
   @protected
   ArcBrandRepository sse_decode_RustOpaque_ArcdynBrandRepository(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  RetrieveAllBrandsUseCase sse_decode_RustOpaque_RetrieveAllBrandsUseCase(
     SseDeserializer deserializer,
   );
 
@@ -168,20 +166,20 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
-  void sse_encode_RustOpaque_ArcAddNewBrandUseCase(
-    ArcAddNewBrandUseCase self,
-    SseSerializer serializer,
-  );
-
-  @protected
-  void sse_encode_RustOpaque_ArcRetrieveAllBrandsUseCase(
-    ArcRetrieveAllBrandsUseCase self,
+  void sse_encode_RustOpaque_AddNewBrandUseCase(
+    AddNewBrandUseCase self,
     SseSerializer serializer,
   );
 
   @protected
   void sse_encode_RustOpaque_ArcdynBrandRepository(
     ArcBrandRepository self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_RustOpaque_RetrieveAllBrandsUseCase(
+    RetrieveAllBrandsUseCase self,
     SseSerializer serializer,
   );
 
@@ -259,68 +257,32 @@ class RustLibWire implements BaseWire {
   final ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
   _lookup;
 
-  void rust_arc_increment_strong_count_RustOpaque_ArcAddNewBrandUseCase(
+  void rust_arc_increment_strong_count_RustOpaque_AddNewBrandUseCase(
     ffi.Pointer<ffi.Void> ptr,
   ) {
-    return _rust_arc_increment_strong_count_RustOpaque_ArcAddNewBrandUseCase(
-      ptr,
-    );
+    return _rust_arc_increment_strong_count_RustOpaque_AddNewBrandUseCase(ptr);
   }
 
-  late final _rust_arc_increment_strong_count_RustOpaque_ArcAddNewBrandUseCasePtr =
+  late final _rust_arc_increment_strong_count_RustOpaque_AddNewBrandUseCasePtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-        'frbgen_frosy_pine_rust_arc_increment_strong_count_RustOpaque_ArcAddNewBrandUseCase',
+        'frbgen_frosy_pine_rust_arc_increment_strong_count_RustOpaque_AddNewBrandUseCase',
       );
-  late final _rust_arc_increment_strong_count_RustOpaque_ArcAddNewBrandUseCase =
-      _rust_arc_increment_strong_count_RustOpaque_ArcAddNewBrandUseCasePtr
+  late final _rust_arc_increment_strong_count_RustOpaque_AddNewBrandUseCase =
+      _rust_arc_increment_strong_count_RustOpaque_AddNewBrandUseCasePtr
           .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
 
-  void rust_arc_decrement_strong_count_RustOpaque_ArcAddNewBrandUseCase(
+  void rust_arc_decrement_strong_count_RustOpaque_AddNewBrandUseCase(
     ffi.Pointer<ffi.Void> ptr,
   ) {
-    return _rust_arc_decrement_strong_count_RustOpaque_ArcAddNewBrandUseCase(
-      ptr,
-    );
+    return _rust_arc_decrement_strong_count_RustOpaque_AddNewBrandUseCase(ptr);
   }
 
-  late final _rust_arc_decrement_strong_count_RustOpaque_ArcAddNewBrandUseCasePtr =
+  late final _rust_arc_decrement_strong_count_RustOpaque_AddNewBrandUseCasePtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-        'frbgen_frosy_pine_rust_arc_decrement_strong_count_RustOpaque_ArcAddNewBrandUseCase',
+        'frbgen_frosy_pine_rust_arc_decrement_strong_count_RustOpaque_AddNewBrandUseCase',
       );
-  late final _rust_arc_decrement_strong_count_RustOpaque_ArcAddNewBrandUseCase =
-      _rust_arc_decrement_strong_count_RustOpaque_ArcAddNewBrandUseCasePtr
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
-
-  void rust_arc_increment_strong_count_RustOpaque_ArcRetrieveAllBrandsUseCase(
-    ffi.Pointer<ffi.Void> ptr,
-  ) {
-    return _rust_arc_increment_strong_count_RustOpaque_ArcRetrieveAllBrandsUseCase(
-      ptr,
-    );
-  }
-
-  late final _rust_arc_increment_strong_count_RustOpaque_ArcRetrieveAllBrandsUseCasePtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-        'frbgen_frosy_pine_rust_arc_increment_strong_count_RustOpaque_ArcRetrieveAllBrandsUseCase',
-      );
-  late final _rust_arc_increment_strong_count_RustOpaque_ArcRetrieveAllBrandsUseCase =
-      _rust_arc_increment_strong_count_RustOpaque_ArcRetrieveAllBrandsUseCasePtr
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
-
-  void rust_arc_decrement_strong_count_RustOpaque_ArcRetrieveAllBrandsUseCase(
-    ffi.Pointer<ffi.Void> ptr,
-  ) {
-    return _rust_arc_decrement_strong_count_RustOpaque_ArcRetrieveAllBrandsUseCase(
-      ptr,
-    );
-  }
-
-  late final _rust_arc_decrement_strong_count_RustOpaque_ArcRetrieveAllBrandsUseCasePtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-        'frbgen_frosy_pine_rust_arc_decrement_strong_count_RustOpaque_ArcRetrieveAllBrandsUseCase',
-      );
-  late final _rust_arc_decrement_strong_count_RustOpaque_ArcRetrieveAllBrandsUseCase =
-      _rust_arc_decrement_strong_count_RustOpaque_ArcRetrieveAllBrandsUseCasePtr
+  late final _rust_arc_decrement_strong_count_RustOpaque_AddNewBrandUseCase =
+      _rust_arc_decrement_strong_count_RustOpaque_AddNewBrandUseCasePtr
           .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
 
   void rust_arc_increment_strong_count_RustOpaque_ArcdynBrandRepository(
@@ -353,6 +315,38 @@ class RustLibWire implements BaseWire {
       );
   late final _rust_arc_decrement_strong_count_RustOpaque_ArcdynBrandRepository =
       _rust_arc_decrement_strong_count_RustOpaque_ArcdynBrandRepositoryPtr
+          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+
+  void rust_arc_increment_strong_count_RustOpaque_RetrieveAllBrandsUseCase(
+    ffi.Pointer<ffi.Void> ptr,
+  ) {
+    return _rust_arc_increment_strong_count_RustOpaque_RetrieveAllBrandsUseCase(
+      ptr,
+    );
+  }
+
+  late final _rust_arc_increment_strong_count_RustOpaque_RetrieveAllBrandsUseCasePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
+        'frbgen_frosy_pine_rust_arc_increment_strong_count_RustOpaque_RetrieveAllBrandsUseCase',
+      );
+  late final _rust_arc_increment_strong_count_RustOpaque_RetrieveAllBrandsUseCase =
+      _rust_arc_increment_strong_count_RustOpaque_RetrieveAllBrandsUseCasePtr
+          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+
+  void rust_arc_decrement_strong_count_RustOpaque_RetrieveAllBrandsUseCase(
+    ffi.Pointer<ffi.Void> ptr,
+  ) {
+    return _rust_arc_decrement_strong_count_RustOpaque_RetrieveAllBrandsUseCase(
+      ptr,
+    );
+  }
+
+  late final _rust_arc_decrement_strong_count_RustOpaque_RetrieveAllBrandsUseCasePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
+        'frbgen_frosy_pine_rust_arc_decrement_strong_count_RustOpaque_RetrieveAllBrandsUseCase',
+      );
+  late final _rust_arc_decrement_strong_count_RustOpaque_RetrieveAllBrandsUseCase =
+      _rust_arc_decrement_strong_count_RustOpaque_RetrieveAllBrandsUseCasePtr
           .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
 
   void

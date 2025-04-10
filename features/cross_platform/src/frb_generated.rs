@@ -113,9 +113,9 @@ fn wire__crate__api__brand_controller__brands_controller_new_impl(
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
             let api_add_new_brand_use_case =
-                <RustOpaqueMoi<Arc<AddNewBrandUseCase>>>::sse_decode(&mut deserializer);
+                <RustOpaqueMoi<AddNewBrandUseCase>>::sse_decode(&mut deserializer);
             let api_retrieve_all_brands_use_case =
-                <RustOpaqueMoi<Arc<RetrieveAllBrandsUseCase>>>::sse_decode(&mut deserializer);
+                <RustOpaqueMoi<RetrieveAllBrandsUseCase>>::sse_decode(&mut deserializer);
             deserializer.end();
             transform_result_sse::<_, ()>((move || {
                 let output_ok =
@@ -319,9 +319,9 @@ fn wire__crate__api__init__init_app_impl(
 
 // Section: related_funcs
 
-flutter_rust_bridge::frb_generated_moi_arc_impl_value!(Arc<AddNewBrandUseCase>);
-flutter_rust_bridge::frb_generated_moi_arc_impl_value!(Arc<RetrieveAllBrandsUseCase>);
+flutter_rust_bridge::frb_generated_moi_arc_impl_value!(AddNewBrandUseCase);
 flutter_rust_bridge::frb_generated_moi_arc_impl_value!(Arc<dyn BrandRepository>);
+flutter_rust_bridge::frb_generated_moi_arc_impl_value!(RetrieveAllBrandsUseCase);
 flutter_rust_bridge::frb_generated_moi_arc_impl_value!(
     flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Brand>
 );
@@ -338,15 +338,7 @@ impl SseDecode for Brand {
     }
 }
 
-impl SseDecode for RustOpaqueMoi<Arc<AddNewBrandUseCase>> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <usize>::sse_decode(deserializer);
-        return decode_rust_opaque_moi(inner);
-    }
-}
-
-impl SseDecode for RustOpaqueMoi<Arc<RetrieveAllBrandsUseCase>> {
+impl SseDecode for RustOpaqueMoi<AddNewBrandUseCase> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut inner = <usize>::sse_decode(deserializer);
@@ -355,6 +347,14 @@ impl SseDecode for RustOpaqueMoi<Arc<RetrieveAllBrandsUseCase>> {
 }
 
 impl SseDecode for RustOpaqueMoi<Arc<dyn BrandRepository>> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <usize>::sse_decode(deserializer);
+        return decode_rust_opaque_moi(inner);
+    }
+}
+
+impl SseDecode for RustOpaqueMoi<RetrieveAllBrandsUseCase> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut inner = <usize>::sse_decode(deserializer);
@@ -390,9 +390,9 @@ impl SseDecode for crate::api::brand_controller::BrandsController {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut var_addNewBrandUseCase =
-            <RustOpaqueMoi<Arc<AddNewBrandUseCase>>>::sse_decode(deserializer);
+            <RustOpaqueMoi<AddNewBrandUseCase>>::sse_decode(deserializer);
         let mut var_retrieveAllBrandsUseCase =
-            <RustOpaqueMoi<Arc<RetrieveAllBrandsUseCase>>>::sse_decode(deserializer);
+            <RustOpaqueMoi<RetrieveAllBrandsUseCase>>::sse_decode(deserializer);
         return crate::api::brand_controller::BrandsController {
             add_new_brand_use_case: var_addNewBrandUseCase,
             retrieve_all_brands_use_case: var_retrieveAllBrandsUseCase,
@@ -602,16 +602,7 @@ impl SseEncode for Brand {
     }
 }
 
-impl SseEncode for RustOpaqueMoi<Arc<AddNewBrandUseCase>> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        let (ptr, size) = self.sse_encode_raw();
-        <usize>::sse_encode(ptr, serializer);
-        <i32>::sse_encode(size, serializer);
-    }
-}
-
-impl SseEncode for RustOpaqueMoi<Arc<RetrieveAllBrandsUseCase>> {
+impl SseEncode for RustOpaqueMoi<AddNewBrandUseCase> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         let (ptr, size) = self.sse_encode_raw();
@@ -621,6 +612,15 @@ impl SseEncode for RustOpaqueMoi<Arc<RetrieveAllBrandsUseCase>> {
 }
 
 impl SseEncode for RustOpaqueMoi<Arc<dyn BrandRepository>> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        let (ptr, size) = self.sse_encode_raw();
+        <usize>::sse_encode(ptr, serializer);
+        <i32>::sse_encode(size, serializer);
+    }
+}
+
+impl SseEncode for RustOpaqueMoi<RetrieveAllBrandsUseCase> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         let (ptr, size) = self.sse_encode_raw();
@@ -655,11 +655,8 @@ impl SseEncode for crate::api::brand_controller::BrandModel {
 impl SseEncode for crate::api::brand_controller::BrandsController {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <RustOpaqueMoi<Arc<AddNewBrandUseCase>>>::sse_encode(
-            self.add_new_brand_use_case,
-            serializer,
-        );
-        <RustOpaqueMoi<Arc<RetrieveAllBrandsUseCase>>>::sse_encode(
+        <RustOpaqueMoi<AddNewBrandUseCase>>::sse_encode(self.add_new_brand_use_case, serializer);
+        <RustOpaqueMoi<RetrieveAllBrandsUseCase>>::sse_encode(
             self.retrieve_all_brands_use_case,
             serializer,
         );
@@ -752,31 +749,17 @@ mod io {
     flutter_rust_bridge::frb_generated_boilerplate_io!();
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_frosy_pine_rust_arc_increment_strong_count_RustOpaque_ArcAddNewBrandUseCase(
+    pub extern "C" fn frbgen_frosy_pine_rust_arc_increment_strong_count_RustOpaque_AddNewBrandUseCase(
         ptr: *const std::ffi::c_void,
     ) {
-        MoiArc::<Arc<AddNewBrandUseCase>>::increment_strong_count(ptr as _);
+        MoiArc::<AddNewBrandUseCase>::increment_strong_count(ptr as _);
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_frosy_pine_rust_arc_decrement_strong_count_RustOpaque_ArcAddNewBrandUseCase(
+    pub extern "C" fn frbgen_frosy_pine_rust_arc_decrement_strong_count_RustOpaque_AddNewBrandUseCase(
         ptr: *const std::ffi::c_void,
     ) {
-        MoiArc::<Arc<AddNewBrandUseCase>>::decrement_strong_count(ptr as _);
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_frosy_pine_rust_arc_increment_strong_count_RustOpaque_ArcRetrieveAllBrandsUseCase(
-        ptr: *const std::ffi::c_void,
-    ) {
-        MoiArc::<Arc<RetrieveAllBrandsUseCase>>::increment_strong_count(ptr as _);
-    }
-
-    #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_frosy_pine_rust_arc_decrement_strong_count_RustOpaque_ArcRetrieveAllBrandsUseCase(
-        ptr: *const std::ffi::c_void,
-    ) {
-        MoiArc::<Arc<RetrieveAllBrandsUseCase>>::decrement_strong_count(ptr as _);
+        MoiArc::<AddNewBrandUseCase>::decrement_strong_count(ptr as _);
     }
 
     #[unsafe(no_mangle)]
@@ -791,6 +774,20 @@ mod io {
         ptr: *const std::ffi::c_void,
     ) {
         MoiArc::<Arc<dyn BrandRepository>>::decrement_strong_count(ptr as _);
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_frosy_pine_rust_arc_increment_strong_count_RustOpaque_RetrieveAllBrandsUseCase(
+        ptr: *const std::ffi::c_void,
+    ) {
+        MoiArc::<RetrieveAllBrandsUseCase>::increment_strong_count(ptr as _);
+    }
+
+    #[unsafe(no_mangle)]
+    pub extern "C" fn frbgen_frosy_pine_rust_arc_decrement_strong_count_RustOpaque_RetrieveAllBrandsUseCase(
+        ptr: *const std::ffi::c_void,
+    ) {
+        MoiArc::<RetrieveAllBrandsUseCase>::decrement_strong_count(ptr as _);
     }
 
     #[unsafe(no_mangle)]
@@ -833,31 +830,17 @@ mod web {
     flutter_rust_bridge::frb_generated_boilerplate_web!();
 
     #[wasm_bindgen]
-    pub fn rust_arc_increment_strong_count_RustOpaque_ArcAddNewBrandUseCase(
+    pub fn rust_arc_increment_strong_count_RustOpaque_AddNewBrandUseCase(
         ptr: *const std::ffi::c_void,
     ) {
-        MoiArc::<Arc<AddNewBrandUseCase>>::increment_strong_count(ptr as _);
+        MoiArc::<AddNewBrandUseCase>::increment_strong_count(ptr as _);
     }
 
     #[wasm_bindgen]
-    pub fn rust_arc_decrement_strong_count_RustOpaque_ArcAddNewBrandUseCase(
+    pub fn rust_arc_decrement_strong_count_RustOpaque_AddNewBrandUseCase(
         ptr: *const std::ffi::c_void,
     ) {
-        MoiArc::<Arc<AddNewBrandUseCase>>::decrement_strong_count(ptr as _);
-    }
-
-    #[wasm_bindgen]
-    pub fn rust_arc_increment_strong_count_RustOpaque_ArcRetrieveAllBrandsUseCase(
-        ptr: *const std::ffi::c_void,
-    ) {
-        MoiArc::<Arc<RetrieveAllBrandsUseCase>>::increment_strong_count(ptr as _);
-    }
-
-    #[wasm_bindgen]
-    pub fn rust_arc_decrement_strong_count_RustOpaque_ArcRetrieveAllBrandsUseCase(
-        ptr: *const std::ffi::c_void,
-    ) {
-        MoiArc::<Arc<RetrieveAllBrandsUseCase>>::decrement_strong_count(ptr as _);
+        MoiArc::<AddNewBrandUseCase>::decrement_strong_count(ptr as _);
     }
 
     #[wasm_bindgen]
@@ -872,6 +855,20 @@ mod web {
         ptr: *const std::ffi::c_void,
     ) {
         MoiArc::<Arc<dyn BrandRepository>>::decrement_strong_count(ptr as _);
+    }
+
+    #[wasm_bindgen]
+    pub fn rust_arc_increment_strong_count_RustOpaque_RetrieveAllBrandsUseCase(
+        ptr: *const std::ffi::c_void,
+    ) {
+        MoiArc::<RetrieveAllBrandsUseCase>::increment_strong_count(ptr as _);
+    }
+
+    #[wasm_bindgen]
+    pub fn rust_arc_decrement_strong_count_RustOpaque_RetrieveAllBrandsUseCase(
+        ptr: *const std::ffi::c_void,
+    ) {
+        MoiArc::<RetrieveAllBrandsUseCase>::decrement_strong_count(ptr as _);
     }
 
     #[wasm_bindgen]

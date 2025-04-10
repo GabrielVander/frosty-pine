@@ -64,9 +64,9 @@ Future<void> main() async {
 
   final ArcBrandRepository brandRepository = await createBrandRepositoryInMemoryImpl(initialData: List.empty());
 
-  final ArcAddNewBrandUseCase addNewBrandUseCase = await createInMemoryAddNewBrandUseCase(brandRepository: brandRepository);
+  final AddNewBrandUseCase addNewBrandUseCase = await createInMemoryAddNewBrandUseCase(brandRepository: brandRepository);
 
-  final ArcRetrieveAllBrandsUseCase retrieveAllBrandsUseCase = await createInMemoryRetrieveAllBrandsUseCase(brandRepository: brandRepository);
+  final RetrieveAllBrandsUseCase retrieveAllBrandsUseCase = await createInMemoryRetrieveAllBrandsUseCase(brandRepository: brandRepository);
 
   final BrandsController brandsController = BrandsController(addNewBrandUseCase: addNewBrandUseCase, retrieveAllBrandsUseCase: retrieveAllBrandsUseCase);
 

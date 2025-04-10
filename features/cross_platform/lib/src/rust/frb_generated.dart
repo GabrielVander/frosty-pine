@@ -81,8 +81,8 @@ abstract class RustLibApi extends BaseApi {
   });
 
   BrandsController crateApiBrandControllerBrandsControllerNew({
-    required ArcAddNewBrandUseCase addNewBrandUseCase,
-    required ArcRetrieveAllBrandsUseCase retrieveAllBrandsUseCase,
+    required AddNewBrandUseCase addNewBrandUseCase,
+    required RetrieveAllBrandsUseCase retrieveAllBrandsUseCase,
   });
 
   Future<List<BrandModel>>
@@ -95,12 +95,12 @@ abstract class RustLibApi extends BaseApi {
     required List<Brand> initialData,
   });
 
-  Future<ArcAddNewBrandUseCase>
+  Future<AddNewBrandUseCase>
   crateApiBrandControllerCreateInMemoryAddNewBrandUseCase({
     required ArcBrandRepository brandRepository,
   });
 
-  Future<ArcRetrieveAllBrandsUseCase>
+  Future<RetrieveAllBrandsUseCase>
   crateApiBrandControllerCreateInMemoryRetrieveAllBrandsUseCase({
     required ArcBrandRepository brandRepository,
   });
@@ -108,22 +108,13 @@ abstract class RustLibApi extends BaseApi {
   Future<void> crateApiInitInitApp();
 
   RustArcIncrementStrongCountFnType
-  get rust_arc_increment_strong_count_ArcAddNewBrandUseCase;
+  get rust_arc_increment_strong_count_AddNewBrandUseCase;
 
   RustArcDecrementStrongCountFnType
-  get rust_arc_decrement_strong_count_ArcAddNewBrandUseCase;
+  get rust_arc_decrement_strong_count_AddNewBrandUseCase;
 
   CrossPlatformFinalizerArg
-  get rust_arc_decrement_strong_count_ArcAddNewBrandUseCasePtr;
-
-  RustArcIncrementStrongCountFnType
-  get rust_arc_increment_strong_count_ArcRetrieveAllBrandsUseCase;
-
-  RustArcDecrementStrongCountFnType
-  get rust_arc_decrement_strong_count_ArcRetrieveAllBrandsUseCase;
-
-  CrossPlatformFinalizerArg
-  get rust_arc_decrement_strong_count_ArcRetrieveAllBrandsUseCasePtr;
+  get rust_arc_decrement_strong_count_AddNewBrandUseCasePtr;
 
   RustArcIncrementStrongCountFnType
   get rust_arc_increment_strong_count_ArcBrandRepository;
@@ -133,6 +124,15 @@ abstract class RustLibApi extends BaseApi {
 
   CrossPlatformFinalizerArg
   get rust_arc_decrement_strong_count_ArcBrandRepositoryPtr;
+
+  RustArcIncrementStrongCountFnType
+  get rust_arc_increment_strong_count_RetrieveAllBrandsUseCase;
+
+  RustArcDecrementStrongCountFnType
+  get rust_arc_decrement_strong_count_RetrieveAllBrandsUseCase;
+
+  CrossPlatformFinalizerArg
+  get rust_arc_decrement_strong_count_RetrieveAllBrandsUseCasePtr;
 
   RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_Brand;
 
@@ -187,18 +187,18 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @override
   BrandsController crateApiBrandControllerBrandsControllerNew({
-    required ArcAddNewBrandUseCase addNewBrandUseCase,
-    required ArcRetrieveAllBrandsUseCase retrieveAllBrandsUseCase,
+    required AddNewBrandUseCase addNewBrandUseCase,
+    required RetrieveAllBrandsUseCase retrieveAllBrandsUseCase,
   }) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_RustOpaque_ArcAddNewBrandUseCase(
+          sse_encode_RustOpaque_AddNewBrandUseCase(
             addNewBrandUseCase,
             serializer,
           );
-          sse_encode_RustOpaque_ArcRetrieveAllBrandsUseCase(
+          sse_encode_RustOpaque_RetrieveAllBrandsUseCase(
             retrieveAllBrandsUseCase,
             serializer,
           );
@@ -297,7 +297,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Future<ArcAddNewBrandUseCase>
+  Future<AddNewBrandUseCase>
   crateApiBrandControllerCreateInMemoryAddNewBrandUseCase({
     required ArcBrandRepository brandRepository,
   }) {
@@ -317,7 +317,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           );
         },
         codec: SseCodec(
-          decodeSuccessData: sse_decode_RustOpaque_ArcAddNewBrandUseCase,
+          decodeSuccessData: sse_decode_RustOpaque_AddNewBrandUseCase,
           decodeErrorData: null,
         ),
         constMeta:
@@ -336,7 +336,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  Future<ArcRetrieveAllBrandsUseCase>
+  Future<RetrieveAllBrandsUseCase>
   crateApiBrandControllerCreateInMemoryRetrieveAllBrandsUseCase({
     required ArcBrandRepository brandRepository,
   }) {
@@ -356,7 +356,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           );
         },
         codec: SseCodec(
-          decodeSuccessData: sse_decode_RustOpaque_ArcRetrieveAllBrandsUseCase,
+          decodeSuccessData: sse_decode_RustOpaque_RetrieveAllBrandsUseCase,
           decodeErrorData: null,
         ),
         constMeta:
@@ -402,20 +402,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(debugName: 'init_app', argNames: []);
 
   RustArcIncrementStrongCountFnType
-  get rust_arc_increment_strong_count_ArcAddNewBrandUseCase =>
-      wire.rust_arc_increment_strong_count_RustOpaque_ArcAddNewBrandUseCase;
+  get rust_arc_increment_strong_count_AddNewBrandUseCase =>
+      wire.rust_arc_increment_strong_count_RustOpaque_AddNewBrandUseCase;
 
   RustArcDecrementStrongCountFnType
-  get rust_arc_decrement_strong_count_ArcAddNewBrandUseCase =>
-      wire.rust_arc_decrement_strong_count_RustOpaque_ArcAddNewBrandUseCase;
-
-  RustArcIncrementStrongCountFnType
-  get rust_arc_increment_strong_count_ArcRetrieveAllBrandsUseCase =>
-      wire.rust_arc_increment_strong_count_RustOpaque_ArcRetrieveAllBrandsUseCase;
-
-  RustArcDecrementStrongCountFnType
-  get rust_arc_decrement_strong_count_ArcRetrieveAllBrandsUseCase =>
-      wire.rust_arc_decrement_strong_count_RustOpaque_ArcRetrieveAllBrandsUseCase;
+  get rust_arc_decrement_strong_count_AddNewBrandUseCase =>
+      wire.rust_arc_decrement_strong_count_RustOpaque_AddNewBrandUseCase;
 
   RustArcIncrementStrongCountFnType
   get rust_arc_increment_strong_count_ArcBrandRepository =>
@@ -424,6 +416,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   RustArcDecrementStrongCountFnType
   get rust_arc_decrement_strong_count_ArcBrandRepository =>
       wire.rust_arc_decrement_strong_count_RustOpaque_ArcdynBrandRepository;
+
+  RustArcIncrementStrongCountFnType
+  get rust_arc_increment_strong_count_RetrieveAllBrandsUseCase =>
+      wire.rust_arc_increment_strong_count_RustOpaque_RetrieveAllBrandsUseCase;
+
+  RustArcDecrementStrongCountFnType
+  get rust_arc_decrement_strong_count_RetrieveAllBrandsUseCase =>
+      wire.rust_arc_decrement_strong_count_RustOpaque_RetrieveAllBrandsUseCase;
 
   RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_Brand =>
       wire.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand;
@@ -441,27 +441,25 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  ArcAddNewBrandUseCase dco_decode_RustOpaque_ArcAddNewBrandUseCase(
-    dynamic raw,
-  ) {
+  AddNewBrandUseCase dco_decode_RustOpaque_AddNewBrandUseCase(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return ArcAddNewBrandUseCaseImpl.frbInternalDcoDecode(raw as List<dynamic>);
-  }
-
-  @protected
-  ArcRetrieveAllBrandsUseCase dco_decode_RustOpaque_ArcRetrieveAllBrandsUseCase(
-    dynamic raw,
-  ) {
-    // Codec=Dco (DartCObject based), see doc to use other codecs
-    return ArcRetrieveAllBrandsUseCaseImpl.frbInternalDcoDecode(
-      raw as List<dynamic>,
-    );
+    return AddNewBrandUseCaseImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
   ArcBrandRepository dco_decode_RustOpaque_ArcdynBrandRepository(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return ArcBrandRepositoryImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  RetrieveAllBrandsUseCase dco_decode_RustOpaque_RetrieveAllBrandsUseCase(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return RetrieveAllBrandsUseCaseImpl.frbInternalDcoDecode(
+      raw as List<dynamic>,
+    );
   }
 
   @protected
@@ -501,9 +499,10 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     if (arr.length != 2)
       throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
     return BrandsController.raw(
-      addNewBrandUseCase: dco_decode_RustOpaque_ArcAddNewBrandUseCase(arr[0]),
-      retrieveAllBrandsUseCase:
-          dco_decode_RustOpaque_ArcRetrieveAllBrandsUseCase(arr[1]),
+      addNewBrandUseCase: dco_decode_RustOpaque_AddNewBrandUseCase(arr[0]),
+      retrieveAllBrandsUseCase: dco_decode_RustOpaque_RetrieveAllBrandsUseCase(
+        arr[1],
+      ),
     );
   }
 
@@ -563,22 +562,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  ArcAddNewBrandUseCase sse_decode_RustOpaque_ArcAddNewBrandUseCase(
+  AddNewBrandUseCase sse_decode_RustOpaque_AddNewBrandUseCase(
     SseDeserializer deserializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return ArcAddNewBrandUseCaseImpl.frbInternalSseDecode(
-      sse_decode_usize(deserializer),
-      sse_decode_i_32(deserializer),
-    );
-  }
-
-  @protected
-  ArcRetrieveAllBrandsUseCase sse_decode_RustOpaque_ArcRetrieveAllBrandsUseCase(
-    SseDeserializer deserializer,
-  ) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    return ArcRetrieveAllBrandsUseCaseImpl.frbInternalSseDecode(
+    return AddNewBrandUseCaseImpl.frbInternalSseDecode(
       sse_decode_usize(deserializer),
       sse_decode_i_32(deserializer),
     );
@@ -590,6 +578,17 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return ArcBrandRepositoryImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
+  RetrieveAllBrandsUseCase sse_decode_RustOpaque_RetrieveAllBrandsUseCase(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return RetrieveAllBrandsUseCaseImpl.frbInternalSseDecode(
       sse_decode_usize(deserializer),
       sse_decode_i_32(deserializer),
     );
@@ -632,11 +631,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   BrandsController sse_decode_brands_controller(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    final var_addNewBrandUseCase = sse_decode_RustOpaque_ArcAddNewBrandUseCase(
+    final var_addNewBrandUseCase = sse_decode_RustOpaque_AddNewBrandUseCase(
       deserializer,
     );
     final var_retrieveAllBrandsUseCase =
-        sse_decode_RustOpaque_ArcRetrieveAllBrandsUseCase(deserializer);
+        sse_decode_RustOpaque_RetrieveAllBrandsUseCase(deserializer);
     return BrandsController.raw(
       addNewBrandUseCase: var_addNewBrandUseCase,
       retrieveAllBrandsUseCase: var_retrieveAllBrandsUseCase,
@@ -724,25 +723,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void sse_encode_RustOpaque_ArcAddNewBrandUseCase(
-    ArcAddNewBrandUseCase self,
+  void sse_encode_RustOpaque_AddNewBrandUseCase(
+    AddNewBrandUseCase self,
     SseSerializer serializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
-      (self as ArcAddNewBrandUseCaseImpl).frbInternalSseEncode(),
-      serializer,
-    );
-  }
-
-  @protected
-  void sse_encode_RustOpaque_ArcRetrieveAllBrandsUseCase(
-    ArcRetrieveAllBrandsUseCase self,
-    SseSerializer serializer,
-  ) {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_usize(
-      (self as ArcRetrieveAllBrandsUseCaseImpl).frbInternalSseEncode(),
+      (self as AddNewBrandUseCaseImpl).frbInternalSseEncode(),
       serializer,
     );
   }
@@ -755,6 +742,18 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
       (self as ArcBrandRepositoryImpl).frbInternalSseEncode(),
+      serializer,
+    );
+  }
+
+  @protected
+  void sse_encode_RustOpaque_RetrieveAllBrandsUseCase(
+    RetrieveAllBrandsUseCase self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as RetrieveAllBrandsUseCaseImpl).frbInternalSseEncode(),
       serializer,
     );
   }
@@ -796,11 +795,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     SseSerializer serializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_RustOpaque_ArcAddNewBrandUseCase(
+    sse_encode_RustOpaque_AddNewBrandUseCase(
       self.addNewBrandUseCase,
       serializer,
     );
-    sse_encode_RustOpaque_ArcRetrieveAllBrandsUseCase(
+    sse_encode_RustOpaque_RetrieveAllBrandsUseCase(
       self.retrieveAllBrandsUseCase,
       serializer,
     );
@@ -875,34 +874,27 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 }
 
 @sealed
-class ArcAddNewBrandUseCaseImpl extends RustOpaque
-    implements ArcAddNewBrandUseCase {
+class AddNewBrandUseCaseImpl extends RustOpaque implements AddNewBrandUseCase {
   // Not to be used by end users
-  ArcAddNewBrandUseCaseImpl.frbInternalDcoDecode(List<dynamic> wire)
+  AddNewBrandUseCaseImpl.frbInternalDcoDecode(List<dynamic> wire)
     : super.frbInternalDcoDecode(wire, _kStaticData);
 
   // Not to be used by end users
-  ArcAddNewBrandUseCaseImpl.frbInternalSseDecode(
+  AddNewBrandUseCaseImpl.frbInternalSseDecode(
     BigInt ptr,
     int externalSizeOnNative,
   ) : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
 
   static final _kStaticData = RustArcStaticData(
     rustArcIncrementStrongCount:
-        RustLib
-            .instance
-            .api
-            .rust_arc_increment_strong_count_ArcAddNewBrandUseCase,
+        RustLib.instance.api.rust_arc_increment_strong_count_AddNewBrandUseCase,
     rustArcDecrementStrongCount:
-        RustLib
-            .instance
-            .api
-            .rust_arc_decrement_strong_count_ArcAddNewBrandUseCase,
+        RustLib.instance.api.rust_arc_decrement_strong_count_AddNewBrandUseCase,
     rustArcDecrementStrongCountPtr:
         RustLib
             .instance
             .api
-            .rust_arc_decrement_strong_count_ArcAddNewBrandUseCasePtr,
+            .rust_arc_decrement_strong_count_AddNewBrandUseCasePtr,
   );
 }
 
@@ -932,38 +924,6 @@ class ArcBrandRepositoryImpl extends RustOpaque implements ArcBrandRepository {
 }
 
 @sealed
-class ArcRetrieveAllBrandsUseCaseImpl extends RustOpaque
-    implements ArcRetrieveAllBrandsUseCase {
-  // Not to be used by end users
-  ArcRetrieveAllBrandsUseCaseImpl.frbInternalDcoDecode(List<dynamic> wire)
-    : super.frbInternalDcoDecode(wire, _kStaticData);
-
-  // Not to be used by end users
-  ArcRetrieveAllBrandsUseCaseImpl.frbInternalSseDecode(
-    BigInt ptr,
-    int externalSizeOnNative,
-  ) : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
-
-  static final _kStaticData = RustArcStaticData(
-    rustArcIncrementStrongCount:
-        RustLib
-            .instance
-            .api
-            .rust_arc_increment_strong_count_ArcRetrieveAllBrandsUseCase,
-    rustArcDecrementStrongCount:
-        RustLib
-            .instance
-            .api
-            .rust_arc_decrement_strong_count_ArcRetrieveAllBrandsUseCase,
-    rustArcDecrementStrongCountPtr:
-        RustLib
-            .instance
-            .api
-            .rust_arc_decrement_strong_count_ArcRetrieveAllBrandsUseCasePtr,
-  );
-}
-
-@sealed
 class BrandImpl extends RustOpaque implements Brand {
   // Not to be used by end users
   BrandImpl.frbInternalDcoDecode(List<dynamic> wire)
@@ -980,5 +940,37 @@ class BrandImpl extends RustOpaque implements Brand {
         RustLib.instance.api.rust_arc_decrement_strong_count_Brand,
     rustArcDecrementStrongCountPtr:
         RustLib.instance.api.rust_arc_decrement_strong_count_BrandPtr,
+  );
+}
+
+@sealed
+class RetrieveAllBrandsUseCaseImpl extends RustOpaque
+    implements RetrieveAllBrandsUseCase {
+  // Not to be used by end users
+  RetrieveAllBrandsUseCaseImpl.frbInternalDcoDecode(List<dynamic> wire)
+    : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  RetrieveAllBrandsUseCaseImpl.frbInternalSseDecode(
+    BigInt ptr,
+    int externalSizeOnNative,
+  ) : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount:
+        RustLib
+            .instance
+            .api
+            .rust_arc_increment_strong_count_RetrieveAllBrandsUseCase,
+    rustArcDecrementStrongCount:
+        RustLib
+            .instance
+            .api
+            .rust_arc_decrement_strong_count_RetrieveAllBrandsUseCase,
+    rustArcDecrementStrongCountPtr:
+        RustLib
+            .instance
+            .api
+            .rust_arc_decrement_strong_count_RetrieveAllBrandsUseCasePtr,
   );
 }

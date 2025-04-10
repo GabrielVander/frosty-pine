@@ -15,28 +15,28 @@ Future<ArcBrandRepository> createBrandRepositoryInMemoryImpl({
       initialData: initialData,
     );
 
-Future<ArcAddNewBrandUseCase> createInMemoryAddNewBrandUseCase({
+Future<AddNewBrandUseCase> createInMemoryAddNewBrandUseCase({
   required ArcBrandRepository brandRepository,
 }) => RustLib.instance.api
     .crateApiBrandControllerCreateInMemoryAddNewBrandUseCase(
       brandRepository: brandRepository,
     );
 
-Future<ArcRetrieveAllBrandsUseCase> createInMemoryRetrieveAllBrandsUseCase({
+Future<RetrieveAllBrandsUseCase> createInMemoryRetrieveAllBrandsUseCase({
   required ArcBrandRepository brandRepository,
 }) => RustLib.instance.api
     .crateApiBrandControllerCreateInMemoryRetrieveAllBrandsUseCase(
       brandRepository: brandRepository,
     );
 
-// Rust type: RustOpaqueMoi<Arc < AddNewBrandUseCase >>
-abstract class ArcAddNewBrandUseCase implements RustOpaqueInterface {}
-
-// Rust type: RustOpaqueMoi<Arc < RetrieveAllBrandsUseCase >>
-abstract class ArcRetrieveAllBrandsUseCase implements RustOpaqueInterface {}
+// Rust type: RustOpaqueMoi<AddNewBrandUseCase>
+abstract class AddNewBrandUseCase implements RustOpaqueInterface {}
 
 // Rust type: RustOpaqueMoi<Arc < dyn BrandRepository >>
 abstract class ArcBrandRepository implements RustOpaqueInterface {}
+
+// Rust type: RustOpaqueMoi<RetrieveAllBrandsUseCase>
+abstract class RetrieveAllBrandsUseCase implements RustOpaqueInterface {}
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Brand>>
 abstract class Brand implements RustOpaqueInterface {}
@@ -58,8 +58,8 @@ class BrandModel {
 
 class BrandsController {
   factory BrandsController({
-    required ArcAddNewBrandUseCase addNewBrandUseCase,
-    required ArcRetrieveAllBrandsUseCase retrieveAllBrandsUseCase,
+    required AddNewBrandUseCase addNewBrandUseCase,
+    required RetrieveAllBrandsUseCase retrieveAllBrandsUseCase,
   }) => RustLib.instance.api.crateApiBrandControllerBrandsControllerNew(
     addNewBrandUseCase: addNewBrandUseCase,
     retrieveAllBrandsUseCase: retrieveAllBrandsUseCase,
@@ -69,8 +69,8 @@ class BrandsController {
     required this.addNewBrandUseCase,
     required this.retrieveAllBrandsUseCase,
   });
-  final ArcAddNewBrandUseCase addNewBrandUseCase;
-  final ArcRetrieveAllBrandsUseCase retrieveAllBrandsUseCase;
+  final AddNewBrandUseCase addNewBrandUseCase;
+  final RetrieveAllBrandsUseCase retrieveAllBrandsUseCase;
 
   Future<BrandModel> addNewBrand({required String name}) =>
       RustLib.instance.api.crateApiBrandControllerBrandsControllerAddNewBrand(
