@@ -8,7 +8,7 @@ use expense_tracking::domain::{
     repositories::BrandRepository,
     use_cases::{AddNewBrandUseCase, RetrieveAllBrandsUseCase},
 };
-use in_memory_storage::application::repositories::BrandRepositoryInMemoryImpl;
+use in_memory_storage::adapters::repositories::BrandRepositoryInMemoryImpl;
 
 use super::generated::RustOpaque;
 

@@ -28,10 +28,7 @@ impl BrandRepository for BrandRepositoryInMemoryImpl {
             return Err(BrandRepositoryCreateError::BrandAlreadyExists);
         }
 
-        self.hash_map
-            .lock()
-            .unwrap()
-            .insert(brand.name.clone(), brand.clone());
+        self.hash_map.lock().unwrap().insert(brand.name.clone(), brand.clone());
         Ok(brand.clone())
     }
 
@@ -50,9 +47,7 @@ mod tests {
     use super::BrandRepositoryInMemoryImpl;
     use expense_tracking::domain::{
         entities::Brand,
-        repositories::{
-            BrandRepository, BrandRepositoryCreateError, BrandRepositoryRetrieveAllError,
-        },
+        repositories::{BrandRepository, BrandRepositoryCreateError, BrandRepositoryRetrieveAllError},
     };
 
     fn given_new_brand() -> Brand {
@@ -104,17 +99,12 @@ mod tests {
     async fn add_new_brand_given_empty_repository() {
         let brand: Brand = Brand::new("New Brand".into());
         let data: Arc<Mutex<HashMap<String, Brand>>> = Arc::new(Mutex::new(HashMap::new()));
-        let repository: BrandRepositoryInMemoryImpl =
-            BrandRepositoryInMemoryImpl::new(Arc::clone(&data));
+        let repository: BrandRepositoryInMemoryImpl = BrandRepositoryInMemoryImpl::new(Arc::clone(&data));
 
         let result: Result<Brand, BrandRepositoryCreateError> = repository.create(&brand).await;
         let expected: Result<Brand, BrandRepositoryCreateError> = Ok(brand.clone());
 
-        assert_eq!(
-            result, expected,
-            "Expected {:?}, but got {:?}",
-            expected, result
-        );
+        assert_eq!(result, expected, "Expected {:?}, but got {:?}", expected, result);
     }
 
     #[tokio::test]
@@ -128,17 +118,12 @@ mod tests {
 
         let brand: Brand = Brand::new("New Brand".into());
 
-        let repository: BrandRepositoryInMemoryImpl =
-            BrandRepositoryInMemoryImpl::new(Arc::clone(&data));
+        let repository: BrandRepositoryInMemoryImpl = BrandRepositoryInMemoryImpl::new(Arc::clone(&data));
 
         let result: Result<Brand, BrandRepositoryCreateError> = repository.create(&brand).await;
         let expected: Result<Brand, BrandRepositoryCreateError> = Ok(brand);
 
-        assert_eq!(
-            result, expected,
-            "Expected {:?}, but got {:?}",
-            expected, result
-        );
+        assert_eq!(result, expected, "Expected {:?}, but got {:?}", expected, result);
     }
 
     #[tokio::test]
@@ -152,18 +137,11 @@ mod tests {
                 .collect::<HashMap<String, Brand>>(),
         ));
 
-        let repository: BrandRepositoryInMemoryImpl =
-            BrandRepositoryInMemoryImpl::new(Arc::clone(&data));
+        let repository: BrandRepositoryInMemoryImpl = BrandRepositoryInMemoryImpl::new(Arc::clone(&data));
 
-        let result: Result<Brand, BrandRepositoryCreateError> =
-            repository.create(&existing_brand).await;
-        let expected: Result<Brand, BrandRepositoryCreateError> =
-            Err(BrandRepositoryCreateError::BrandAlreadyExists);
+        let result: Result<Brand, BrandRepositoryCreateError> = repository.create(&existing_brand).await;
+        let expected: Result<Brand, BrandRepositoryCreateError> = Err(BrandRepositoryCreateError::BrandAlreadyExists);
 
-        assert_eq!(
-            result, expected,
-            "Expected {:?}, but got {:?}",
-            expected, result
-        );
+        assert_eq!(result, expected, "Expected {:?}, but got {:?}", expected, result);
     }
 }

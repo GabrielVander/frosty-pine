@@ -89,12 +89,8 @@ impl InMemoryCache {
         self.items.insert(item.key.clone(), item)
     }
 
-    pub fn upsert_transaction(
-        &mut self,
-        transaction: TransactionModel,
-    ) -> Option<TransactionModel> {
-        self.transactions
-            .insert(transaction.key.clone(), transaction)
+    pub fn upsert_transaction(&mut self, transaction: TransactionModel) -> Option<TransactionModel> {
+        self.transactions.insert(transaction.key.clone(), transaction)
     }
 }
 
@@ -130,10 +126,7 @@ struct CategoryModel {
 
 impl CategoryModel {
     fn new(new: String, to_string: String) -> Self {
-        Self {
-            key: new,
-            name: to_string,
-        }
+        Self { key: new, name: to_string }
     }
 }
 
@@ -204,11 +197,8 @@ impl TransactionModel {
 
 #[cfg(test)]
 mod tests {
-    
 
-    
-
-    use crate::application::data_sources::in_memory_cache::{
+    use crate::frameworks::data_sources::in_memory_cache::{
         BrandModel, CategoryModel, ItemModel, ProductModel, TransactionModel, UnitModel,
     };
 
@@ -227,10 +217,7 @@ mod tests {
     #[test]
     fn no_stores_upsert_new_store_return_none_and_retrieve() {
         let mut cache: InMemoryCache = InMemoryCache::new();
-        let store_model: StoreModel = StoreModel::new(
-            "8C2F2504-68B8-4B63-8325-83A9D3FCED52".to_string(),
-            "Some Store".to_string(),
-        );
+        let store_model: StoreModel = StoreModel::new("8C2F2504-68B8-4B63-8325-83A9D3FCED52".to_string(), "Some Store".to_string());
 
         assert_eq!(cache.upsert_store(store_model.clone()), None);
 
@@ -245,14 +232,10 @@ mod tests {
 
         let key: String = "D2DEDED4-A7EC-444B-9B25-4144DECC0F4C".to_string();
         let existing_store: StoreModel = StoreModel::new(key.clone(), "Some Store".to_string());
-        let updated_store: StoreModel =
-            StoreModel::new(key.clone(), "Some updated Store".to_string());
+        let updated_store: StoreModel = StoreModel::new(key.clone(), "Some updated Store".to_string());
 
         assert_eq!(cache.upsert_store(existing_store.clone()), None);
-        assert_eq!(
-            cache.upsert_store(updated_store.clone()),
-            Some(existing_store.clone())
-        );
+        assert_eq!(cache.upsert_store(updated_store.clone()), Some(existing_store.clone()));
 
         let all_stores: Vec<StoreModel> = cache.get_all_stores();
         assert_eq!(all_stores.len(), 1);
@@ -263,18 +246,9 @@ mod tests {
     fn get_all_existing_stores() {
         let mut cache: InMemoryCache = InMemoryCache::new();
 
-        let store_1: StoreModel = StoreModel::new(
-            "97D688ED-4248-488E-96EE-BD5FE601289A".to_string(),
-            "Some Store".to_string(),
-        );
-        let store_2: StoreModel = StoreModel::new(
-            "487DACC8-C56D-49C6-A7CE-C82E0300AB6F".to_string(),
-            "Some Other Store".to_string(),
-        );
-        let store_3: StoreModel = StoreModel::new(
-            "E02D350D-280D-403C-8A4B-57220A2EF84A".to_string(),
-            "Yet Another Store".to_string(),
-        );
+        let store_1: StoreModel = StoreModel::new("97D688ED-4248-488E-96EE-BD5FE601289A".to_string(), "Some Store".to_string());
+        let store_2: StoreModel = StoreModel::new("487DACC8-C56D-49C6-A7CE-C82E0300AB6F".to_string(), "Some Other Store".to_string());
+        let store_3: StoreModel = StoreModel::new("E02D350D-280D-403C-8A4B-57220A2EF84A".to_string(), "Yet Another Store".to_string());
 
         assert!(cache.get_all_stores().is_empty());
 
@@ -293,25 +267,15 @@ mod tests {
     fn get_non_existing_store_return_none() {
         let mut cache: InMemoryCache = InMemoryCache::new();
 
-        let store_1: StoreModel = StoreModel::new(
-            "1E1C9D92-A233-4153-BC24-AA20FD75FB8B".to_string(),
-            "Some Store".to_string(),
-        );
-        let store_2: StoreModel = StoreModel::new(
-            "E6DE83D0-80B2-498F-923D-3EFCCA9DF7D8".to_string(),
-            "Some Other Store".to_string(),
-        );
-        let store_3: StoreModel = StoreModel::new(
-            "DF546FBA-4677-457D-BE74-F19237B9CBA8".to_string(),
-            "Yet Another Store".to_string(),
-        );
+        let store_1: StoreModel = StoreModel::new("1E1C9D92-A233-4153-BC24-AA20FD75FB8B".to_string(), "Some Store".to_string());
+        let store_2: StoreModel = StoreModel::new("E6DE83D0-80B2-498F-923D-3EFCCA9DF7D8".to_string(), "Some Other Store".to_string());
+        let store_3: StoreModel = StoreModel::new("DF546FBA-4677-457D-BE74-F19237B9CBA8".to_string(), "Yet Another Store".to_string());
 
         assert_eq!(cache.upsert_store(store_1.clone()), None);
         assert_eq!(cache.upsert_store(store_2.clone()), None);
         assert_eq!(cache.upsert_store(store_3.clone()), None);
 
-        let store: Option<StoreModel> =
-            cache.get_single_store(&"2D195006-AEA7-4DDB-ADD8-A1B070EB01EC".to_string());
+        let store: Option<StoreModel> = cache.get_single_store(&"2D195006-AEA7-4DDB-ADD8-A1B070EB01EC".to_string());
         assert_eq!(store, None);
     }
 
@@ -321,14 +285,8 @@ mod tests {
 
         let target_key: String = "BE9498F4-23CC-4A75-8FD8-0C116F7755F4".to_string();
         let store_1: StoreModel = StoreModel::new(target_key.clone(), "Some Store".to_string());
-        let store_2: StoreModel = StoreModel::new(
-            "5C844592-7F39-425F-8D29-5F9FA0266561".to_string(),
-            "Some Other Store".to_string(),
-        );
-        let store_3: StoreModel = StoreModel::new(
-            "060F221A-349E-40DD-A975-837F6581856C".to_string(),
-            "Yet Another Store".to_string(),
-        );
+        let store_2: StoreModel = StoreModel::new("5C844592-7F39-425F-8D29-5F9FA0266561".to_string(), "Some Other Store".to_string());
+        let store_3: StoreModel = StoreModel::new("060F221A-349E-40DD-A975-837F6581856C".to_string(), "Yet Another Store".to_string());
 
         assert_eq!(cache.upsert_store(store_1.clone()), None);
         assert_eq!(cache.upsert_store(store_2.clone()), None);
@@ -341,10 +299,7 @@ mod tests {
     #[test]
     fn no_brands_upsert_new_brand_return_none_and_retrieve() {
         let mut cache: InMemoryCache = InMemoryCache::new();
-        let brand_model: BrandModel = BrandModel::new(
-            "C3DA8CD6-5362-4124-BCBD-FBB73E483EE0".to_string(),
-            "Some Brand".to_string(),
-        );
+        let brand_model: BrandModel = BrandModel::new("C3DA8CD6-5362-4124-BCBD-FBB73E483EE0".to_string(), "Some Brand".to_string());
 
         assert_eq!(cache.upsert_brand(brand_model.clone()), None);
 
@@ -359,14 +314,10 @@ mod tests {
 
         let key: String = "C0CAC505-D2B4-4878-B2BC-D789B8B4B07A".to_string();
         let existing_brand: BrandModel = BrandModel::new(key.clone(), "Some Brand".to_string());
-        let updated_brand: BrandModel =
-            BrandModel::new(key.clone(), "Some updated Brand".to_string());
+        let updated_brand: BrandModel = BrandModel::new(key.clone(), "Some updated Brand".to_string());
 
         assert_eq!(cache.upsert_brand(existing_brand.clone()), None);
-        assert_eq!(
-            cache.upsert_brand(updated_brand.clone()),
-            Some(existing_brand.clone())
-        );
+        assert_eq!(cache.upsert_brand(updated_brand.clone()), Some(existing_brand.clone()));
 
         let all_brands: Vec<BrandModel> = cache.get_all_brands();
         assert_eq!(all_brands.len(), 1);
@@ -377,18 +328,9 @@ mod tests {
     fn get_all_existing_brands() {
         let mut cache: InMemoryCache = InMemoryCache::new();
 
-        let brand_1: BrandModel = BrandModel::new(
-            "389016A7-BDE8-48AE-9542-8611AD7A6115".to_string(),
-            "Some Brand".to_string(),
-        );
-        let brand_2: BrandModel = BrandModel::new(
-            "A12E6B36-2D05-4B83-A42E-B3A6DE1D1417".to_string(),
-            "Some Other Brand".to_string(),
-        );
-        let brand_3: BrandModel = BrandModel::new(
-            "D2F5A1BA-D902-4405-A4A6-3708575AA2AA".to_string(),
-            "Yet Another Brand".to_string(),
-        );
+        let brand_1: BrandModel = BrandModel::new("389016A7-BDE8-48AE-9542-8611AD7A6115".to_string(), "Some Brand".to_string());
+        let brand_2: BrandModel = BrandModel::new("A12E6B36-2D05-4B83-A42E-B3A6DE1D1417".to_string(), "Some Other Brand".to_string());
+        let brand_3: BrandModel = BrandModel::new("D2F5A1BA-D902-4405-A4A6-3708575AA2AA".to_string(), "Yet Another Brand".to_string());
 
         assert!(cache.get_all_brands().is_empty());
 
@@ -407,25 +349,15 @@ mod tests {
     fn get_non_existing_brand_return_none() {
         let mut cache: InMemoryCache = InMemoryCache::new();
 
-        let brand_1: BrandModel = BrandModel::new(
-            "1738C808-00CF-40E6-B279-E154013DD1D3".to_string(),
-            "Some Brand".to_string(),
-        );
-        let brand_2: BrandModel = BrandModel::new(
-            "508DA259-8D3D-46D6-B641-981254334995".to_string(),
-            "Some Other Brand".to_string(),
-        );
-        let brand_3: BrandModel = BrandModel::new(
-            "F5A44D70-4C0D-4EFB-AC15-E03D6C46062D".to_string(),
-            "Yet Another Brand".to_string(),
-        );
+        let brand_1: BrandModel = BrandModel::new("1738C808-00CF-40E6-B279-E154013DD1D3".to_string(), "Some Brand".to_string());
+        let brand_2: BrandModel = BrandModel::new("508DA259-8D3D-46D6-B641-981254334995".to_string(), "Some Other Brand".to_string());
+        let brand_3: BrandModel = BrandModel::new("F5A44D70-4C0D-4EFB-AC15-E03D6C46062D".to_string(), "Yet Another Brand".to_string());
 
         assert_eq!(cache.upsert_brand(brand_1.clone()), None);
         assert_eq!(cache.upsert_brand(brand_2.clone()), None);
         assert_eq!(cache.upsert_brand(brand_3.clone()), None);
 
-        let brand: Option<BrandModel> =
-            cache.get_single_brand(&"C8D32013-6773-43A8-8BA6-FA87A94335B1".to_string());
+        let brand: Option<BrandModel> = cache.get_single_brand(&"C8D32013-6773-43A8-8BA6-FA87A94335B1".to_string());
         assert_eq!(brand, None);
     }
 
@@ -435,14 +367,8 @@ mod tests {
 
         let target_key: String = "F233E1AB-2A2C-485B-BE57-0253B95E5767".to_string();
         let brand_1: BrandModel = BrandModel::new(target_key.clone(), "Some Brand".to_string());
-        let brand_2: BrandModel = BrandModel::new(
-            "50839B13-3EE8-493E-A34A-D44DB255D261".to_string(),
-            "Some Other Brand".to_string(),
-        );
-        let brand_3: BrandModel = BrandModel::new(
-            "D86892D5-296C-4278-B85E-8CE061D1FE47".to_string(),
-            "Yet Another Brand".to_string(),
-        );
+        let brand_2: BrandModel = BrandModel::new("50839B13-3EE8-493E-A34A-D44DB255D261".to_string(), "Some Other Brand".to_string());
+        let brand_3: BrandModel = BrandModel::new("D86892D5-296C-4278-B85E-8CE061D1FE47".to_string(), "Yet Another Brand".to_string());
 
         assert_eq!(cache.upsert_brand(brand_1.clone()), None);
         assert_eq!(cache.upsert_brand(brand_2.clone()), None);
@@ -455,10 +381,8 @@ mod tests {
     #[test]
     fn no_categories_upsert_new_category_return_none_and_retrieve() {
         let mut cache: InMemoryCache = InMemoryCache::new();
-        let category_model: CategoryModel = CategoryModel::new(
-            "493180A6-322E-4031-AAE4-00AFD696497D".to_string(),
-            "Some Category".to_string(),
-        );
+        let category_model: CategoryModel =
+            CategoryModel::new("493180A6-322E-4031-AAE4-00AFD696497D".to_string(), "Some Category".to_string());
 
         assert_eq!(cache.upsert_category(category_model.clone()), None);
 
@@ -472,16 +396,11 @@ mod tests {
         let mut cache: InMemoryCache = InMemoryCache::new();
 
         let key: String = "985D9369-2B21-4F59-B228-9E192277A9A6".to_string();
-        let existing_category: CategoryModel =
-            CategoryModel::new(key.clone(), "Some Category".to_string());
-        let updated_category: CategoryModel =
-            CategoryModel::new(key.clone(), "Some updated Category".to_string());
+        let existing_category: CategoryModel = CategoryModel::new(key.clone(), "Some Category".to_string());
+        let updated_category: CategoryModel = CategoryModel::new(key.clone(), "Some updated Category".to_string());
 
         assert_eq!(cache.upsert_category(existing_category.clone()), None);
-        assert_eq!(
-            cache.upsert_category(updated_category.clone()),
-            Some(existing_category.clone())
-        );
+        assert_eq!(cache.upsert_category(updated_category.clone()), Some(existing_category.clone()));
 
         let all_categories: Vec<CategoryModel> = cache.get_all_categories();
         assert_eq!(all_categories.len(), 1);
@@ -492,10 +411,7 @@ mod tests {
     fn get_all_existing_categories() {
         let mut cache: InMemoryCache = InMemoryCache::new();
 
-        let category_1: CategoryModel = CategoryModel::new(
-            "CD21C158-E52C-47EF-80A2-CB1985DE4B83".to_string(),
-            "Some Category".to_string(),
-        );
+        let category_1: CategoryModel = CategoryModel::new("CD21C158-E52C-47EF-80A2-CB1985DE4B83".to_string(), "Some Category".to_string());
         let category_2: CategoryModel = CategoryModel::new(
             "493E2116-5AA5-4AC6-99D8-3DA4DAD93E13".to_string(),
             "Some Other Category".to_string(),
@@ -522,10 +438,7 @@ mod tests {
     fn get_non_existing_category_return_none() {
         let mut cache: InMemoryCache = InMemoryCache::new();
 
-        let category_1: CategoryModel = CategoryModel::new(
-            "8672F91B-D326-41AC-A9E5-AC00E43E6131".to_string(),
-            "Some Category".to_string(),
-        );
+        let category_1: CategoryModel = CategoryModel::new("8672F91B-D326-41AC-A9E5-AC00E43E6131".to_string(), "Some Category".to_string());
         let category_2: CategoryModel = CategoryModel::new(
             "3E5B9BDB-FD8B-48CF-94EB-2921A5515615".to_string(),
             "Some Other Category".to_string(),
@@ -539,8 +452,7 @@ mod tests {
         assert_eq!(cache.upsert_category(category_2.clone()), None);
         assert_eq!(cache.upsert_category(category_3.clone()), None);
 
-        let category: Option<CategoryModel> =
-            cache.get_single_category(&"7AAAF9D4-3EEF-4549-9210-64D98B297A56".to_string());
+        let category: Option<CategoryModel> = cache.get_single_category(&"7AAAF9D4-3EEF-4549-9210-64D98B297A56".to_string());
         assert_eq!(category, None);
     }
 
@@ -549,8 +461,7 @@ mod tests {
         let mut cache: InMemoryCache = InMemoryCache::new();
 
         let target_key: String = "CA470BB5-5F53-477A-AE75-08A1E0EFFA8E".to_string();
-        let category_1: CategoryModel =
-            CategoryModel::new(target_key.clone(), "Some Category".to_string());
+        let category_1: CategoryModel = CategoryModel::new(target_key.clone(), "Some Category".to_string());
         let category_2: CategoryModel = CategoryModel::new(
             "7B39DF64-6C45-44F1-BAC8-05BDF4DB86A8".to_string(),
             "Some Other Category".to_string(),
@@ -593,12 +504,8 @@ mod tests {
         let brand_key: String = "F473D4DE-894D-46FB-9DAB-415D97E94614".to_string();
         let category_key: String = "AD95B9A8-D9C3-4AA3-A565-D67F5CB263C9".to_string();
 
-        let existing_product: ProductModel = ProductModel::new(
-            key.clone(),
-            "Some Product".to_string(),
-            brand_key.clone(),
-            category_key.clone(),
-        );
+        let existing_product: ProductModel =
+            ProductModel::new(key.clone(), "Some Product".to_string(), brand_key.clone(), category_key.clone());
         let updated_product: ProductModel = ProductModel::new(
             key.clone(),
             "Some updated Product".to_string(),
@@ -607,10 +514,7 @@ mod tests {
         );
 
         assert_eq!(cache.upsert_product(existing_product.clone()), None);
-        assert_eq!(
-            cache.upsert_product(updated_product.clone()),
-            Some(existing_product.clone())
-        );
+        assert_eq!(cache.upsert_product(updated_product.clone()), Some(existing_product.clone()));
 
         let all_products: Vec<ProductModel> = cache.get_all_products();
         assert_eq!(all_products.len(), 1);
@@ -680,8 +584,7 @@ mod tests {
         assert_eq!(cache.upsert_product(product_2.clone()), None);
         assert_eq!(cache.upsert_product(product_3.clone()), None);
 
-        let product: Option<ProductModel> =
-            cache.get_single_product(&"C373A86C-54C7-4C40-9FBE-B5FFE85AEF1E".to_string());
+        let product: Option<ProductModel> = cache.get_single_product(&"C373A86C-54C7-4C40-9FBE-B5FFE85AEF1E".to_string());
         assert_eq!(product, None);
     }
 
@@ -753,10 +656,7 @@ mod tests {
         );
 
         assert_eq!(cache.upsert_item(existing_item.clone()), None);
-        assert_eq!(
-            cache.upsert_item(updated_item.clone()),
-            Some(existing_item.clone())
-        );
+        assert_eq!(cache.upsert_item(updated_item.clone()), Some(existing_item.clone()));
 
         let all_items: Vec<ItemModel> = cache.get_all_items();
         assert_eq!(all_items.len(), 1);
@@ -826,8 +726,7 @@ mod tests {
         assert_eq!(cache.upsert_item(item_2.clone()), None);
         assert_eq!(cache.upsert_item(item_3.clone()), None);
 
-        let item: Option<ItemModel> =
-            cache.get_single_item(&"0E598BF1-3B07-4368-8DFA-285031383F9B".to_string());
+        let item: Option<ItemModel> = cache.get_single_item(&"0E598BF1-3B07-4368-8DFA-285031383F9B".to_string());
         assert_eq!(item, None);
     }
 
@@ -886,18 +785,10 @@ mod tests {
 
         let key: String = "C996620D-8309-49DA-93D7-EE821B5C7BA9".to_string();
         let store_key: String = "0E98AC16-BC6B-4BB4-A829-1C16C97669F9".to_string();
-        let existing_transaction: TransactionModel = TransactionModel::new(
-            key.clone(),
-            vec![],
-            store_key.clone(),
-            "2021-10-26T03:30:48Z".to_string(),
-        );
-        let updated_transaction: TransactionModel = TransactionModel::new(
-            key.clone(),
-            vec![],
-            store_key.clone(),
-            "2021-05-25T21:10:43Z".to_string(),
-        );
+        let existing_transaction: TransactionModel =
+            TransactionModel::new(key.clone(), vec![], store_key.clone(), "2021-10-26T03:30:48Z".to_string());
+        let updated_transaction: TransactionModel =
+            TransactionModel::new(key.clone(), vec![], store_key.clone(), "2021-05-25T21:10:43Z".to_string());
 
         assert_eq!(cache.upsert_transaction(existing_transaction.clone()), None);
         assert_eq!(
@@ -981,8 +872,7 @@ mod tests {
         assert_eq!(cache.upsert_transaction(transaction_2.clone()), None);
         assert_eq!(cache.upsert_transaction(transaction_3.clone()), None);
 
-        let transaction: Option<TransactionModel> =
-            cache.get_single_transaction(&"EEDEB385-A734-423B-AF0D-7D68BDC86748".to_string());
+        let transaction: Option<TransactionModel> = cache.get_single_transaction(&"EEDEB385-A734-423B-AF0D-7D68BDC86748".to_string());
         assert_eq!(transaction, None);
     }
 
