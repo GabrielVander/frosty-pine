@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:frosy_pine/features/ui/presentation/utils/context_extensions.dart';
-import 'package:frosy_pine/features/ui/presentation/widgets/brands/state/brand_cubit.dart';
+import 'package:frosty_pine/features/ui/presentation/utils/context_extensions.dart';
+import 'package:frosty_pine/features/ui/presentation/widgets/brands/state/brand_cubit.dart';
 
 class BrandsTab extends StatelessWidget {
   const BrandsTab({required this.cubit, super.key});

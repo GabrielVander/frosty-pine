@@ -1,5 +1,5 @@
-import 'package:frosy_pine/features/core/domain/entities/product.dart';
-import 'package:frosy_pine/features/core/utilities/failures.dart';
+import 'package:frosty_pine/features/core/domain/entities/product.dart';
+import 'package:frosty_pine/features/core/utilities/failures.dart';
 import 'package:rust/rust.dart';
 
 abstract interface class ProductRepository {
@@ -7,16 +7,9 @@ abstract interface class ProductRepository {
 }
 
 sealed class ProductRepositoryFailure extends Failure {
-  const ProductRepositoryFailure({
-    required super.message,
-    required super.details,
-  });
+  const ProductRepositoryFailure({required super.message, required super.details});
 }
 
-final class ProductRepositoryUnexpectedFailure
-    extends ProductRepositoryFailure {
-  const ProductRepositoryUnexpectedFailure({
-    required super.message,
-    required super.details,
-  });
+final class ProductRepositoryUnexpectedFailure extends ProductRepositoryFailure {
+  const ProductRepositoryUnexpectedFailure({required super.message, required super.details});
 }

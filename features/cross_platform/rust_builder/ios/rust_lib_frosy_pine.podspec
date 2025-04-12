@@ -34,7 +34,7 @@ A new Flutter FFI plugin project.
     :input_files => ['${BUILT_PRODUCTS_DIR}/cargokit_phony'],
     # Let XCode know that the static library referenced in -force_load below is
     # created by this build step.
-    :output_files => ["${BUILT_PRODUCTS_DIR}/librust_lib_frosy_pine.a"],
+    :output_files => ["${BUILT_PRODUCTS_DIR}/librust_lib_frosty_pine.a"],
   }
   s.pod_target_xcconfig = {
     'DEFINES_MODULE' => 'YES',

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:frosy_pine/features/ui/presentation/utils/context_extensions.dart';
-import 'package:frosy_pine/features/ui/presentation/widgets/brands/brands_tab.dart';
-import 'package:frosy_pine/features/ui/presentation/widgets/brands/state/brand_cubit.dart';
-import 'package:frosy_pine/features/ui/presentation/widgets/home/home_tab.dart';
-import 'package:frosy_pine/features/ui/presentation/widgets/transactions/state/new_transaction_cubit.dart';
-import 'package:frosy_pine/features/ui/presentation/widgets/transactions/transactions_tab.dart';
+import 'package:frosty_pine/features/ui/presentation/utils/context_extensions.dart';
+import 'package:frosty_pine/features/ui/presentation/widgets/brands/brands_tab.dart';
+import 'package:frosty_pine/features/ui/presentation/widgets/brands/state/brand_cubit.dart';
+import 'package:frosty_pine/features/ui/presentation/widgets/home/home_tab.dart';
+import 'package:frosty_pine/features/ui/presentation/widgets/transactions/state/new_transaction_cubit.dart';
+import 'package:frosty_pine/features/ui/presentation/widgets/transactions/transactions_tab.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({required this.newTransactionCubit, required this.brandCubit, super.key});

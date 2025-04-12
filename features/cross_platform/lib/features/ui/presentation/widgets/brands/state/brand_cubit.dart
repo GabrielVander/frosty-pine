@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:frosy_pine/src/rust/application/ui/controllers/brand_controller.dart';
-import 'package:frosy_pine/src/rust/application/ui/models/brand_model.dart';
+import 'package:frosty_pine/src/rust/application/ui/controllers/brand_controller.dart';
+import 'package:frosty_pine/src/rust/application/ui/models/brand_model.dart';
 import 'package:rust/rust.dart';
 
 class BrandCubit extends Cubit<BrandCubitState> {

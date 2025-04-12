@@ -10,10 +10,10 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated_web.dart';
-import 'package:frosy_pine/src/rust/application/base.dart';
-import 'package:frosy_pine/src/rust/application/ui/controllers/brand_controller.dart';
-import 'package:frosy_pine/src/rust/application/ui/models/brand_model.dart';
-import 'package:frosy_pine/src/rust/frb_generated.dart';
+import 'package:frosty_pine/src/rust/application/base.dart';
+import 'package:frosty_pine/src/rust/application/ui/controllers/brand_controller.dart';
+import 'package:frosty_pine/src/rust/application/ui/models/brand_model.dart';
+import 'package:frosty_pine/src/rust/frb_generated.dart';
 
 abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   RustLibApiImplPlatform({

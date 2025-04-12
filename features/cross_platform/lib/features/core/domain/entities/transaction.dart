@@ -1,13 +1,8 @@
-import 'package:frosy_pine/features/core/domain/entities/item.dart';
-import 'package:frosy_pine/features/core/domain/entities/store.dart';
+import 'package:frosty_pine/features/core/domain/entities/item.dart';
+import 'package:frosty_pine/features/core/domain/entities/store.dart';
 
 final class Transaction {
-  Transaction({
-    required this.id,
-    required this.dateInUtc,
-    required this.store,
-    required this.items,
-  });
+  Transaction({required this.id, required this.dateInUtc, required this.store, required this.items});
 
   final String id;
   final DateTime dateInUtc;
@@ -15,8 +10,6 @@ final class Transaction {
   final List<Item> items;
 
   double calculateTotal() {
-    return items
-        .map<double>((Item i) => i.calculateFullPrice())
-        .reduce((double value, double element) => value + element);
+    return items.map<double>((Item i) => i.calculateFullPrice()).reduce((double value, double element) => value + element);
   }
 }

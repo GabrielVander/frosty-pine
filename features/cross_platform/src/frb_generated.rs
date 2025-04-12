@@ -640,44 +640,44 @@ mod io {
     flutter_rust_bridge::frb_generated_boilerplate_io!();
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_frosy_pine_rust_arc_increment_strong_count_RustOpaque_AddNewBrandUseCase(ptr: *const std::ffi::c_void) {
+    pub extern "C" fn frbgen_frosty_pine_rust_arc_increment_strong_count_RustOpaque_AddNewBrandUseCase(ptr: *const std::ffi::c_void) {
         MoiArc::<AddNewBrandUseCase>::increment_strong_count(ptr as _);
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_frosy_pine_rust_arc_decrement_strong_count_RustOpaque_AddNewBrandUseCase(ptr: *const std::ffi::c_void) {
+    pub extern "C" fn frbgen_frosty_pine_rust_arc_decrement_strong_count_RustOpaque_AddNewBrandUseCase(ptr: *const std::ffi::c_void) {
         MoiArc::<AddNewBrandUseCase>::decrement_strong_count(ptr as _);
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_frosy_pine_rust_arc_increment_strong_count_RustOpaque_ArcdynBrandRepository(ptr: *const std::ffi::c_void) {
+    pub extern "C" fn frbgen_frosty_pine_rust_arc_increment_strong_count_RustOpaque_ArcdynBrandRepository(ptr: *const std::ffi::c_void) {
         MoiArc::<Arc<dyn BrandRepository>>::increment_strong_count(ptr as _);
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_frosy_pine_rust_arc_decrement_strong_count_RustOpaque_ArcdynBrandRepository(ptr: *const std::ffi::c_void) {
+    pub extern "C" fn frbgen_frosty_pine_rust_arc_decrement_strong_count_RustOpaque_ArcdynBrandRepository(ptr: *const std::ffi::c_void) {
         MoiArc::<Arc<dyn BrandRepository>>::decrement_strong_count(ptr as _);
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_frosy_pine_rust_arc_increment_strong_count_RustOpaque_RetrieveAllBrandsUseCase(ptr: *const std::ffi::c_void) {
+    pub extern "C" fn frbgen_frosty_pine_rust_arc_increment_strong_count_RustOpaque_RetrieveAllBrandsUseCase(ptr: *const std::ffi::c_void) {
         MoiArc::<RetrieveAllBrandsUseCase>::increment_strong_count(ptr as _);
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_frosy_pine_rust_arc_decrement_strong_count_RustOpaque_RetrieveAllBrandsUseCase(ptr: *const std::ffi::c_void) {
+    pub extern "C" fn frbgen_frosty_pine_rust_arc_decrement_strong_count_RustOpaque_RetrieveAllBrandsUseCase(ptr: *const std::ffi::c_void) {
         MoiArc::<RetrieveAllBrandsUseCase>::decrement_strong_count(ptr as _);
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_frosy_pine_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand(
+    pub extern "C" fn frbgen_frosty_pine_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand(
         ptr: *const std::ffi::c_void,
     ) {
         MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Brand>>::increment_strong_count(ptr as _);
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_frosy_pine_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand(
+    pub extern "C" fn frbgen_frosty_pine_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand(
         ptr: *const std::ffi::c_void,
     ) {
         MoiArc::<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Brand>>::decrement_strong_count(ptr as _);

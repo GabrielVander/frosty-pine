@@ -8,10 +8,10 @@ import 'dart:convert';
 import 'dart:ffi' as ffi;
 
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated_io.dart';
-import 'package:frosy_pine/src/rust/application/base.dart';
-import 'package:frosy_pine/src/rust/application/ui/controllers/brand_controller.dart';
-import 'package:frosy_pine/src/rust/application/ui/models/brand_model.dart';
-import 'package:frosy_pine/src/rust/frb_generated.dart';
+import 'package:frosty_pine/src/rust/application/base.dart';
+import 'package:frosty_pine/src/rust/application/ui/controllers/brand_controller.dart';
+import 'package:frosty_pine/src/rust/application/ui/models/brand_model.dart';
+import 'package:frosty_pine/src/rust/frb_generated.dart';
 
 abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   RustLibApiImplPlatform({
@@ -267,7 +267,7 @@ class RustLibWire implements BaseWire {
 
   late final _rust_arc_increment_strong_count_RustOpaque_AddNewBrandUseCasePtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-        'frbgen_frosy_pine_rust_arc_increment_strong_count_RustOpaque_AddNewBrandUseCase',
+        'frbgen_frosty_pine_rust_arc_increment_strong_count_RustOpaque_AddNewBrandUseCase',
       );
   late final _rust_arc_increment_strong_count_RustOpaque_AddNewBrandUseCase =
       _rust_arc_increment_strong_count_RustOpaque_AddNewBrandUseCasePtr
@@ -281,7 +281,7 @@ class RustLibWire implements BaseWire {
 
   late final _rust_arc_decrement_strong_count_RustOpaque_AddNewBrandUseCasePtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-        'frbgen_frosy_pine_rust_arc_decrement_strong_count_RustOpaque_AddNewBrandUseCase',
+        'frbgen_frosty_pine_rust_arc_decrement_strong_count_RustOpaque_AddNewBrandUseCase',
       );
   late final _rust_arc_decrement_strong_count_RustOpaque_AddNewBrandUseCase =
       _rust_arc_decrement_strong_count_RustOpaque_AddNewBrandUseCasePtr
@@ -297,7 +297,7 @@ class RustLibWire implements BaseWire {
 
   late final _rust_arc_increment_strong_count_RustOpaque_ArcdynBrandRepositoryPtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-        'frbgen_frosy_pine_rust_arc_increment_strong_count_RustOpaque_ArcdynBrandRepository',
+        'frbgen_frosty_pine_rust_arc_increment_strong_count_RustOpaque_ArcdynBrandRepository',
       );
   late final _rust_arc_increment_strong_count_RustOpaque_ArcdynBrandRepository =
       _rust_arc_increment_strong_count_RustOpaque_ArcdynBrandRepositoryPtr
@@ -313,7 +313,7 @@ class RustLibWire implements BaseWire {
 
   late final _rust_arc_decrement_strong_count_RustOpaque_ArcdynBrandRepositoryPtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-        'frbgen_frosy_pine_rust_arc_decrement_strong_count_RustOpaque_ArcdynBrandRepository',
+        'frbgen_frosty_pine_rust_arc_decrement_strong_count_RustOpaque_ArcdynBrandRepository',
       );
   late final _rust_arc_decrement_strong_count_RustOpaque_ArcdynBrandRepository =
       _rust_arc_decrement_strong_count_RustOpaque_ArcdynBrandRepositoryPtr
@@ -329,7 +329,7 @@ class RustLibWire implements BaseWire {
 
   late final _rust_arc_increment_strong_count_RustOpaque_RetrieveAllBrandsUseCasePtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-        'frbgen_frosy_pine_rust_arc_increment_strong_count_RustOpaque_RetrieveAllBrandsUseCase',
+        'frbgen_frosty_pine_rust_arc_increment_strong_count_RustOpaque_RetrieveAllBrandsUseCase',
       );
   late final _rust_arc_increment_strong_count_RustOpaque_RetrieveAllBrandsUseCase =
       _rust_arc_increment_strong_count_RustOpaque_RetrieveAllBrandsUseCasePtr
@@ -345,7 +345,7 @@ class RustLibWire implements BaseWire {
 
   late final _rust_arc_decrement_strong_count_RustOpaque_RetrieveAllBrandsUseCasePtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-        'frbgen_frosy_pine_rust_arc_decrement_strong_count_RustOpaque_RetrieveAllBrandsUseCase',
+        'frbgen_frosty_pine_rust_arc_decrement_strong_count_RustOpaque_RetrieveAllBrandsUseCase',
       );
   late final _rust_arc_decrement_strong_count_RustOpaque_RetrieveAllBrandsUseCase =
       _rust_arc_decrement_strong_count_RustOpaque_RetrieveAllBrandsUseCasePtr
@@ -362,7 +362,7 @@ class RustLibWire implements BaseWire {
 
   late final _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrandPtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-        'frbgen_frosy_pine_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand',
+        'frbgen_frosty_pine_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand',
       );
   late final _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand =
       _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrandPtr
@@ -379,7 +379,7 @@ class RustLibWire implements BaseWire {
 
   late final _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrandPtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-        'frbgen_frosy_pine_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand',
+        'frbgen_frosty_pine_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand',
       );
   late final _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand =
       _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrandPtr

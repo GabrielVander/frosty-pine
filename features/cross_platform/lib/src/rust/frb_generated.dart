@@ -7,11 +7,11 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
-import 'package:frosy_pine/src/rust/application/base.dart';
-import 'package:frosy_pine/src/rust/application/ui/controllers/brand_controller.dart';
-import 'package:frosy_pine/src/rust/application/ui/models/brand_model.dart';
-import 'package:frosy_pine/src/rust/frb_generated.dart';
-import 'package:frosy_pine/src/rust/frb_generated.io.dart'
+import 'package:frosty_pine/src/rust/application/base.dart';
+import 'package:frosty_pine/src/rust/application/ui/controllers/brand_controller.dart';
+import 'package:frosty_pine/src/rust/application/ui/models/brand_model.dart';
+import 'package:frosty_pine/src/rust/frb_generated.dart';
+import 'package:frosty_pine/src/rust/frb_generated.io.dart'
     if (dart.library.js_interop) 'frb_generated.web.dart';
 
 /// Main entrypoint of the Rust API
