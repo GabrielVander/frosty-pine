@@ -1,6 +1,6 @@
 [workspace]
 members = [
-    "features/cli",
+    # "features/cli",
     "features/expense_tracking",
     "features/in_memory_storage",
     "features/cross_platform",
