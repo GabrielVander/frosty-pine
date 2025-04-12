@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:frosty_pine/features/core/domain/use_cases/retrieve_available_products_use_case.dart';
-import 'package:frosty_pine/features/core/domain/use_cases/retrieve_available_stores_use_case.dart';
-import 'package:frosty_pine/features/in_memory_persistence/application/repositories/brand_repository_in_memory_impl.dart' as dartBrandRpositoryInMemoryImpl;
-import 'package:frosty_pine/features/in_memory_persistence/application/repositories/category_repository_in_memory_impl.dart';
-import 'package:frosty_pine/features/in_memory_persistence/application/repositories/product_repository_in_memory_impl.dart';
-import 'package:frosty_pine/features/in_memory_persistence/application/repositories/store_repository_in_memory_impl.dart';
-import 'package:frosty_pine/features/ui/presentation/application.dart';
-import 'package:frosty_pine/features/ui/presentation/utils/bloc_observer.dart';
-import 'package:frosty_pine/features/ui/presentation/widgets/brands/state/brand_cubit.dart';
-import 'package:frosty_pine/features/ui/presentation/widgets/transactions/state/new_transaction_cubit.dart';
-import 'package:frosty_pine/src/rust/frb_generated.dart';
-import 'package:frosty_pine/src/rust/application/ui/controllers/brand_controller.dart';
-import 'package:frosty_pine/src/rust/application/base.dart';
+import 'package:frosty_pine/adapters/presenters/brand_presenter.dart';
+import 'package:frosty_pine/adapters/repositories/brand_repository_in_memory_impl.dart' as dart_brand_repository_in_memory_impl;
+import 'package:frosty_pine/adapters/repositories/category_repository_in_memory_impl.dart';
+import 'package:frosty_pine/adapters/repositories/product_repository_in_memory_impl.dart';
+import 'package:frosty_pine/adapters/repositories/store_repository_in_memory_impl.dart';
+import 'package:frosty_pine/adapters/rust/init.dart';
+import 'package:frosty_pine/domain/use_cases/retrieve_available_products_use_case.dart';
+import 'package:frosty_pine/domain/use_cases/retrieve_available_stores_use_case.dart';
+import 'package:frosty_pine/framework/ui/application.dart';
+import 'package:frosty_pine/framework/ui/utils/bloc_observer.dart';
+import 'package:frosty_pine/framework/ui/widgets/brands/state/brand_cubit.dart';
+import 'package:frosty_pine/framework/ui/widgets/transactions/state/new_transaction_cubit.dart';
+import 'package:frosty_pine/frb_generated.dart';
 import 'package:intl/intl.dart';
 
 Future<void> main() async {
@@ -32,9 +32,10 @@ Future<void> main() async {
     }),
   );
 
-  final dartBrandRpositoryInMemoryImpl.BrandRepositoryInMemoryImpl _brandRepositoryInMemoryImpl = dartBrandRpositoryInMemoryImpl.BrandRepositoryInMemoryImpl(
-    data: Map<String, String>.of(<String, String>{'9072B82A-D917-44C7-B4CF-1121F5451F82': 'pocket', 'EC233749-CCCF-4E8A-8173-F4B9725DF6AA': 'address'}),
-  );
+  final dart_brand_repository_in_memory_impl.BrandRepositoryInMemoryImpl brandRepositoryInMemoryImpl =
+      dart_brand_repository_in_memory_impl.BrandRepositoryInMemoryImpl(
+        data: Map<String, String>.of(<String, String>{'9072B82A-D917-44C7-B4CF-1121F5451F82': 'pocket', 'EC233749-CCCF-4E8A-8173-F4B9725DF6AA': 'address'}),
+      );
 
   final CategoryRepositoryInMemoryImpl categoryRepositoryInMemoryImpl = CategoryRepositoryInMemoryImpl(
     data: Map<String, String>.of(<String, String>{'3EA62CC1-D5FE-459E-A0C2-E4DA75C95C08': 'seminars', '36B5A7D1-A73D-4717-91CA-93A49DD54678': 'debug'}),
@@ -53,7 +54,7 @@ Future<void> main() async {
   final RetrieveAvailableStoresUseCase retrieveAvailableStoresUseCase = RetrieveAvailableStoresUseCase(storeRepository: storeRepositoryInMemoryImpl);
   final RetrieveAvailableProductsUseCase retrieveAvailableProductsUseCase = RetrieveAvailableProductsUseCase(
     productRepository: productRepositoryInMemoryImpl,
-    brandRepository: _brandRepositoryInMemoryImpl,
+    brandRepository: brandRepositoryInMemoryImpl,
     categoryRepository: categoryRepositoryInMemoryImpl,
   );
 
@@ -69,9 +70,9 @@ Future<void> main() async {
 
   final RetrieveAllBrandsUseCase retrieveAllBrandsUseCase = await createInMemoryRetrieveAllBrandsUseCase(brandRepository: brandRepository);
 
-  final BrandsController brandsController = BrandsController(addNewBrandUseCase: addNewBrandUseCase, retrieveAllBrandsUseCase: retrieveAllBrandsUseCase);
+  final BrandPresenter brandPresenter = BrandPresenter(addNewBrandUseCase: addNewBrandUseCase, retrieveAllBrandsUseCase: retrieveAllBrandsUseCase);
 
-  final BrandCubit brandCubit = BrandCubit(brandsController: brandsController);
+  final BrandCubit brandCubit = BrandCubit(brandPresenter: brandPresenter);
 
   WidgetsFlutterBinding.ensureInitialized();
 

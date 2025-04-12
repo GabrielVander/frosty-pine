@@ -1,4 +1,9 @@
 rust_input: crate
 rust_root: ./
-dart_output: lib/src/rust
+rust_output: src/adapters/rust/generated.rs
+dart_output: lib
+stop_on_error: true
+dart_format_line_length: 160
+add_mod_to_lib: false
+deps_check: true
 enable_lifetime: true
