@@ -9,10 +9,10 @@ import 'package:frosty_pine/adapters/repositories/store_repository_in_memory_imp
 import 'package:frosty_pine/adapters/rust/init.dart';
 import 'package:frosty_pine/domain/use_cases/retrieve_available_products_use_case.dart';
 import 'package:frosty_pine/domain/use_cases/retrieve_available_stores_use_case.dart';
-import 'package:frosty_pine/framework/ui/application.dart';
-import 'package:frosty_pine/framework/ui/utils/bloc_observer.dart';
-import 'package:frosty_pine/framework/ui/widgets/brands/state/brand_cubit.dart';
-import 'package:frosty_pine/framework/ui/widgets/transactions/state/new_transaction_cubit.dart';
+import 'package:frosty_pine/infrastructures/ui/application.dart';
+import 'package:frosty_pine/infrastructures/ui/utils/bloc_observer.dart';
+import 'package:frosty_pine/infrastructures/ui/widgets/brands/state/brand_cubit.dart';
+import 'package:frosty_pine/infrastructures/ui/widgets/transactions/state/new_transaction_cubit.dart';
 import 'package:frosty_pine/frb_generated.dart';
 import 'package:intl/intl.dart';
 

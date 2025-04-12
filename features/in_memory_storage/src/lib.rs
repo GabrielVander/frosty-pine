@@ -1,2 +1,2 @@
 pub mod adapters;
-pub mod frameworks;
+pub mod infrastructures;

@@ -198,7 +198,7 @@ impl TransactionModel {
 #[cfg(test)]
 mod tests {
 
-    use crate::frameworks::data_sources::in_memory_cache::{
+    use crate::infrastructures::data_sources::in_memory_cache::{
         BrandModel, CategoryModel, ItemModel, ProductModel, TransactionModel, UnitModel,
     };
 

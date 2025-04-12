@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:frosty_pine/framework/ui/utils/context_extensions.dart';
-import 'package:frosty_pine/framework/ui/widgets/transactions/state/new_transaction_cubit.dart';
+import 'package:frosty_pine/infrastructures/ui/utils/context_extensions.dart';
+import 'package:frosty_pine/infrastructures/ui/widgets/transactions/state/new_transaction_cubit.dart';
 
 class TransactionsTab extends StatelessWidget {
   const TransactionsTab({required this.newTransactionCubit, super.key});

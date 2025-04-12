@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:frosty_pine/framework/ui/pages/main_page.dart';
-import 'package:frosty_pine/framework/ui/widgets/brands/state/brand_cubit.dart';
-import 'package:frosty_pine/framework/ui/widgets/transactions/state/new_transaction_cubit.dart';
+import 'package:frosty_pine/infrastructures/ui/pages/main_page.dart';
+import 'package:frosty_pine/infrastructures/ui/widgets/brands/state/brand_cubit.dart';
+import 'package:frosty_pine/infrastructures/ui/widgets/transactions/state/new_transaction_cubit.dart';
 
 class FrostyPine extends StatelessWidget {
   const FrostyPine({required this.flutterI18nDelegate, required this.newTransactionCubit, required this.brandCubit, super.key});
