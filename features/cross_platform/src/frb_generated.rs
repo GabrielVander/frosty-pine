@@ -25,7 +25,8 @@
 
 // Section: imports
 
-use crate::api::brand_controller::*;
+use crate::application::base::*;
+use crate::application::ui::controllers::brand_controller::*;
 use expense_tracking::domain::entities::Brand;
 use expense_tracking::domain::repositories::BrandRepository;
 use expense_tracking::domain::use_cases::{AddNewBrandUseCase, RetrieveAllBrandsUseCase};
@@ -41,7 +42,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.9.0";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1305281917;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 52583359;
 
 // Section: executor
 
@@ -49,7 +50,7 @@ flutter_rust_bridge::frb_generated_default_handler!();
 
 // Section: wire_funcs
 
-fn wire__crate__api__brand_controller__brands_controller_add_new_brand_impl(
+fn wire__crate__application__ui__controllers__brand_controller__brands_controller_add_new_brand_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
@@ -62,27 +63,17 @@ fn wire__crate__api__brand_controller__brands_controller_add_new_brand_impl(
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
         move || {
-            let message = unsafe {
-                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
-                    ptr_,
-                    rust_vec_len_,
-                    data_len_,
-                )
-            };
-            let mut deserializer =
-                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            let api_that =
-                <crate::api::brand_controller::BrandsController>::sse_decode(&mut deserializer);
+            let message = unsafe { flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(ptr_, rust_vec_len_, data_len_) };
+            let mut deserializer = flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <crate::application::ui::controllers::brand_controller::BrandsController>::sse_decode(&mut deserializer);
             let api_name = <String>::sse_decode(&mut deserializer);
             deserializer.end();
             move |context| async move {
                 transform_result_sse::<_, String>(
                     (move || async move {
                         let output_ok =
-                            crate::api::brand_controller::BrandsController::add_new_brand(
-                                &api_that, api_name,
-                            )
-                            .await?;
+                            crate::application::ui::controllers::brand_controller::BrandsController::add_new_brand(&api_that, api_name)
+                                .await?;
                         Ok(output_ok)
                     })()
                     .await,
@@ -91,7 +82,7 @@ fn wire__crate__api__brand_controller__brands_controller_add_new_brand_impl(
         },
     )
 }
-fn wire__crate__api__brand_controller__brands_controller_new_impl(
+fn wire__crate__application__ui__controllers__brand_controller__brands_controller_new_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
     data_len_: i32,
@@ -103,32 +94,22 @@ fn wire__crate__api__brand_controller__brands_controller_new_impl(
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
         },
         move || {
-            let message = unsafe {
-                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
-                    ptr_,
-                    rust_vec_len_,
-                    data_len_,
-                )
-            };
-            let mut deserializer =
-                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            let api_add_new_brand_use_case =
-                <RustOpaqueMoi<AddNewBrandUseCase>>::sse_decode(&mut deserializer);
-            let api_retrieve_all_brands_use_case =
-                <RustOpaqueMoi<RetrieveAllBrandsUseCase>>::sse_decode(&mut deserializer);
+            let message = unsafe { flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(ptr_, rust_vec_len_, data_len_) };
+            let mut deserializer = flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_add_new_brand_use_case = <RustOpaqueMoi<AddNewBrandUseCase>>::sse_decode(&mut deserializer);
+            let api_retrieve_all_brands_use_case = <RustOpaqueMoi<RetrieveAllBrandsUseCase>>::sse_decode(&mut deserializer);
             deserializer.end();
             transform_result_sse::<_, ()>((move || {
-                let output_ok =
-                    Result::<_, ()>::Ok(crate::api::brand_controller::BrandsController::new(
-                        api_add_new_brand_use_case,
-                        api_retrieve_all_brands_use_case,
-                    ))?;
+                let output_ok = Result::<_, ()>::Ok(crate::application::ui::controllers::brand_controller::BrandsController::new(
+                    api_add_new_brand_use_case,
+                    api_retrieve_all_brands_use_case,
+                ))?;
                 Ok(output_ok)
             })())
         },
     )
 }
-fn wire__crate__api__brand_controller__brands_controller_retrieve_all_brands_impl(
+fn wire__crate__application__ui__controllers__brand_controller__brands_controller_retrieve_all_brands_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
@@ -141,26 +122,15 @@ fn wire__crate__api__brand_controller__brands_controller_retrieve_all_brands_imp
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
         move || {
-            let message = unsafe {
-                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
-                    ptr_,
-                    rust_vec_len_,
-                    data_len_,
-                )
-            };
-            let mut deserializer =
-                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            let api_that =
-                <crate::api::brand_controller::BrandsController>::sse_decode(&mut deserializer);
+            let message = unsafe { flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(ptr_, rust_vec_len_, data_len_) };
+            let mut deserializer = flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that = <crate::application::ui::controllers::brand_controller::BrandsController>::sse_decode(&mut deserializer);
             deserializer.end();
             move |context| async move {
                 transform_result_sse::<_, String>(
                     (move || async move {
                         let output_ok =
-                            crate::api::brand_controller::BrandsController::retrieve_all_brands(
-                                &api_that,
-                            )
-                            .await?;
+                            crate::application::ui::controllers::brand_controller::BrandsController::retrieve_all_brands(&api_that).await?;
                         Ok(output_ok)
                     })()
                     .await,
@@ -169,7 +139,7 @@ fn wire__crate__api__brand_controller__brands_controller_retrieve_all_brands_imp
         },
     )
 }
-fn wire__crate__api__brand_controller__create_brand_repository_in_memory_impl_impl(
+fn wire__crate__application__base__create_brand_repository_in_memory_impl_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
@@ -182,31 +152,21 @@ fn wire__crate__api__brand_controller__create_brand_repository_in_memory_impl_im
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
         move || {
-            let message = unsafe {
-                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
-                    ptr_,
-                    rust_vec_len_,
-                    data_len_,
-                )
-            };
-            let mut deserializer =
-                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let message = unsafe { flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(ptr_, rust_vec_len_, data_len_) };
+            let mut deserializer = flutter_rust_bridge::for_generated::SseDeserializer::new(message);
             let api_initial_data = <Vec<Brand>>::sse_decode(&mut deserializer);
             deserializer.end();
             move |context| {
                 transform_result_sse::<_, ()>((move || {
-                    let output_ok = Result::<_, ()>::Ok(
-                        crate::api::brand_controller::create_brand_repository_in_memory_impl(
-                            api_initial_data,
-                        ),
-                    )?;
+                    let output_ok =
+                        Result::<_, ()>::Ok(crate::application::base::create_brand_repository_in_memory_impl(api_initial_data))?;
                     Ok(output_ok)
                 })())
             }
         },
     )
 }
-fn wire__crate__api__brand_controller__create_in_memory_add_new_brand_use_case_impl(
+fn wire__crate__application__base__create_in_memory_add_new_brand_use_case_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
@@ -219,32 +179,22 @@ fn wire__crate__api__brand_controller__create_in_memory_add_new_brand_use_case_i
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
         move || {
-            let message = unsafe {
-                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
-                    ptr_,
-                    rust_vec_len_,
-                    data_len_,
-                )
-            };
-            let mut deserializer =
-                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            let api_brand_repository =
-                <RustOpaqueMoi<Arc<dyn BrandRepository>>>::sse_decode(&mut deserializer);
+            let message = unsafe { flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(ptr_, rust_vec_len_, data_len_) };
+            let mut deserializer = flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_brand_repository = <RustOpaqueMoi<Arc<dyn BrandRepository>>>::sse_decode(&mut deserializer);
             deserializer.end();
             move |context| {
                 transform_result_sse::<_, ()>((move || {
-                    let output_ok = Result::<_, ()>::Ok(
-                        crate::api::brand_controller::create_in_memory_add_new_brand_use_case(
-                            api_brand_repository,
-                        ),
-                    )?;
+                    let output_ok = Result::<_, ()>::Ok(crate::application::base::create_in_memory_add_new_brand_use_case(
+                        api_brand_repository,
+                    ))?;
                     Ok(output_ok)
                 })())
             }
         },
     )
 }
-fn wire__crate__api__brand_controller__create_in_memory_retrieve_all_brands_use_case_impl(
+fn wire__crate__application__base__create_in_memory_retrieve_all_brands_use_case_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
@@ -257,32 +207,22 @@ fn wire__crate__api__brand_controller__create_in_memory_retrieve_all_brands_use_
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
         move || {
-            let message = unsafe {
-                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
-                    ptr_,
-                    rust_vec_len_,
-                    data_len_,
-                )
-            };
-            let mut deserializer =
-                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            let api_brand_repository =
-                <RustOpaqueMoi<Arc<dyn BrandRepository>>>::sse_decode(&mut deserializer);
+            let message = unsafe { flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(ptr_, rust_vec_len_, data_len_) };
+            let mut deserializer = flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_brand_repository = <RustOpaqueMoi<Arc<dyn BrandRepository>>>::sse_decode(&mut deserializer);
             deserializer.end();
             move |context| {
                 transform_result_sse::<_, ()>((move || {
-                    let output_ok = Result::<_, ()>::Ok(
-                        crate::api::brand_controller::create_in_memory_retrieve_all_brands_use_case(
-                            api_brand_repository,
-                        ),
-                    )?;
+                    let output_ok = Result::<_, ()>::Ok(crate::application::base::create_in_memory_retrieve_all_brands_use_case(
+                        api_brand_repository,
+                    ))?;
                     Ok(output_ok)
                 })())
             }
         },
     )
 }
-fn wire__crate__api__init__init_app_impl(
+fn wire__crate__application__base__init_app_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
@@ -295,20 +235,13 @@ fn wire__crate__api__init__init_app_impl(
             mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
         move || {
-            let message = unsafe {
-                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
-                    ptr_,
-                    rust_vec_len_,
-                    data_len_,
-                )
-            };
-            let mut deserializer =
-                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let message = unsafe { flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(ptr_, rust_vec_len_, data_len_) };
+            let mut deserializer = flutter_rust_bridge::for_generated::SseDeserializer::new(message);
             deserializer.end();
             move |context| {
                 transform_result_sse::<_, ()>((move || {
                     let output_ok = Result::<_, ()>::Ok({
-                        crate::api::init::init_app();
+                        crate::application::base::init_app();
                     })?;
                     Ok(output_ok)
                 })())
@@ -322,18 +255,14 @@ fn wire__crate__api__init__init_app_impl(
 flutter_rust_bridge::frb_generated_moi_arc_impl_value!(AddNewBrandUseCase);
 flutter_rust_bridge::frb_generated_moi_arc_impl_value!(Arc<dyn BrandRepository>);
 flutter_rust_bridge::frb_generated_moi_arc_impl_value!(RetrieveAllBrandsUseCase);
-flutter_rust_bridge::frb_generated_moi_arc_impl_value!(
-    flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Brand>
-);
+flutter_rust_bridge::frb_generated_moi_arc_impl_value!(flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Brand>);
 
 // Section: dart2rust
 
 impl SseDecode for Brand {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut inner = <RustOpaqueMoi<
-            flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Brand>,
-        >>::sse_decode(deserializer);
+        let mut inner = <RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Brand>>>::sse_decode(deserializer);
         return flutter_rust_bridge::for_generated::rust_auto_opaque_decode_owned(inner);
     }
 }
@@ -378,22 +307,20 @@ impl SseDecode for String {
     }
 }
 
-impl SseDecode for crate::api::brand_controller::BrandModel {
+impl SseDecode for crate::application::ui::models::brand_model::BrandModel {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut var_name = <String>::sse_decode(deserializer);
-        return crate::api::brand_controller::BrandModel { name: var_name };
+        return crate::application::ui::models::brand_model::BrandModel { name: var_name };
     }
 }
 
-impl SseDecode for crate::api::brand_controller::BrandsController {
+impl SseDecode for crate::application::ui::controllers::brand_controller::BrandsController {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut var_addNewBrandUseCase =
-            <RustOpaqueMoi<AddNewBrandUseCase>>::sse_decode(deserializer);
-        let mut var_retrieveAllBrandsUseCase =
-            <RustOpaqueMoi<RetrieveAllBrandsUseCase>>::sse_decode(deserializer);
-        return crate::api::brand_controller::BrandsController {
+        let mut var_addNewBrandUseCase = <RustOpaqueMoi<AddNewBrandUseCase>>::sse_decode(deserializer);
+        let mut var_retrieveAllBrandsUseCase = <RustOpaqueMoi<RetrieveAllBrandsUseCase>>::sse_decode(deserializer);
+        return crate::application::ui::controllers::brand_controller::BrandsController {
             add_new_brand_use_case: var_addNewBrandUseCase,
             retrieve_all_brands_use_case: var_retrieveAllBrandsUseCase,
         };
@@ -412,15 +339,13 @@ impl SseDecode for Vec<Brand> {
     }
 }
 
-impl SseDecode for Vec<crate::api::brand_controller::BrandModel> {
+impl SseDecode for Vec<crate::application::ui::models::brand_model::BrandModel> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut len_ = <i32>::sse_decode(deserializer);
         let mut ans_ = vec![];
         for idx_ in 0..len_ {
-            ans_.push(<crate::api::brand_controller::BrandModel>::sse_decode(
-                deserializer,
-            ));
+            ans_.push(<crate::application::ui::models::brand_model::BrandModel>::sse_decode(deserializer));
         }
         return ans_;
     }
@@ -480,39 +405,22 @@ fn pde_ffi_dispatcher_primary_impl(
 ) {
     // Codec=Pde (Serialization + dispatch), see doc to use other codecs
     match func_id {
-        1 => wire__crate__api__brand_controller__brands_controller_add_new_brand_impl(
+        1 => wire__crate__application__ui__controllers__brand_controller__brands_controller_add_new_brand_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        3 => wire__crate__api__brand_controller__brands_controller_retrieve_all_brands_impl(
+        3 => wire__crate__application__ui__controllers__brand_controller__brands_controller_retrieve_all_brands_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        4 => wire__crate__api__brand_controller__create_brand_repository_in_memory_impl_impl(
-            port,
-            ptr,
-            rust_vec_len,
-            data_len,
-        ),
-        5 => wire__crate__api__brand_controller__create_in_memory_add_new_brand_use_case_impl(
-            port,
-            ptr,
-            rust_vec_len,
-            data_len,
-        ),
-        6 => {
-            wire__crate__api__brand_controller__create_in_memory_retrieve_all_brands_use_case_impl(
-                port,
-                ptr,
-                rust_vec_len,
-                data_len,
-            )
-        }
-        7 => wire__crate__api__init__init_app_impl(port, ptr, rust_vec_len, data_len),
+        4 => wire__crate__application__base__create_brand_repository_in_memory_impl_impl(port, ptr, rust_vec_len, data_len),
+        5 => wire__crate__application__base__create_in_memory_add_new_brand_use_case_impl(port, ptr, rust_vec_len, data_len),
+        6 => wire__crate__application__base__create_in_memory_retrieve_all_brands_use_case_impl(port, ptr, rust_vec_len, data_len),
+        7 => wire__crate__application__base__init_app_impl(port, ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -525,11 +433,7 @@ fn pde_ffi_dispatcher_sync_impl(
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
     // Codec=Pde (Serialization + dispatch), see doc to use other codecs
     match func_id {
-        2 => wire__crate__api__brand_controller__brands_controller_new_impl(
-            ptr,
-            rust_vec_len,
-            data_len,
-        ),
+        2 => wire__crate__application__ui__controllers__brand_controller__brands_controller_new_impl(ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -539,8 +443,7 @@ fn pde_ffi_dispatcher_sync_impl(
 // Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for FrbWrapper<Brand> {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
-        flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, MoiArc<_>>(self.0)
-            .into_dart()
+        flutter_rust_bridge::for_generated::rust_auto_opaque_encode::<_, MoiArc<_>>(self.0).into_dart()
     }
 }
 impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for FrbWrapper<Brand> {}
@@ -552,42 +455,37 @@ impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<Brand>> for Brand {
 }
 
 // Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::api::brand_controller::BrandModel {
+impl flutter_rust_bridge::IntoDart for crate::application::ui::models::brand_model::BrandModel {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [self.name.into_into_dart().into_dart()].into_dart()
     }
 }
-impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for crate::api::brand_controller::BrandModel
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::application::ui::models::brand_model::BrandModel {}
+impl flutter_rust_bridge::IntoIntoDart<crate::application::ui::models::brand_model::BrandModel>
+    for crate::application::ui::models::brand_model::BrandModel
 {
-}
-impl flutter_rust_bridge::IntoIntoDart<crate::api::brand_controller::BrandModel>
-    for crate::api::brand_controller::BrandModel
-{
-    fn into_into_dart(self) -> crate::api::brand_controller::BrandModel {
+    fn into_into_dart(self) -> crate::application::ui::models::brand_model::BrandModel {
         self
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
-impl flutter_rust_bridge::IntoDart for crate::api::brand_controller::BrandsController {
+impl flutter_rust_bridge::IntoDart for crate::application::ui::controllers::brand_controller::BrandsController {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         [
             self.add_new_brand_use_case.into_into_dart().into_dart(),
-            self.retrieve_all_brands_use_case
-                .into_into_dart()
-                .into_dart(),
+            self.retrieve_all_brands_use_case.into_into_dart().into_dart(),
         ]
         .into_dart()
     }
 }
 impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
-    for crate::api::brand_controller::BrandsController
+    for crate::application::ui::controllers::brand_controller::BrandsController
 {
 }
-impl flutter_rust_bridge::IntoIntoDart<crate::api::brand_controller::BrandsController>
-    for crate::api::brand_controller::BrandsController
+impl flutter_rust_bridge::IntoIntoDart<crate::application::ui::controllers::brand_controller::BrandsController>
+    for crate::application::ui::controllers::brand_controller::BrandsController
 {
-    fn into_into_dart(self) -> crate::api::brand_controller::BrandsController {
+    fn into_into_dart(self) -> crate::application::ui::controllers::brand_controller::BrandsController {
         self
     }
 }
@@ -645,21 +543,18 @@ impl SseEncode for String {
     }
 }
 
-impl SseEncode for crate::api::brand_controller::BrandModel {
+impl SseEncode for crate::application::ui::models::brand_model::BrandModel {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <String>::sse_encode(self.name, serializer);
     }
 }
 
-impl SseEncode for crate::api::brand_controller::BrandsController {
+impl SseEncode for crate::application::ui::controllers::brand_controller::BrandsController {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <RustOpaqueMoi<AddNewBrandUseCase>>::sse_encode(self.add_new_brand_use_case, serializer);
-        <RustOpaqueMoi<RetrieveAllBrandsUseCase>>::sse_encode(
-            self.retrieve_all_brands_use_case,
-            serializer,
-        );
+        <RustOpaqueMoi<RetrieveAllBrandsUseCase>>::sse_encode(self.retrieve_all_brands_use_case, serializer);
     }
 }
 
@@ -673,12 +568,12 @@ impl SseEncode for Vec<Brand> {
     }
 }
 
-impl SseEncode for Vec<crate::api::brand_controller::BrandModel> {
+impl SseEncode for Vec<crate::application::ui::models::brand_model::BrandModel> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <i32>::sse_encode(self.len() as _, serializer);
         for item in self {
-            <crate::api::brand_controller::BrandModel>::sse_encode(item, serializer);
+            <crate::application::ui::models::brand_model::BrandModel>::sse_encode(item, serializer);
         }
     }
 }
@@ -708,10 +603,7 @@ impl SseEncode for () {
 impl SseEncode for usize {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        serializer
-            .cursor
-            .write_u64::<NativeEndian>(self as _)
-            .unwrap();
+        serializer.cursor.write_u64::<NativeEndian>(self as _).unwrap();
     }
 }
 
@@ -737,10 +629,9 @@ mod io {
     // Section: imports
 
     use super::*;
-    use crate::api::brand_controller::*;
-    use flutter_rust_bridge::for_generated::byteorder::{
-        NativeEndian, ReadBytesExt, WriteBytesExt,
-    };
+    use crate::application::base::*;
+    use crate::application::ui::controllers::brand_controller::*;
+    use flutter_rust_bridge::for_generated::byteorder::{NativeEndian, ReadBytesExt, WriteBytesExt};
     use flutter_rust_bridge::for_generated::{transform_result_dco, Lifetimeable, Lockable};
     use flutter_rust_bridge::{Handler, IntoIntoDart};
 
@@ -749,44 +640,32 @@ mod io {
     flutter_rust_bridge::frb_generated_boilerplate_io!();
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_frosy_pine_rust_arc_increment_strong_count_RustOpaque_AddNewBrandUseCase(
-        ptr: *const std::ffi::c_void,
-    ) {
+    pub extern "C" fn frbgen_frosy_pine_rust_arc_increment_strong_count_RustOpaque_AddNewBrandUseCase(ptr: *const std::ffi::c_void) {
         MoiArc::<AddNewBrandUseCase>::increment_strong_count(ptr as _);
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_frosy_pine_rust_arc_decrement_strong_count_RustOpaque_AddNewBrandUseCase(
-        ptr: *const std::ffi::c_void,
-    ) {
+    pub extern "C" fn frbgen_frosy_pine_rust_arc_decrement_strong_count_RustOpaque_AddNewBrandUseCase(ptr: *const std::ffi::c_void) {
         MoiArc::<AddNewBrandUseCase>::decrement_strong_count(ptr as _);
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_frosy_pine_rust_arc_increment_strong_count_RustOpaque_ArcdynBrandRepository(
-        ptr: *const std::ffi::c_void,
-    ) {
+    pub extern "C" fn frbgen_frosy_pine_rust_arc_increment_strong_count_RustOpaque_ArcdynBrandRepository(ptr: *const std::ffi::c_void) {
         MoiArc::<Arc<dyn BrandRepository>>::increment_strong_count(ptr as _);
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_frosy_pine_rust_arc_decrement_strong_count_RustOpaque_ArcdynBrandRepository(
-        ptr: *const std::ffi::c_void,
-    ) {
+    pub extern "C" fn frbgen_frosy_pine_rust_arc_decrement_strong_count_RustOpaque_ArcdynBrandRepository(ptr: *const std::ffi::c_void) {
         MoiArc::<Arc<dyn BrandRepository>>::decrement_strong_count(ptr as _);
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_frosy_pine_rust_arc_increment_strong_count_RustOpaque_RetrieveAllBrandsUseCase(
-        ptr: *const std::ffi::c_void,
-    ) {
+    pub extern "C" fn frbgen_frosy_pine_rust_arc_increment_strong_count_RustOpaque_RetrieveAllBrandsUseCase(ptr: *const std::ffi::c_void) {
         MoiArc::<RetrieveAllBrandsUseCase>::increment_strong_count(ptr as _);
     }
 
     #[unsafe(no_mangle)]
-    pub extern "C" fn frbgen_frosy_pine_rust_arc_decrement_strong_count_RustOpaque_RetrieveAllBrandsUseCase(
-        ptr: *const std::ffi::c_void,
-    ) {
+    pub extern "C" fn frbgen_frosy_pine_rust_arc_decrement_strong_count_RustOpaque_RetrieveAllBrandsUseCase(ptr: *const std::ffi::c_void) {
         MoiArc::<RetrieveAllBrandsUseCase>::decrement_strong_count(ptr as _);
     }
 
@@ -816,10 +695,9 @@ mod web {
     // Section: imports
 
     use super::*;
-    use crate::api::brand_controller::*;
-    use flutter_rust_bridge::for_generated::byteorder::{
-        NativeEndian, ReadBytesExt, WriteBytesExt,
-    };
+    use crate::application::base::*;
+    use crate::application::ui::controllers::brand_controller::*;
+    use flutter_rust_bridge::for_generated::byteorder::{NativeEndian, ReadBytesExt, WriteBytesExt};
     use flutter_rust_bridge::for_generated::wasm_bindgen;
     use flutter_rust_bridge::for_generated::wasm_bindgen::prelude::*;
     use flutter_rust_bridge::for_generated::{transform_result_dco, Lifetimeable, Lockable};
@@ -830,44 +708,32 @@ mod web {
     flutter_rust_bridge::frb_generated_boilerplate_web!();
 
     #[wasm_bindgen]
-    pub fn rust_arc_increment_strong_count_RustOpaque_AddNewBrandUseCase(
-        ptr: *const std::ffi::c_void,
-    ) {
+    pub fn rust_arc_increment_strong_count_RustOpaque_AddNewBrandUseCase(ptr: *const std::ffi::c_void) {
         MoiArc::<AddNewBrandUseCase>::increment_strong_count(ptr as _);
     }
 
     #[wasm_bindgen]
-    pub fn rust_arc_decrement_strong_count_RustOpaque_AddNewBrandUseCase(
-        ptr: *const std::ffi::c_void,
-    ) {
+    pub fn rust_arc_decrement_strong_count_RustOpaque_AddNewBrandUseCase(ptr: *const std::ffi::c_void) {
         MoiArc::<AddNewBrandUseCase>::decrement_strong_count(ptr as _);
     }
 
     #[wasm_bindgen]
-    pub fn rust_arc_increment_strong_count_RustOpaque_ArcdynBrandRepository(
-        ptr: *const std::ffi::c_void,
-    ) {
+    pub fn rust_arc_increment_strong_count_RustOpaque_ArcdynBrandRepository(ptr: *const std::ffi::c_void) {
         MoiArc::<Arc<dyn BrandRepository>>::increment_strong_count(ptr as _);
     }
 
     #[wasm_bindgen]
-    pub fn rust_arc_decrement_strong_count_RustOpaque_ArcdynBrandRepository(
-        ptr: *const std::ffi::c_void,
-    ) {
+    pub fn rust_arc_decrement_strong_count_RustOpaque_ArcdynBrandRepository(ptr: *const std::ffi::c_void) {
         MoiArc::<Arc<dyn BrandRepository>>::decrement_strong_count(ptr as _);
     }
 
     #[wasm_bindgen]
-    pub fn rust_arc_increment_strong_count_RustOpaque_RetrieveAllBrandsUseCase(
-        ptr: *const std::ffi::c_void,
-    ) {
+    pub fn rust_arc_increment_strong_count_RustOpaque_RetrieveAllBrandsUseCase(ptr: *const std::ffi::c_void) {
         MoiArc::<RetrieveAllBrandsUseCase>::increment_strong_count(ptr as _);
     }
 
     #[wasm_bindgen]
-    pub fn rust_arc_decrement_strong_count_RustOpaque_RetrieveAllBrandsUseCase(
-        ptr: *const std::ffi::c_void,
-    ) {
+    pub fn rust_arc_decrement_strong_count_RustOpaque_RetrieveAllBrandsUseCase(ptr: *const std::ffi::c_void) {
         MoiArc::<RetrieveAllBrandsUseCase>::decrement_strong_count(ptr as _);
     }
 

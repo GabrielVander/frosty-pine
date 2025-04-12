@@ -10,7 +10,7 @@ crate-type = ["cdylib", "staticlib"]
 expense_tracking = { path = "../expense_tracking" }
 in_memory_storage = { path = "../in_memory_storage" }
 flutter_rust_bridge = "=2.9.0"
-tokio = { version = "1.44.2", features = ["rt-multi-thread"] }
+tokio = { workspace = true }
 
 [lints.rust]
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(frb_expand)'] }

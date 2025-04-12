@@ -8,7 +8,9 @@ import 'dart:convert';
 import 'dart:ffi' as ffi;
 
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated_io.dart';
-import 'package:frosy_pine/src/rust/api/brand_controller.dart';
+import 'package:frosy_pine/src/rust/application/base.dart';
+import 'package:frosy_pine/src/rust/application/ui/controllers/brand_controller.dart';
+import 'package:frosy_pine/src/rust/application/ui/models/brand_model.dart';
 import 'package:frosy_pine/src/rust/frb_generated.dart';
 
 abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {

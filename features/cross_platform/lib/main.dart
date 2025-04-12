@@ -11,8 +11,9 @@ import 'package:frosy_pine/features/ui/presentation/application.dart';
 import 'package:frosy_pine/features/ui/presentation/utils/bloc_observer.dart';
 import 'package:frosy_pine/features/ui/presentation/widgets/brands/state/brand_cubit.dart';
 import 'package:frosy_pine/features/ui/presentation/widgets/transactions/state/new_transaction_cubit.dart';
-import 'package:frosy_pine/src/rust/api/brand_controller.dart';
 import 'package:frosy_pine/src/rust/frb_generated.dart';
+import 'package:frosy_pine/src/rust/application/ui/controllers/brand_controller.dart';
+import 'package:frosy_pine/src/rust/application/base.dart';
 import 'package:intl/intl.dart';
 
 Future<void> main() async {

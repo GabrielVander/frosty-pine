@@ -7,7 +7,9 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
-import 'package:frosy_pine/src/rust/api/brand_controller.dart';
+import 'package:frosy_pine/src/rust/application/base.dart';
+import 'package:frosy_pine/src/rust/application/ui/controllers/brand_controller.dart';
+import 'package:frosy_pine/src/rust/application/ui/models/brand_model.dart';
 import 'package:frosy_pine/src/rust/frb_generated.dart';
 import 'package:frosy_pine/src/rust/frb_generated.io.dart'
     if (dart.library.js_interop) 'frb_generated.web.dart';
@@ -53,7 +55,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
 
   @override
   Future<void> executeRustInitializers() async {
-    await api.crateApiInitInitApp();
+    await api.crateApplicationBaseInitApp();
   }
 
   @override
@@ -64,7 +66,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.9.0';
 
   @override
-  int get rustContentHash => -1305281917;
+  int get rustContentHash => 52583359;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -75,37 +77,39 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
 }
 
 abstract class RustLibApi extends BaseApi {
-  Future<BrandModel> crateApiBrandControllerBrandsControllerAddNewBrand({
+  Future<BrandModel>
+  crateApplicationUiControllersBrandControllerBrandsControllerAddNewBrand({
     required BrandsController that,
     required String name,
   });
 
-  BrandsController crateApiBrandControllerBrandsControllerNew({
+  BrandsController
+  crateApplicationUiControllersBrandControllerBrandsControllerNew({
     required AddNewBrandUseCase addNewBrandUseCase,
     required RetrieveAllBrandsUseCase retrieveAllBrandsUseCase,
   });
 
   Future<List<BrandModel>>
-  crateApiBrandControllerBrandsControllerRetrieveAllBrands({
+  crateApplicationUiControllersBrandControllerBrandsControllerRetrieveAllBrands({
     required BrandsController that,
   });
 
   Future<ArcBrandRepository>
-  crateApiBrandControllerCreateBrandRepositoryInMemoryImpl({
+  crateApplicationBaseCreateBrandRepositoryInMemoryImpl({
     required List<Brand> initialData,
   });
 
   Future<AddNewBrandUseCase>
-  crateApiBrandControllerCreateInMemoryAddNewBrandUseCase({
+  crateApplicationBaseCreateInMemoryAddNewBrandUseCase({
     required ArcBrandRepository brandRepository,
   });
 
   Future<RetrieveAllBrandsUseCase>
-  crateApiBrandControllerCreateInMemoryRetrieveAllBrandsUseCase({
+  crateApplicationBaseCreateInMemoryRetrieveAllBrandsUseCase({
     required ArcBrandRepository brandRepository,
   });
 
-  Future<void> crateApiInitInitApp();
+  Future<void> crateApplicationBaseInitApp();
 
   RustArcIncrementStrongCountFnType
   get rust_arc_increment_strong_count_AddNewBrandUseCase;
@@ -150,7 +154,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   });
 
   @override
-  Future<BrandModel> crateApiBrandControllerBrandsControllerAddNewBrand({
+  Future<BrandModel>
+  crateApplicationUiControllersBrandControllerBrandsControllerAddNewBrand({
     required BrandsController that,
     required String name,
   }) {
@@ -171,7 +176,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           decodeSuccessData: sse_decode_brand_model,
           decodeErrorData: sse_decode_String,
         ),
-        constMeta: kCrateApiBrandControllerBrandsControllerAddNewBrandConstMeta,
+        constMeta:
+            kCrateApplicationUiControllersBrandControllerBrandsControllerAddNewBrandConstMeta,
         argValues: [that, name],
         apiImpl: this,
       ),
@@ -179,14 +185,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   TaskConstMeta
-  get kCrateApiBrandControllerBrandsControllerAddNewBrandConstMeta =>
+  get kCrateApplicationUiControllersBrandControllerBrandsControllerAddNewBrandConstMeta =>
       const TaskConstMeta(
         debugName: 'brands_controller_add_new_brand',
         argNames: ['that', 'name'],
       );
 
   @override
-  BrandsController crateApiBrandControllerBrandsControllerNew({
+  BrandsController
+  crateApplicationUiControllersBrandControllerBrandsControllerNew({
     required AddNewBrandUseCase addNewBrandUseCase,
     required RetrieveAllBrandsUseCase retrieveAllBrandsUseCase,
   }) {
@@ -208,14 +215,16 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           decodeSuccessData: sse_decode_brands_controller,
           decodeErrorData: null,
         ),
-        constMeta: kCrateApiBrandControllerBrandsControllerNewConstMeta,
+        constMeta:
+            kCrateApplicationUiControllersBrandControllerBrandsControllerNewConstMeta,
         argValues: [addNewBrandUseCase, retrieveAllBrandsUseCase],
         apiImpl: this,
       ),
     );
   }
 
-  TaskConstMeta get kCrateApiBrandControllerBrandsControllerNewConstMeta =>
+  TaskConstMeta
+  get kCrateApplicationUiControllersBrandControllerBrandsControllerNewConstMeta =>
       const TaskConstMeta(
         debugName: 'brands_controller_new',
         argNames: ['addNewBrandUseCase', 'retrieveAllBrandsUseCase'],
@@ -223,7 +232,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @override
   Future<List<BrandModel>>
-  crateApiBrandControllerBrandsControllerRetrieveAllBrands({
+  crateApplicationUiControllersBrandControllerBrandsControllerRetrieveAllBrands({
     required BrandsController that,
   }) {
     return handler.executeNormal(
@@ -243,7 +252,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           decodeErrorData: sse_decode_String,
         ),
         constMeta:
-            kCrateApiBrandControllerBrandsControllerRetrieveAllBrandsConstMeta,
+            kCrateApplicationUiControllersBrandControllerBrandsControllerRetrieveAllBrandsConstMeta,
         argValues: [that],
         apiImpl: this,
       ),
@@ -251,7 +260,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   TaskConstMeta
-  get kCrateApiBrandControllerBrandsControllerRetrieveAllBrandsConstMeta =>
+  get kCrateApplicationUiControllersBrandControllerBrandsControllerRetrieveAllBrandsConstMeta =>
       const TaskConstMeta(
         debugName: 'brands_controller_retrieve_all_brands',
         argNames: ['that'],
@@ -259,7 +268,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @override
   Future<ArcBrandRepository>
-  crateApiBrandControllerCreateBrandRepositoryInMemoryImpl({
+  crateApplicationBaseCreateBrandRepositoryInMemoryImpl({
     required List<Brand> initialData,
   }) {
     return handler.executeNormal(
@@ -282,7 +291,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           decodeErrorData: null,
         ),
         constMeta:
-            kCrateApiBrandControllerCreateBrandRepositoryInMemoryImplConstMeta,
+            kCrateApplicationBaseCreateBrandRepositoryInMemoryImplConstMeta,
         argValues: [initialData],
         apiImpl: this,
       ),
@@ -290,7 +299,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   TaskConstMeta
-  get kCrateApiBrandControllerCreateBrandRepositoryInMemoryImplConstMeta =>
+  get kCrateApplicationBaseCreateBrandRepositoryInMemoryImplConstMeta =>
       const TaskConstMeta(
         debugName: 'create_brand_repository_in_memory_impl',
         argNames: ['initialData'],
@@ -298,7 +307,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @override
   Future<AddNewBrandUseCase>
-  crateApiBrandControllerCreateInMemoryAddNewBrandUseCase({
+  crateApplicationBaseCreateInMemoryAddNewBrandUseCase({
     required ArcBrandRepository brandRepository,
   }) {
     return handler.executeNormal(
@@ -321,7 +330,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           decodeErrorData: null,
         ),
         constMeta:
-            kCrateApiBrandControllerCreateInMemoryAddNewBrandUseCaseConstMeta,
+            kCrateApplicationBaseCreateInMemoryAddNewBrandUseCaseConstMeta,
         argValues: [brandRepository],
         apiImpl: this,
       ),
@@ -329,7 +338,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   TaskConstMeta
-  get kCrateApiBrandControllerCreateInMemoryAddNewBrandUseCaseConstMeta =>
+  get kCrateApplicationBaseCreateInMemoryAddNewBrandUseCaseConstMeta =>
       const TaskConstMeta(
         debugName: 'create_in_memory_add_new_brand_use_case',
         argNames: ['brandRepository'],
@@ -337,7 +346,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @override
   Future<RetrieveAllBrandsUseCase>
-  crateApiBrandControllerCreateInMemoryRetrieveAllBrandsUseCase({
+  crateApplicationBaseCreateInMemoryRetrieveAllBrandsUseCase({
     required ArcBrandRepository brandRepository,
   }) {
     return handler.executeNormal(
@@ -360,7 +369,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           decodeErrorData: null,
         ),
         constMeta:
-            kCrateApiBrandControllerCreateInMemoryRetrieveAllBrandsUseCaseConstMeta,
+            kCrateApplicationBaseCreateInMemoryRetrieveAllBrandsUseCaseConstMeta,
         argValues: [brandRepository],
         apiImpl: this,
       ),
@@ -368,14 +377,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   TaskConstMeta
-  get kCrateApiBrandControllerCreateInMemoryRetrieveAllBrandsUseCaseConstMeta =>
+  get kCrateApplicationBaseCreateInMemoryRetrieveAllBrandsUseCaseConstMeta =>
       const TaskConstMeta(
         debugName: 'create_in_memory_retrieve_all_brands_use_case',
         argNames: ['brandRepository'],
       );
 
   @override
-  Future<void> crateApiInitInitApp() {
+  Future<void> crateApplicationBaseInitApp() {
     return handler.executeNormal(
       NormalTask(
         callFfi: (port_) {
@@ -391,14 +400,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           decodeSuccessData: sse_decode_unit,
           decodeErrorData: null,
         ),
-        constMeta: kCrateApiInitInitAppConstMeta,
+        constMeta: kCrateApplicationBaseInitAppConstMeta,
         argValues: [],
         apiImpl: this,
       ),
     );
   }
 
-  TaskConstMeta get kCrateApiInitInitAppConstMeta =>
+  TaskConstMeta get kCrateApplicationBaseInitAppConstMeta =>
       const TaskConstMeta(debugName: 'init_app', argNames: []);
 
   RustArcIncrementStrongCountFnType
