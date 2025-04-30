@@ -31,9 +31,7 @@ pub enum RetrieveAllBrandsUseCaseError {
 impl From<BrandRepositoryRetrieveAllError> for RetrieveAllBrandsUseCaseError {
     fn from(value: BrandRepositoryRetrieveAllError) -> Self {
         match value {
-            BrandRepositoryRetrieveAllError::UnableToRetrieveBrands(info) => {
-                RetrieveAllBrandsUseCaseError::UnableToRetrieveBrands(info)
-            }
+            BrandRepositoryRetrieveAllError::UnableToRetrieveBrands(info) => RetrieveAllBrandsUseCaseError::UnableToRetrieveBrands(info),
         }
     }
 }
@@ -42,12 +40,8 @@ impl From<BrandRepositoryRetrieveAllError> for RetrieveAllBrandsUseCaseError {
 mod tests {
     use crate::domain::{
         entities::Brand,
-        repositories::{
-            BrandRepository, BrandRepositoryCreateError, BrandRepositoryRetrieveAllError,
-        },
-        use_cases::retrieve_all_brands_use_case::{
-            RetrieveAllBrandsUseCase, RetrieveAllBrandsUseCaseError,
-        },
+        repositories::{BrandRepository, BrandRepositoryCreateError, BrandRepositoryRetrieveAllError},
+        use_cases::retrieve_all_brands_use_case::{RetrieveAllBrandsUseCase, RetrieveAllBrandsUseCaseError},
     };
     use async_trait::async_trait;
 
@@ -96,9 +90,7 @@ mod tests {
     }
 
     impl BrandRepositoryMockImplementation {
-        fn on_retrieve_all_returns(
-            result: Result<Vec<Brand>, BrandRepositoryRetrieveAllError>,
-        ) -> Self {
+        fn on_retrieve_all_returns(result: Result<Vec<Brand>, BrandRepositoryRetrieveAllError>) -> Self {
             Self {
                 on_retrieve_all: Some(result),
             }

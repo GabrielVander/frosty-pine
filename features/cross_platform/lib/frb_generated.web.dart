@@ -10,9 +10,10 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated_web.dart';
-import 'package:frosty_pine/adapters/models/brand_display_model.dart';
-import 'package:frosty_pine/adapters/presenters/brand_presenter.dart';
-import 'package:frosty_pine/adapters/rust/init.dart';
+import 'package:frosty_pine/adapters/presenters/flutter_presenter.dart';
+import 'package:frosty_pine/adapters/presenters/models/brand_display_model.dart';
+import 'package:frosty_pine/adapters/translations/mirrors.dart';
+import 'package:frosty_pine/adapters/translations/rust_factory.dart';
 import 'package:frosty_pine/frb_generated.dart';
 
 abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
@@ -25,12 +26,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_RetrieveAllBrandsUseCasePtr =>
       wire.rust_arc_decrement_strong_count_RustOpaque_RetrieveAllBrandsUseCase;
 
-  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_BrandPtr =>
-      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand;
-
-  @protected
-  Brand dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand(dynamic raw);
-
   @protected
   AddNewBrandUseCase dco_decode_RustOpaque_AddNewBrandUseCase(dynamic raw);
 
@@ -41,28 +36,28 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   RetrieveAllBrandsUseCase dco_decode_RustOpaque_RetrieveAllBrandsUseCase(dynamic raw);
 
   @protected
-  Brand dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand(dynamic raw);
-
-  @protected
   String dco_decode_String(dynamic raw);
 
   @protected
-  BrandPresenter dco_decode_box_autoadd_brand_presenter(dynamic raw);
+  BrandFlutterPresenter dco_decode_box_autoadd_brand_flutter_presenter(dynamic raw);
+
+  @protected
+  Brand dco_decode_brand(dynamic raw);
 
   @protected
   BrandDisplayModel dco_decode_brand_display_model(dynamic raw);
 
   @protected
-  BrandPresenter dco_decode_brand_presenter(dynamic raw);
+  BrandFlutterPresenter dco_decode_brand_flutter_presenter(dynamic raw);
 
   @protected
-  List<Brand> dco_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand(dynamic raw);
-
-  @protected
-  List<BrandDisplayModel> dco_decode_list_brand_display_model(dynamic raw);
+  List<Brand> dco_decode_list_brand(dynamic raw);
 
   @protected
   Uint8List dco_decode_list_prim_u_8_strict(dynamic raw);
+
+  @protected
+  RustFactory dco_decode_rust_factory(dynamic raw);
 
   @protected
   int dco_decode_u_8(dynamic raw);
@@ -74,9 +69,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   BigInt dco_decode_usize(dynamic raw);
 
   @protected
-  Brand sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand(SseDeserializer deserializer);
-
-  @protected
   AddNewBrandUseCase sse_decode_RustOpaque_AddNewBrandUseCase(SseDeserializer deserializer);
 
   @protected
@@ -86,28 +78,28 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   RetrieveAllBrandsUseCase sse_decode_RustOpaque_RetrieveAllBrandsUseCase(SseDeserializer deserializer);
 
   @protected
-  Brand sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand(SseDeserializer deserializer);
-
-  @protected
   String sse_decode_String(SseDeserializer deserializer);
 
   @protected
-  BrandPresenter sse_decode_box_autoadd_brand_presenter(SseDeserializer deserializer);
+  BrandFlutterPresenter sse_decode_box_autoadd_brand_flutter_presenter(SseDeserializer deserializer);
+
+  @protected
+  Brand sse_decode_brand(SseDeserializer deserializer);
 
   @protected
   BrandDisplayModel sse_decode_brand_display_model(SseDeserializer deserializer);
 
   @protected
-  BrandPresenter sse_decode_brand_presenter(SseDeserializer deserializer);
+  BrandFlutterPresenter sse_decode_brand_flutter_presenter(SseDeserializer deserializer);
 
   @protected
-  List<Brand> sse_decode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand(SseDeserializer deserializer);
-
-  @protected
-  List<BrandDisplayModel> sse_decode_list_brand_display_model(SseDeserializer deserializer);
+  List<Brand> sse_decode_list_brand(SseDeserializer deserializer);
 
   @protected
   Uint8List sse_decode_list_prim_u_8_strict(SseDeserializer deserializer);
+
+  @protected
+  RustFactory sse_decode_rust_factory(SseDeserializer deserializer);
 
   @protected
   int sse_decode_u_8(SseDeserializer deserializer);
@@ -125,9 +117,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   bool sse_decode_bool(SseDeserializer deserializer);
 
   @protected
-  void sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand(Brand self, SseSerializer serializer);
-
-  @protected
   void sse_encode_RustOpaque_AddNewBrandUseCase(AddNewBrandUseCase self, SseSerializer serializer);
 
   @protected
@@ -137,28 +126,28 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_RustOpaque_RetrieveAllBrandsUseCase(RetrieveAllBrandsUseCase self, SseSerializer serializer);
 
   @protected
-  void sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand(Brand self, SseSerializer serializer);
-
-  @protected
   void sse_encode_String(String self, SseSerializer serializer);
 
   @protected
-  void sse_encode_box_autoadd_brand_presenter(BrandPresenter self, SseSerializer serializer);
+  void sse_encode_box_autoadd_brand_flutter_presenter(BrandFlutterPresenter self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_brand(Brand self, SseSerializer serializer);
 
   @protected
   void sse_encode_brand_display_model(BrandDisplayModel self, SseSerializer serializer);
 
   @protected
-  void sse_encode_brand_presenter(BrandPresenter self, SseSerializer serializer);
+  void sse_encode_brand_flutter_presenter(BrandFlutterPresenter self, SseSerializer serializer);
 
   @protected
-  void sse_encode_list_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand(List<Brand> self, SseSerializer serializer);
-
-  @protected
-  void sse_encode_list_brand_display_model(List<BrandDisplayModel> self, SseSerializer serializer);
+  void sse_encode_list_brand(List<Brand> self, SseSerializer serializer);
 
   @protected
   void sse_encode_list_prim_u_8_strict(Uint8List self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_rust_factory(RustFactory self, SseSerializer serializer);
 
   @protected
   void sse_encode_u_8(int self, SseSerializer serializer);
@@ -196,12 +185,6 @@ class RustLibWire implements BaseWire {
 
   void rust_arc_decrement_strong_count_RustOpaque_RetrieveAllBrandsUseCase(int ptr) =>
       wasmModule.rust_arc_decrement_strong_count_RustOpaque_RetrieveAllBrandsUseCase(ptr);
-
-  void rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand(int ptr) =>
-      wasmModule.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand(ptr);
-
-  void rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand(int ptr) =>
-      wasmModule.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand(ptr);
 }
 
 @JS('wasm_bindgen')
@@ -221,8 +204,4 @@ extension type RustLibWasmModule._(JSObject _) implements JSObject {
   external void rust_arc_increment_strong_count_RustOpaque_RetrieveAllBrandsUseCase(int ptr);
 
   external void rust_arc_decrement_strong_count_RustOpaque_RetrieveAllBrandsUseCase(int ptr);
-
-  external void rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand(int ptr);
-
-  external void rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBrand(int ptr);
 }

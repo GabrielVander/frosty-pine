@@ -1,6 +1,6 @@
 rust_input: crate
 rust_root: ./
-rust_output: src/adapters/rust/generated.rs
+rust_output: src/adapters/translations/frb_generated.rs
 dart_output: lib
 stop_on_error: true
 dart_format_line_length: 160

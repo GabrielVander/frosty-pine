@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:frosty_pine/adapters/presenters/brand_presenter.dart';
+import 'package:frosty_pine/adapters/presenters/flutter_presenter.dart';
 import 'package:frosty_pine/adapters/repositories/brand_repository_in_memory_impl.dart' as dart_brand_repository_in_memory_impl;
 import 'package:frosty_pine/adapters/repositories/category_repository_in_memory_impl.dart';
 import 'package:frosty_pine/adapters/repositories/product_repository_in_memory_impl.dart';
 import 'package:frosty_pine/adapters/repositories/store_repository_in_memory_impl.dart';
-import 'package:frosty_pine/adapters/rust/init.dart';
+import 'package:frosty_pine/adapters/translations/rust_factory.dart';
 import 'package:frosty_pine/domain/use_cases/retrieve_available_products_use_case.dart';
 import 'package:frosty_pine/domain/use_cases/retrieve_available_stores_use_case.dart';
+import 'package:frosty_pine/frb_generated.dart';
 import 'package:frosty_pine/infrastructures/ui/application.dart';
 import 'package:frosty_pine/infrastructures/ui/utils/bloc_observer.dart';
 import 'package:frosty_pine/infrastructures/ui/widgets/brands/state/brand_cubit.dart';
 import 'package:frosty_pine/infrastructures/ui/widgets/transactions/state/new_transaction_cubit.dart';
-import 'package:frosty_pine/frb_generated.dart';
 import 'package:intl/intl.dart';
 
 Future<void> main() async {
@@ -51,6 +51,9 @@ Future<void> main() async {
     }),
   );
 
+  final ArcBrandRepository brandRepository = await RustFactory.brandRepositoryInMemoryImpl(initialData: List.empty());
+
+  final AddNewBrandUseCase addNewBrandUseCase = await RustFactory.addNewBrandUseCase(brandRepository: brandRepository);
   final RetrieveAvailableStoresUseCase retrieveAvailableStoresUseCase = RetrieveAvailableStoresUseCase(storeRepository: storeRepositoryInMemoryImpl);
   final RetrieveAvailableProductsUseCase retrieveAvailableProductsUseCase = RetrieveAvailableProductsUseCase(
     productRepository: productRepositoryInMemoryImpl,
@@ -64,15 +67,11 @@ Future<void> main() async {
     retrieveAvailableProductsUseCase: retrieveAvailableProductsUseCase,
   );
 
-  final ArcBrandRepository brandRepository = await createBrandRepositoryInMemoryImpl(initialData: List.empty());
+  final BrandFlutterPresenter brandFlutterPresenter = BrandFlutterPresenter(addNewBrandUseCase: addNewBrandUseCase);
 
-  final AddNewBrandUseCase addNewBrandUseCase = await createInMemoryAddNewBrandUseCase(brandRepository: brandRepository);
+  // final AddNewBrandUseCaseWrapper addNewBrandUseCase = await RustFactory.addNewBrandUseCaseWrapper(brandRepository: brandRepository);
 
-  final RetrieveAllBrandsUseCase retrieveAllBrandsUseCase = await createInMemoryRetrieveAllBrandsUseCase(brandRepository: brandRepository);
-
-  final BrandPresenter brandPresenter = BrandPresenter(addNewBrandUseCase: addNewBrandUseCase, retrieveAllBrandsUseCase: retrieveAllBrandsUseCase);
-
-  final BrandCubit brandCubit = BrandCubit(brandPresenter: brandPresenter);
+  final BrandCubit brandCubit = BrandCubit(presenter: brandFlutterPresenter);
 
   WidgetsFlutterBinding.ensureInitialized();
 
