@@ -6,6 +6,7 @@ import 'package:frosty_pine/adapters/repositories/brand_repository_in_memory_imp
 import 'package:frosty_pine/adapters/repositories/category_repository_in_memory_impl.dart';
 import 'package:frosty_pine/adapters/repositories/product_repository_in_memory_impl.dart';
 import 'package:frosty_pine/adapters/repositories/store_repository_in_memory_impl.dart';
+import 'package:frosty_pine/adapters/translations/add_new_brand_use_case_wrapper.dart';
 import 'package:frosty_pine/adapters/translations/rust_factory.dart';
 import 'package:frosty_pine/domain/use_cases/retrieve_available_products_use_case.dart';
 import 'package:frosty_pine/domain/use_cases/retrieve_available_stores_use_case.dart';
@@ -53,7 +54,7 @@ Future<void> main() async {
 
   final ArcBrandRepository brandRepository = await RustFactory.brandRepositoryInMemoryImpl(initialData: List.empty());
 
-  final AddNewBrandUseCase addNewBrandUseCase = await RustFactory.addNewBrandUseCase(brandRepository: brandRepository);
+  // final AddNewBrandUseCase addNewBrandUseCase = await RustFactory.addNewBrandUseCase(brandRepository: brandRepository);
   final RetrieveAvailableStoresUseCase retrieveAvailableStoresUseCase = RetrieveAvailableStoresUseCase(storeRepository: storeRepositoryInMemoryImpl);
   final RetrieveAvailableProductsUseCase retrieveAvailableProductsUseCase = RetrieveAvailableProductsUseCase(
     productRepository: productRepositoryInMemoryImpl,
@@ -67,11 +68,11 @@ Future<void> main() async {
     retrieveAvailableProductsUseCase: retrieveAvailableProductsUseCase,
   );
 
-  final BrandFlutterPresenter brandFlutterPresenter = BrandFlutterPresenter(addNewBrandUseCase: addNewBrandUseCase);
+  // final BrandFlutterPresenter brandFlutterPresenter = BrandFlutterPresenter(addNewBrandUseCase: addNewBrandUseCase);
 
   // final AddNewBrandUseCaseWrapper addNewBrandUseCase = await RustFactory.addNewBrandUseCaseWrapper(brandRepository: brandRepository);
 
-  final BrandCubit brandCubit = BrandCubit(presenter: brandFlutterPresenter);
+  final BrandCubit brandCubit = BrandCubit(addNewBrandUseCase: await AddNewBrandUseCaseWrapper.newInstance(brandRepository: brandRepository));
 
   WidgetsFlutterBinding.ensureInitialized();
 

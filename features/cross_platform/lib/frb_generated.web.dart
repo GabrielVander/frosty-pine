@@ -12,6 +12,7 @@ import 'dart:convert';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated_web.dart';
 import 'package:frosty_pine/adapters/presenters/flutter_presenter.dart';
 import 'package:frosty_pine/adapters/presenters/models/brand_display_model.dart';
+import 'package:frosty_pine/adapters/translations/add_new_brand_use_case_wrapper.dart';
 import 'package:frosty_pine/adapters/translations/mirrors.dart';
 import 'package:frosty_pine/adapters/translations/rust_factory.dart';
 import 'package:frosty_pine/frb_generated.dart';
@@ -26,6 +27,21 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_RetrieveAllBrandsUseCasePtr =>
       wire.rust_arc_decrement_strong_count_RustOpaque_RetrieveAllBrandsUseCase;
 
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_AddNewBrandUseCaseErrorPtr =>
+      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseError;
+
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_AddNewBrandUseCaseWrapperPtr =>
+      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseWrapper;
+
+  @protected
+  AddNewBrandUseCaseError dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseError(dynamic raw);
+
+  @protected
+  AddNewBrandUseCaseWrapper dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseWrapper(dynamic raw);
+
+  @protected
+  AddNewBrandUseCaseWrapper dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseWrapper(dynamic raw);
+
   @protected
   AddNewBrandUseCase dco_decode_RustOpaque_AddNewBrandUseCase(dynamic raw);
 
@@ -34,6 +50,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   RetrieveAllBrandsUseCase dco_decode_RustOpaque_RetrieveAllBrandsUseCase(dynamic raw);
+
+  @protected
+  AddNewBrandUseCaseError dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseError(dynamic raw);
+
+  @protected
+  AddNewBrandUseCaseWrapper dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseWrapper(dynamic raw);
 
   @protected
   String dco_decode_String(dynamic raw);
@@ -69,6 +91,21 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   BigInt dco_decode_usize(dynamic raw);
 
   @protected
+  AddNewBrandUseCaseError sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseError(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  AddNewBrandUseCaseWrapper sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseWrapper(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  AddNewBrandUseCaseWrapper sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseWrapper(
+    SseDeserializer deserializer,
+  );
+
+  @protected
   AddNewBrandUseCase sse_decode_RustOpaque_AddNewBrandUseCase(SseDeserializer deserializer);
 
   @protected
@@ -76,6 +113,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   RetrieveAllBrandsUseCase sse_decode_RustOpaque_RetrieveAllBrandsUseCase(SseDeserializer deserializer);
+
+  @protected
+  AddNewBrandUseCaseError sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseError(SseDeserializer deserializer);
+
+  @protected
+  AddNewBrandUseCaseWrapper sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseWrapper(SseDeserializer deserializer);
 
   @protected
   String sse_decode_String(SseDeserializer deserializer);
@@ -117,6 +160,24 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   bool sse_decode_bool(SseDeserializer deserializer);
 
   @protected
+  void sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseError(
+    AddNewBrandUseCaseError self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseWrapper(
+    AddNewBrandUseCaseWrapper self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseWrapper(
+    AddNewBrandUseCaseWrapper self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_RustOpaque_AddNewBrandUseCase(AddNewBrandUseCase self, SseSerializer serializer);
 
   @protected
@@ -124,6 +185,15 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_RustOpaque_RetrieveAllBrandsUseCase(RetrieveAllBrandsUseCase self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseError(AddNewBrandUseCaseError self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseWrapper(
+    AddNewBrandUseCaseWrapper self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_String(String self, SseSerializer serializer);
@@ -185,6 +255,18 @@ class RustLibWire implements BaseWire {
 
   void rust_arc_decrement_strong_count_RustOpaque_RetrieveAllBrandsUseCase(int ptr) =>
       wasmModule.rust_arc_decrement_strong_count_RustOpaque_RetrieveAllBrandsUseCase(ptr);
+
+  void rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseError(int ptr) =>
+      wasmModule.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseError(ptr);
+
+  void rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseError(int ptr) =>
+      wasmModule.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseError(ptr);
+
+  void rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseWrapper(int ptr) =>
+      wasmModule.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseWrapper(ptr);
+
+  void rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseWrapper(int ptr) =>
+      wasmModule.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseWrapper(ptr);
 }
 
 @JS('wasm_bindgen')
@@ -204,4 +286,12 @@ extension type RustLibWasmModule._(JSObject _) implements JSObject {
   external void rust_arc_increment_strong_count_RustOpaque_RetrieveAllBrandsUseCase(int ptr);
 
   external void rust_arc_decrement_strong_count_RustOpaque_RetrieveAllBrandsUseCase(int ptr);
+
+  external void rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseError(int ptr);
+
+  external void rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseError(int ptr);
+
+  external void rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseWrapper(int ptr);
+
+  external void rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseWrapper(int ptr);
 }

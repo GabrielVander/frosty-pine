@@ -10,7 +10,7 @@ use expense_tracking::domain::{
 };
 use in_memory_storage::adapters::repositories::BrandRepositoryInMemoryImpl;
 
-use super::frb_generated::RustOpaque;
+use super::{add_new_brand_use_case_wrapper::AddNewBrandUseCaseWrapper, frb_generated::RustOpaque};
 
 pub struct RustFactory {}
 
@@ -30,7 +30,7 @@ impl RustFactory {
         RustOpaque::new(RetrieveAllBrandsUseCase::new(Arc::clone(&brand_repository)))
     }
 
-    pub fn add_new_brand_use_case(brand_repository: RustOpaque<Arc<dyn BrandRepository>>) -> RustOpaque<AddNewBrandUseCase> {
-        RustOpaque::new(AddNewBrandUseCase::new(Arc::clone(&brand_repository)))
-    }
+    // pub fn add_new_brand_use_case(brand_repository: RustOpaque<Arc<dyn BrandRepository>>) -> RustOpaque<AddNewBrandUseCase> {
+    //     RustOpaque::new(AddNewBrandUseCase::new(Arc::clone(&brand_repository)))
+    // }
 }

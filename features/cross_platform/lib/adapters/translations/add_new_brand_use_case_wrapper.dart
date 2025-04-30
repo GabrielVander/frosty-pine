@@ -4,16 +4,20 @@
 // ignore_for_file: invalid_use_of_internal_member, unused_import, unnecessary_import
 
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
+import 'package:frosty_pine/adapters/translations/mirrors.dart';
 import 'package:frosty_pine/frb_generated.dart';
 
-// These functions are ignored (category: IgnoreBecauseNotAllowedOwner): `execute`, `new`
+// Rust type: RustOpaqueMoi<Arc < dyn BrandRepository >>
+abstract class ArcBrandRepository implements RustOpaqueInterface {}
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<AddNewBrandUseCaseError>>
+abstract class AddNewBrandUseCaseError implements RustOpaqueInterface {}
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<AddNewBrandUseCaseWrapper>>
 abstract class AddNewBrandUseCaseWrapper implements RustOpaqueInterface {
-  ArcAddNewBrandUseCase get field0;
+  Future<Brand> execute({required String name});
 
-  set field0(ArcAddNewBrandUseCase field0);
+  // HINT: Make it `#[frb(sync)]` to let it become the default constructor of Dart class.
+  static Future<AddNewBrandUseCaseWrapper> newInstance({required ArcBrandRepository brandRepository}) =>
+      RustLib.instance.api.crateAdaptersTranslationsAddNewBrandUseCaseWrapperAddNewBrandUseCaseWrapperNew(brandRepository: brandRepository);
 }
-
-// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Arc < AddNewBrandUseCase >>>
-abstract class ArcAddNewBrandUseCase implements RustOpaqueInterface {}
