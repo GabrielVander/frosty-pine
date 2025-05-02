@@ -14,6 +14,9 @@ abstract class RetrieveAllBrandsUseCase implements RustOpaqueInterface {}
 class RustFactory {
   const RustFactory();
 
+  static Future<ArcAddNewBrandUseCasePresenterResultBrandDisplayModelString> addNewBrandUseCasePresenter() =>
+      RustLib.instance.api.crateAdaptersTranslationsRustFactoryRustFactoryAddNewBrandUseCasePresenter();
+
   static Future<ArcBrandRepository> brandRepositoryInMemoryImpl({required List<Brand> initialData}) =>
       RustLib.instance.api.crateAdaptersTranslationsRustFactoryRustFactoryBrandRepositoryInMemoryImpl(initialData: initialData);
 

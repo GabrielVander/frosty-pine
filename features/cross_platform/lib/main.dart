@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:frosty_pine/adapters/presenters/flutter_presenter.dart';
 import 'package:frosty_pine/adapters/repositories/brand_repository_in_memory_impl.dart' as dart_brand_repository_in_memory_impl;
 import 'package:frosty_pine/adapters/repositories/category_repository_in_memory_impl.dart';
 import 'package:frosty_pine/adapters/repositories/product_repository_in_memory_impl.dart';
@@ -68,11 +67,11 @@ Future<void> main() async {
     retrieveAvailableProductsUseCase: retrieveAvailableProductsUseCase,
   );
 
-  // final BrandFlutterPresenter brandFlutterPresenter = BrandFlutterPresenter(addNewBrandUseCase: addNewBrandUseCase);
+  final ArcAddNewBrandUseCasePresenterResultBrandDisplayModelString flutterPresenter = await RustFactory.addNewBrandUseCasePresenter();
 
-  // final AddNewBrandUseCaseWrapper addNewBrandUseCase = await RustFactory.addNewBrandUseCaseWrapper(brandRepository: brandRepository);
+  final AddNewBrandUseCaseWrapper addNewBrandUseCase = await AddNewBrandUseCaseWrapper.newInstance(brandRepository: brandRepository, presenter: flutterPresenter);
 
-  final BrandCubit brandCubit = BrandCubit(addNewBrandUseCase: await AddNewBrandUseCaseWrapper.newInstance(brandRepository: brandRepository));
+  final BrandCubit brandCubit = BrandCubit(addNewBrandUseCase: addNewBrandUseCase);
 
   WidgetsFlutterBinding.ensureInitialized();
 

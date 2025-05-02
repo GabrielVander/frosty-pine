@@ -4,29 +4,18 @@
 // ignore_for_file: invalid_use_of_internal_member, unused_import, unnecessary_import
 
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
-import 'package:frosty_pine/adapters/presenters/models/brand_display_model.dart';
 import 'package:frosty_pine/frb_generated.dart';
 
-// These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `FlutterPresenter`
+// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `apply`
 
-// Rust type: RustOpaqueMoi<AddNewBrandUseCase>
-abstract class AddNewBrandUseCase implements RustOpaqueInterface {}
+class FlutterPresenter {
+  factory FlutterPresenter() => RustLib.instance.api.crateAdaptersPresentersFlutterPresenterFlutterPresenterNew();
 
-class BrandFlutterPresenter {
-  const BrandFlutterPresenter({required this.addNewBrandUseCase});
-  final AddNewBrandUseCase addNewBrandUseCase;
-
-  Future<BrandDisplayModel> addNewBrand({required String name}) =>
-      RustLib.instance.api.crateAdaptersPresentersFlutterPresenterBrandFlutterPresenterAddNewBrand(that: this, name: name);
-
-  // HINT: Make it `#[frb(sync)]` to let it become the default constructor of Dart class.
-  static Future<BrandFlutterPresenter> newInstance({required AddNewBrandUseCase addNewBrandUseCase}) =>
-      RustLib.instance.api.crateAdaptersPresentersFlutterPresenterBrandFlutterPresenterNew(addNewBrandUseCase: addNewBrandUseCase);
+  const FlutterPresenter.raw();
 
   @override
-  int get hashCode => addNewBrandUseCase.hashCode;
+  int get hashCode => 0;
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) || other is BrandFlutterPresenter && runtimeType == other.runtimeType && addNewBrandUseCase == other.addNewBrandUseCase;
+  bool operator ==(Object other) => identical(this, other) || other is FlutterPresenter && runtimeType == other.runtimeType;
 }
