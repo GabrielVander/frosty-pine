@@ -1,12 +1,12 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:frosty_pine/adapters/translations/add_new_brand_use_case_wrapper.dart';
+import 'package:frosty_pine/adapters/translations/add_new_brand_use_case.dart';
 import 'package:rust/rust.dart';
 
 class BrandCubit extends Cubit<BrandCubitState> {
   BrandCubit({required this.addNewBrandUseCase}) : super(BrandCubitState(newBrandName: null, brands: List<String>.empty()));
 
-  final AddNewBrandUseCaseWrapper addNewBrandUseCase;
+  final AddNewBrandUseCase addNewBrandUseCase;
 
   Future<void> createBrand() async {
     await addNewBrandUseCase.execute(name: state.newBrandName ?? '');

@@ -4,7 +4,7 @@
 // ignore_for_file: invalid_use_of_internal_member, unused_import, unnecessary_import
 
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
-import 'package:frosty_pine/adapters/translations/add_new_brand_use_case_wrapper.dart';
+import 'package:frosty_pine/adapters/translations/add_new_brand_use_case.dart';
 import 'package:frosty_pine/adapters/translations/mirrors.dart';
 import 'package:frosty_pine/frb_generated.dart';
 
@@ -14,11 +14,10 @@ abstract class RetrieveAllBrandsUseCase implements RustOpaqueInterface {}
 class RustFactory {
   const RustFactory();
 
-  static Future<ArcAddNewBrandUseCasePresenterResultBrandDisplayModelString> addNewBrandUseCasePresenter() =>
-      RustLib.instance.api.crateAdaptersTranslationsRustFactoryRustFactoryAddNewBrandUseCasePresenter();
-
   static Future<ArcBrandRepository> brandRepositoryInMemoryImpl({required List<Brand> initialData}) =>
       RustLib.instance.api.crateAdaptersTranslationsRustFactoryRustFactoryBrandRepositoryInMemoryImpl(initialData: initialData);
+
+  static Future<ArcFlutterPresenter> flutterPresenter() => RustLib.instance.api.crateAdaptersTranslationsRustFactoryRustFactoryFlutterPresenter();
 
   static Future<RetrieveAllBrandsUseCase> retrieveAllBrandsUseCase({required ArcBrandRepository brandRepository}) =>
       RustLib.instance.api.crateAdaptersTranslationsRustFactoryRustFactoryRetrieveAllBrandsUseCase(brandRepository: brandRepository);

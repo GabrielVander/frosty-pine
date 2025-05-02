@@ -9,7 +9,7 @@ import 'dart:convert';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'package:frosty_pine/adapters/presenters/flutter_presenter.dart';
 import 'package:frosty_pine/adapters/presenters/models/brand_display_model.dart';
-import 'package:frosty_pine/adapters/translations/add_new_brand_use_case_wrapper.dart';
+import 'package:frosty_pine/adapters/translations/add_new_brand_use_case.dart';
 import 'package:frosty_pine/adapters/translations/mirrors.dart';
 import 'package:frosty_pine/adapters/translations/rust_factory.dart';
 import 'package:frosty_pine/frb_generated.dart';
@@ -56,7 +56,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.9.0';
 
   @override
-  int get rustContentHash => 1436073338;
+  int get rustContentHash => 882700120;
 
   static const kDefaultExternalLibraryLoaderConfig = ExternalLibraryLoaderConfig(
     stem: 'rust_lib_frosy_pine',
@@ -66,23 +66,20 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
 }
 
 abstract class RustLibApi extends BaseApi {
-  Future<BrandDisplayModel> crateAdaptersTranslationsAddNewBrandUseCaseWrapperAddNewBrandUseCaseWrapperExecute({
-    required AddNewBrandUseCaseWrapper that,
-    required String name,
-  });
+  Future<BrandDisplayModel> crateAdaptersTranslationsAddNewBrandUseCaseAddNewBrandUseCaseExecute({required AddNewBrandUseCase that, required String name});
 
-  Future<AddNewBrandUseCaseWrapper> crateAdaptersTranslationsAddNewBrandUseCaseWrapperAddNewBrandUseCaseWrapperNew({
+  AddNewBrandUseCase crateAdaptersTranslationsAddNewBrandUseCaseAddNewBrandUseCaseNew({
     required ArcBrandRepository brandRepository,
-    required ArcAddNewBrandUseCasePresenterResultBrandDisplayModelString presenter,
+    required ArcFlutterPresenter flutterPresenter,
   });
 
   FlutterPresenter crateAdaptersPresentersFlutterPresenterFlutterPresenterNew();
 
   Future<void> crateAdaptersTranslationsEntryInitApp();
 
-  Future<ArcAddNewBrandUseCasePresenterResultBrandDisplayModelString> crateAdaptersTranslationsRustFactoryRustFactoryAddNewBrandUseCasePresenter();
-
   Future<ArcBrandRepository> crateAdaptersTranslationsRustFactoryRustFactoryBrandRepositoryInMemoryImpl({required List<Brand> initialData});
+
+  Future<ArcFlutterPresenter> crateAdaptersTranslationsRustFactoryRustFactoryFlutterPresenter();
 
   Future<RetrieveAllBrandsUseCase> crateAdaptersTranslationsRustFactoryRustFactoryRetrieveAllBrandsUseCase({required ArcBrandRepository brandRepository});
 
@@ -98,75 +95,69 @@ abstract class RustLibApi extends BaseApi {
 
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_RetrieveAllBrandsUseCasePtr;
 
-  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_AddNewBrandUseCaseWrapper;
+  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_AddNewBrandUseCase;
 
-  RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_AddNewBrandUseCaseWrapper;
+  RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_AddNewBrandUseCase;
 
-  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_AddNewBrandUseCaseWrapperPtr;
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_AddNewBrandUseCasePtr;
 
-  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_ArcAddNewBrandUseCasePresenterResultBrandDisplayModelString;
+  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_ArcFlutterPresenter;
 
-  RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_ArcAddNewBrandUseCasePresenterResultBrandDisplayModelString;
+  RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_ArcFlutterPresenter;
 
-  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_ArcAddNewBrandUseCasePresenterResultBrandDisplayModelStringPtr;
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_ArcFlutterPresenterPtr;
 }
 
 class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   RustLibApiImpl({required super.handler, required super.wire, required super.generalizedFrbRustBinding, required super.portManager});
 
   @override
-  Future<BrandDisplayModel> crateAdaptersTranslationsAddNewBrandUseCaseWrapperAddNewBrandUseCaseWrapperExecute({
-    required AddNewBrandUseCaseWrapper that,
-    required String name,
-  }) {
+  Future<BrandDisplayModel> crateAdaptersTranslationsAddNewBrandUseCaseAddNewBrandUseCaseExecute({required AddNewBrandUseCase that, required String name}) {
     return handler.executeNormal(
       NormalTask(
         callFfi: (port_) {
           final serializer = SseSerializer(generalizedFrbRustBinding);
-          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseWrapper(that, serializer);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCase(that, serializer);
           sse_encode_String(name, serializer);
           pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 1, port: port_);
         },
         codec: SseCodec(decodeSuccessData: sse_decode_brand_display_model, decodeErrorData: sse_decode_String),
-        constMeta: kCrateAdaptersTranslationsAddNewBrandUseCaseWrapperAddNewBrandUseCaseWrapperExecuteConstMeta,
+        constMeta: kCrateAdaptersTranslationsAddNewBrandUseCaseAddNewBrandUseCaseExecuteConstMeta,
         argValues: [that, name],
         apiImpl: this,
       ),
     );
   }
 
-  TaskConstMeta get kCrateAdaptersTranslationsAddNewBrandUseCaseWrapperAddNewBrandUseCaseWrapperExecuteConstMeta =>
-      const TaskConstMeta(debugName: 'AddNewBrandUseCaseWrapper_execute', argNames: ['that', 'name']);
+  TaskConstMeta get kCrateAdaptersTranslationsAddNewBrandUseCaseAddNewBrandUseCaseExecuteConstMeta =>
+      const TaskConstMeta(debugName: 'AddNewBrandUseCase_execute', argNames: ['that', 'name']);
 
   @override
-  Future<AddNewBrandUseCaseWrapper> crateAdaptersTranslationsAddNewBrandUseCaseWrapperAddNewBrandUseCaseWrapperNew({
+  AddNewBrandUseCase crateAdaptersTranslationsAddNewBrandUseCaseAddNewBrandUseCaseNew({
     required ArcBrandRepository brandRepository,
-    required ArcAddNewBrandUseCasePresenterResultBrandDisplayModelString presenter,
+    required ArcFlutterPresenter flutterPresenter,
   }) {
-    return handler.executeNormal(
-      NormalTask(
-        callFfi: (port_) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_RustOpaque_ArcdynBrandRepository(brandRepository, serializer);
-          sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcAddNewBrandUseCasePresenterResultBrandDisplayModelString(
-            presenter,
-            serializer,
-          );
-          pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 2, port: port_);
+          sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcFlutterPresenter(flutterPresenter, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 2)!;
         },
         codec: SseCodec(
-          decodeSuccessData: sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseWrapper,
+          decodeSuccessData: sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCase,
           decodeErrorData: null,
         ),
-        constMeta: kCrateAdaptersTranslationsAddNewBrandUseCaseWrapperAddNewBrandUseCaseWrapperNewConstMeta,
-        argValues: [brandRepository, presenter],
+        constMeta: kCrateAdaptersTranslationsAddNewBrandUseCaseAddNewBrandUseCaseNewConstMeta,
+        argValues: [brandRepository, flutterPresenter],
         apiImpl: this,
       ),
     );
   }
 
-  TaskConstMeta get kCrateAdaptersTranslationsAddNewBrandUseCaseWrapperAddNewBrandUseCaseWrapperNewConstMeta =>
-      const TaskConstMeta(debugName: 'AddNewBrandUseCaseWrapper_new', argNames: ['brandRepository', 'presenter']);
+  TaskConstMeta get kCrateAdaptersTranslationsAddNewBrandUseCaseAddNewBrandUseCaseNewConstMeta =>
+      const TaskConstMeta(debugName: 'AddNewBrandUseCase_new', argNames: ['brandRepository', 'flutterPresenter']);
 
   @override
   FlutterPresenter crateAdaptersPresentersFlutterPresenterFlutterPresenterNew() {
@@ -206,36 +197,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   TaskConstMeta get kCrateAdaptersTranslationsEntryInitAppConstMeta => const TaskConstMeta(debugName: 'init_app', argNames: []);
 
   @override
-  Future<ArcAddNewBrandUseCasePresenterResultBrandDisplayModelString> crateAdaptersTranslationsRustFactoryRustFactoryAddNewBrandUseCasePresenter() {
-    return handler.executeNormal(
-      NormalTask(
-        callFfi: (port_) {
-          final serializer = SseSerializer(generalizedFrbRustBinding);
-          pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 5, port: port_);
-        },
-        codec: SseCodec(
-          decodeSuccessData:
-              sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcAddNewBrandUseCasePresenterResultBrandDisplayModelString,
-          decodeErrorData: null,
-        ),
-        constMeta: kCrateAdaptersTranslationsRustFactoryRustFactoryAddNewBrandUseCasePresenterConstMeta,
-        argValues: [],
-        apiImpl: this,
-      ),
-    );
-  }
-
-  TaskConstMeta get kCrateAdaptersTranslationsRustFactoryRustFactoryAddNewBrandUseCasePresenterConstMeta =>
-      const TaskConstMeta(debugName: 'rust_factory_add_new_brand_use_case_presenter', argNames: []);
-
-  @override
   Future<ArcBrandRepository> crateAdaptersTranslationsRustFactoryRustFactoryBrandRepositoryInMemoryImpl({required List<Brand> initialData}) {
     return handler.executeNormal(
       NormalTask(
         callFfi: (port_) {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_list_brand(initialData, serializer);
-          pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 6, port: port_);
+          pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 5, port: port_);
         },
         codec: SseCodec(decodeSuccessData: sse_decode_RustOpaque_ArcdynBrandRepository, decodeErrorData: null),
         constMeta: kCrateAdaptersTranslationsRustFactoryRustFactoryBrandRepositoryInMemoryImplConstMeta,
@@ -247,6 +215,28 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   TaskConstMeta get kCrateAdaptersTranslationsRustFactoryRustFactoryBrandRepositoryInMemoryImplConstMeta =>
       const TaskConstMeta(debugName: 'rust_factory_brand_repository_in_memory_impl', argNames: ['initialData']);
+
+  @override
+  Future<ArcFlutterPresenter> crateAdaptersTranslationsRustFactoryRustFactoryFlutterPresenter() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 6, port: port_);
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcFlutterPresenter,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateAdaptersTranslationsRustFactoryRustFactoryFlutterPresenterConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateAdaptersTranslationsRustFactoryRustFactoryFlutterPresenterConstMeta =>
+      const TaskConstMeta(debugName: 'rust_factory_flutter_presenter', argNames: []);
 
   @override
   Future<RetrieveAllBrandsUseCase> crateAdaptersTranslationsRustFactoryRustFactoryRetrieveAllBrandsUseCase({required ArcBrandRepository brandRepository}) {
@@ -280,35 +270,34 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_RetrieveAllBrandsUseCase =>
       wire.rust_arc_decrement_strong_count_RustOpaque_RetrieveAllBrandsUseCase;
 
-  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_AddNewBrandUseCaseWrapper =>
-      wire.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseWrapper;
+  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_AddNewBrandUseCase =>
+      wire.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCase;
 
-  RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_AddNewBrandUseCaseWrapper =>
-      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseWrapper;
+  RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_AddNewBrandUseCase =>
+      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCase;
 
-  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_ArcAddNewBrandUseCasePresenterResultBrandDisplayModelString =>
-      wire.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcAddNewBrandUseCasePresenterResultBrandDisplayModelString;
+  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_ArcFlutterPresenter =>
+      wire.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcFlutterPresenter;
 
-  RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_ArcAddNewBrandUseCasePresenterResultBrandDisplayModelString =>
-      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcAddNewBrandUseCasePresenterResultBrandDisplayModelString;
+  RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_ArcFlutterPresenter =>
+      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcFlutterPresenter;
 
   @protected
-  AddNewBrandUseCaseWrapper dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseWrapper(dynamic raw) {
+  AddNewBrandUseCase dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCase(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return AddNewBrandUseCaseWrapperImpl.frbInternalDcoDecode(raw as List<dynamic>);
+    return AddNewBrandUseCaseImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
-  ArcAddNewBrandUseCasePresenterResultBrandDisplayModelString
-  dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcAddNewBrandUseCasePresenterResultBrandDisplayModelString(dynamic raw) {
+  ArcFlutterPresenter dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcFlutterPresenter(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return ArcAddNewBrandUseCasePresenterResultBrandDisplayModelStringImpl.frbInternalDcoDecode(raw as List<dynamic>);
+    return ArcFlutterPresenterImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
-  AddNewBrandUseCaseWrapper dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseWrapper(dynamic raw) {
+  AddNewBrandUseCase dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCase(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return AddNewBrandUseCaseWrapperImpl.frbInternalDcoDecode(raw as List<dynamic>);
+    return AddNewBrandUseCaseImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -324,16 +313,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  AddNewBrandUseCaseWrapper dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseWrapper(dynamic raw) {
+  AddNewBrandUseCase dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCase(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return AddNewBrandUseCaseWrapperImpl.frbInternalDcoDecode(raw as List<dynamic>);
+    return AddNewBrandUseCaseImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
-  ArcAddNewBrandUseCasePresenterResultBrandDisplayModelString
-  dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcAddNewBrandUseCasePresenterResultBrandDisplayModelString(dynamic raw) {
+  ArcFlutterPresenter dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcFlutterPresenter(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return ArcAddNewBrandUseCasePresenterResultBrandDisplayModelStringImpl.frbInternalDcoDecode(raw as List<dynamic>);
+    return ArcFlutterPresenterImpl.frbInternalDcoDecode(raw as List<dynamic>);
   }
 
   @protected
@@ -405,28 +393,21 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  AddNewBrandUseCaseWrapper sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseWrapper(
-    SseDeserializer deserializer,
-  ) {
+  AddNewBrandUseCase sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCase(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return AddNewBrandUseCaseWrapperImpl.frbInternalSseDecode(sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+    return AddNewBrandUseCaseImpl.frbInternalSseDecode(sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
   @protected
-  ArcAddNewBrandUseCasePresenterResultBrandDisplayModelString
-  sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcAddNewBrandUseCasePresenterResultBrandDisplayModelString(
-    SseDeserializer deserializer,
-  ) {
+  ArcFlutterPresenter sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcFlutterPresenter(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return ArcAddNewBrandUseCasePresenterResultBrandDisplayModelStringImpl.frbInternalSseDecode(sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+    return ArcFlutterPresenterImpl.frbInternalSseDecode(sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
   @protected
-  AddNewBrandUseCaseWrapper sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseWrapper(
-    SseDeserializer deserializer,
-  ) {
+  AddNewBrandUseCase sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCase(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return AddNewBrandUseCaseWrapperImpl.frbInternalSseDecode(sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+    return AddNewBrandUseCaseImpl.frbInternalSseDecode(sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
   @protected
@@ -442,18 +423,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  AddNewBrandUseCaseWrapper sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseWrapper(SseDeserializer deserializer) {
+  AddNewBrandUseCase sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCase(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return AddNewBrandUseCaseWrapperImpl.frbInternalSseDecode(sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+    return AddNewBrandUseCaseImpl.frbInternalSseDecode(sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
   @protected
-  ArcAddNewBrandUseCasePresenterResultBrandDisplayModelString
-  sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcAddNewBrandUseCasePresenterResultBrandDisplayModelString(
-    SseDeserializer deserializer,
-  ) {
+  ArcFlutterPresenter sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcFlutterPresenter(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    return ArcAddNewBrandUseCasePresenterResultBrandDisplayModelStringImpl.frbInternalSseDecode(sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+    return ArcFlutterPresenterImpl.frbInternalSseDecode(sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
   @protected
@@ -538,30 +516,27 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseWrapper(
-    AddNewBrandUseCaseWrapper self,
+  void sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCase(
+    AddNewBrandUseCase self,
     SseSerializer serializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_usize((self as AddNewBrandUseCaseWrapperImpl).frbInternalSseEncode(move: true), serializer);
+    sse_encode_usize((self as AddNewBrandUseCaseImpl).frbInternalSseEncode(move: true), serializer);
   }
 
   @protected
-  void sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcAddNewBrandUseCasePresenterResultBrandDisplayModelString(
-    ArcAddNewBrandUseCasePresenterResultBrandDisplayModelString self,
+  void sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcFlutterPresenter(
+    ArcFlutterPresenter self,
     SseSerializer serializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_usize((self as ArcAddNewBrandUseCasePresenterResultBrandDisplayModelStringImpl).frbInternalSseEncode(move: true), serializer);
+    sse_encode_usize((self as ArcFlutterPresenterImpl).frbInternalSseEncode(move: true), serializer);
   }
 
   @protected
-  void sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseWrapper(
-    AddNewBrandUseCaseWrapper self,
-    SseSerializer serializer,
-  ) {
+  void sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCase(AddNewBrandUseCase self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_usize((self as AddNewBrandUseCaseWrapperImpl).frbInternalSseEncode(move: false), serializer);
+    sse_encode_usize((self as AddNewBrandUseCaseImpl).frbInternalSseEncode(move: false), serializer);
   }
 
   @protected
@@ -577,21 +552,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCaseWrapper(
-    AddNewBrandUseCaseWrapper self,
-    SseSerializer serializer,
-  ) {
+  void sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAddNewBrandUseCase(AddNewBrandUseCase self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_usize((self as AddNewBrandUseCaseWrapperImpl).frbInternalSseEncode(), serializer);
+    sse_encode_usize((self as AddNewBrandUseCaseImpl).frbInternalSseEncode(), serializer);
   }
 
   @protected
-  void sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcAddNewBrandUseCasePresenterResultBrandDisplayModelString(
-    ArcAddNewBrandUseCasePresenterResultBrandDisplayModelString self,
-    SseSerializer serializer,
-  ) {
+  void sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerArcFlutterPresenter(ArcFlutterPresenter self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
-    sse_encode_usize((self as ArcAddNewBrandUseCasePresenterResultBrandDisplayModelStringImpl).frbInternalSseEncode(), serializer);
+    sse_encode_usize((self as ArcFlutterPresenterImpl).frbInternalSseEncode(), serializer);
   }
 
   @protected
@@ -669,39 +638,21 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 }
 
 @sealed
-class AddNewBrandUseCaseWrapperImpl extends RustOpaque implements AddNewBrandUseCaseWrapper {
+class AddNewBrandUseCaseImpl extends RustOpaque implements AddNewBrandUseCase {
   // Not to be used by end users
-  AddNewBrandUseCaseWrapperImpl.frbInternalDcoDecode(List<dynamic> wire) : super.frbInternalDcoDecode(wire, _kStaticData);
+  AddNewBrandUseCaseImpl.frbInternalDcoDecode(List<dynamic> wire) : super.frbInternalDcoDecode(wire, _kStaticData);
 
   // Not to be used by end users
-  AddNewBrandUseCaseWrapperImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
-    : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+  AddNewBrandUseCaseImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative) : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
 
   static final _kStaticData = RustArcStaticData(
-    rustArcIncrementStrongCount: RustLib.instance.api.rust_arc_increment_strong_count_AddNewBrandUseCaseWrapper,
-    rustArcDecrementStrongCount: RustLib.instance.api.rust_arc_decrement_strong_count_AddNewBrandUseCaseWrapper,
-    rustArcDecrementStrongCountPtr: RustLib.instance.api.rust_arc_decrement_strong_count_AddNewBrandUseCaseWrapperPtr,
+    rustArcIncrementStrongCount: RustLib.instance.api.rust_arc_increment_strong_count_AddNewBrandUseCase,
+    rustArcDecrementStrongCount: RustLib.instance.api.rust_arc_decrement_strong_count_AddNewBrandUseCase,
+    rustArcDecrementStrongCountPtr: RustLib.instance.api.rust_arc_decrement_strong_count_AddNewBrandUseCasePtr,
   );
 
   Future<BrandDisplayModel> execute({required String name}) =>
-      RustLib.instance.api.crateAdaptersTranslationsAddNewBrandUseCaseWrapperAddNewBrandUseCaseWrapperExecute(that: this, name: name);
-}
-
-@sealed
-class ArcAddNewBrandUseCasePresenterResultBrandDisplayModelStringImpl extends RustOpaque
-    implements ArcAddNewBrandUseCasePresenterResultBrandDisplayModelString {
-  // Not to be used by end users
-  ArcAddNewBrandUseCasePresenterResultBrandDisplayModelStringImpl.frbInternalDcoDecode(List<dynamic> wire) : super.frbInternalDcoDecode(wire, _kStaticData);
-
-  // Not to be used by end users
-  ArcAddNewBrandUseCasePresenterResultBrandDisplayModelStringImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
-    : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
-
-  static final _kStaticData = RustArcStaticData(
-    rustArcIncrementStrongCount: RustLib.instance.api.rust_arc_increment_strong_count_ArcAddNewBrandUseCasePresenterResultBrandDisplayModelString,
-    rustArcDecrementStrongCount: RustLib.instance.api.rust_arc_decrement_strong_count_ArcAddNewBrandUseCasePresenterResultBrandDisplayModelString,
-    rustArcDecrementStrongCountPtr: RustLib.instance.api.rust_arc_decrement_strong_count_ArcAddNewBrandUseCasePresenterResultBrandDisplayModelStringPtr,
-  );
+      RustLib.instance.api.crateAdaptersTranslationsAddNewBrandUseCaseAddNewBrandUseCaseExecute(that: this, name: name);
 }
 
 @sealed
@@ -716,6 +667,21 @@ class ArcBrandRepositoryImpl extends RustOpaque implements ArcBrandRepository {
     rustArcIncrementStrongCount: RustLib.instance.api.rust_arc_increment_strong_count_ArcBrandRepository,
     rustArcDecrementStrongCount: RustLib.instance.api.rust_arc_decrement_strong_count_ArcBrandRepository,
     rustArcDecrementStrongCountPtr: RustLib.instance.api.rust_arc_decrement_strong_count_ArcBrandRepositoryPtr,
+  );
+}
+
+@sealed
+class ArcFlutterPresenterImpl extends RustOpaque implements ArcFlutterPresenter {
+  // Not to be used by end users
+  ArcFlutterPresenterImpl.frbInternalDcoDecode(List<dynamic> wire) : super.frbInternalDcoDecode(wire, _kStaticData);
+
+  // Not to be used by end users
+  ArcFlutterPresenterImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative) : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
+
+  static final _kStaticData = RustArcStaticData(
+    rustArcIncrementStrongCount: RustLib.instance.api.rust_arc_increment_strong_count_ArcFlutterPresenter,
+    rustArcDecrementStrongCount: RustLib.instance.api.rust_arc_decrement_strong_count_ArcFlutterPresenter,
+    rustArcDecrementStrongCountPtr: RustLib.instance.api.rust_arc_decrement_strong_count_ArcFlutterPresenterPtr,
   );
 }
 

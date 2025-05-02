@@ -3,14 +3,10 @@ use std::{
     sync::{Arc, Mutex},
 };
 
-use expense_tracking::domain::{
-    entities::Brand,
-    repositories::BrandRepository,
-    use_cases::{AddNewBrandUseCasePresenter, RetrieveAllBrandsUseCase},
-};
+use expense_tracking::domain::{entities::Brand, repositories::BrandRepository, use_cases::RetrieveAllBrandsUseCase};
 use in_memory_storage::adapters::repositories::BrandRepositoryInMemoryImpl;
 
-use crate::adapters::presenters::{flutter_presenter::FlutterPresenter, models::brand_display_model::BrandDisplayModel};
+use crate::adapters::presenters::flutter_presenter::FlutterPresenter;
 
 use super::frb_generated::RustOpaque;
 
@@ -32,11 +28,7 @@ impl RustFactory {
         RustOpaque::new(RetrieveAllBrandsUseCase::new(Arc::clone(&brand_repository)))
     }
 
-    pub fn add_new_brand_use_case_presenter() -> Arc<AddNewBrandUseCasePresenter<Result<BrandDisplayModel, String>>> {
+    pub fn flutter_presenter() -> Arc<FlutterPresenter> {
         Arc::new(FlutterPresenter::new())
     }
-
-    // pub fn add_new_brand_use_case(brand_repository: RustOpaque<Arc<dyn BrandRepository>>) -> RustOpaque<AddNewBrandUseCase> {
-    //     RustOpaque::new(AddNewBrandUseCase::new(Arc::clone(&brand_repository)))
-    // }
 }
