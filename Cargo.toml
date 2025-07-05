@@ -1,10 +1,10 @@
 [workspace]
 members = [
     # "features/cli",
-    "features/expense_tracking",
-    "features/in_memory_storage",
-    "features/cross_platform",
-    "features/tui",
+    "expense_tracking",
+    "in_memory_storage",
+    "cross_platform",
+    "tui",
 ]
 resolver = "3"
 
